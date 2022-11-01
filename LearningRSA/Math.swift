@@ -13,7 +13,7 @@
 func modExponent(base: Int, power: Int, modulo: Int) -> Int {
     var a = base
     var k = power
-    var m = modulo
+    let m = modulo
 
     var b = 1
     

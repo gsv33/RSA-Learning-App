@@ -12,8 +12,13 @@ struct EnterMessageView: View {
     
     var body: some View {
         VStack {
-            TextField("Enter your message", text: $rsa.inputMessage)
+            TextField("Enter your message", text: $rsa.inputMessageStr)
                 .padding()
+            
+            Button("Entered message", action: {
+                rsa.stringToNumberConversion()
+                rsa.splitInputNumberByDigits() // TODO: Need to move to another view
+            })
         }
     }
 }

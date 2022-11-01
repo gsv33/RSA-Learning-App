@@ -12,9 +12,13 @@
 		47636E6C290B4385006C3124 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47636E6B290B4385006C3124 /* Assets.xcassets */; };
 		47636E6F290B4385006C3124 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47636E6E290B4385006C3124 /* Preview Assets.xcassets */; };
 		47636E76290B4C51006C3124 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47636E75290B4C51006C3124 /* Math.swift */; };
+		477F3FFB29119335006C6B2E /* GenerateKeysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477F3FFA29119335006C6B2E /* GenerateKeysView.swift */; };
 		4792B883290F0BD100ECDDBE /* EnterMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4792B882290F0BD100ECDDBE /* EnterMessageView.swift */; };
 		4792B885290F18DB00ECDDBE /* MessageToNumbersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4792B884290F18DB00ECDDBE /* MessageToNumbersView.swift */; };
 		4792B887290F1FD000ECDDBE /* EnterEncodePrimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4792B886290F1FD000ECDDBE /* EnterEncodePrimesView.swift */; };
+		479D7E78291052030088B47E /* SplitNumbersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479D7E77291052030088B47E /* SplitNumbersView.swift */; };
+		47DFF68A2911D2D20000D74A /* RSA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFF6892911D2D20000D74A /* RSA.swift */; };
+		47DFF68C2911D3E00000D74A /* EncodeMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFF68B2911D3E00000D74A /* EncodeMessageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,9 +28,13 @@
 		47636E6B290B4385006C3124 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47636E6E290B4385006C3124 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		47636E75290B4C51006C3124 /* Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		477F3FFA29119335006C6B2E /* GenerateKeysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateKeysView.swift; sourceTree = "<group>"; };
 		4792B882290F0BD100ECDDBE /* EnterMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterMessageView.swift; sourceTree = "<group>"; };
 		4792B884290F18DB00ECDDBE /* MessageToNumbersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageToNumbersView.swift; sourceTree = "<group>"; };
 		4792B886290F1FD000ECDDBE /* EnterEncodePrimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEncodePrimesView.swift; sourceTree = "<group>"; };
+		479D7E77291052030088B47E /* SplitNumbersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitNumbersView.swift; sourceTree = "<group>"; };
+		47DFF6892911D2D20000D74A /* RSA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSA.swift; sourceTree = "<group>"; };
+		47DFF68B2911D3E00000D74A /* EncodeMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodeMessageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +69,10 @@
 			children = (
 				47636E67290B4384006C3124 /* LearningRSAApp.swift */,
 				47636E69290B4384006C3124 /* ContentView.swift */,
+				47DFF68B2911D3E00000D74A /* EncodeMessageView.swift */,
+				47DFF6892911D2D20000D74A /* RSA.swift */,
+				477F3FFA29119335006C6B2E /* GenerateKeysView.swift */,
+				479D7E77291052030088B47E /* SplitNumbersView.swift */,
 				4792B886290F1FD000ECDDBE /* EnterEncodePrimesView.swift */,
 				4792B882290F0BD100ECDDBE /* EnterMessageView.swift */,
 				4792B884290F18DB00ECDDBE /* MessageToNumbersView.swift */,
@@ -149,12 +161,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47DFF68C2911D3E00000D74A /* EncodeMessageView.swift in Sources */,
 				47636E6A290B4384006C3124 /* ContentView.swift in Sources */,
 				4792B885290F18DB00ECDDBE /* MessageToNumbersView.swift in Sources */,
+				479D7E78291052030088B47E /* SplitNumbersView.swift in Sources */,
+				477F3FFB29119335006C6B2E /* GenerateKeysView.swift in Sources */,
 				47636E68290B4384006C3124 /* LearningRSAApp.swift in Sources */,
 				4792B887290F1FD000ECDDBE /* EnterEncodePrimesView.swift in Sources */,
 				47636E76290B4C51006C3124 /* Math.swift in Sources */,
 				4792B883290F0BD100ECDDBE /* EnterMessageView.swift in Sources */,
+				47DFF68A2911D2D20000D74A /* RSA.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
