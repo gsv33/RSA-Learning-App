@@ -17,7 +17,6 @@ struct EnterMessageView: View {
             
             Button("Entered message", action: {
                 rsa.stringToNumberConversion()
-                rsa.splitInputNumberByDigits() // TODO: Need to move to another view
             })
         }
     }

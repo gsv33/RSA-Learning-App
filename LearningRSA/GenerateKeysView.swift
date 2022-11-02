@@ -11,7 +11,13 @@ struct GenerateKeysView: View {
     @EnvironmentObject var rsa: RSA
     
     var body: some View {
-        Text("Public Key K: " + String(rsa.publickeyK))
+        VStack {
+            Text("Public Key K: " + String(rsa.publicKeyK))
+            
+            Button("Encode message", action: {
+                rsa.encodeMessage()
+            })
+        }
     }
 }
 

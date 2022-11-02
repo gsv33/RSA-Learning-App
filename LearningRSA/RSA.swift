@@ -16,7 +16,7 @@ class RSA: ObservableObject {
     }
                         
                         
-    
+    let DIGITS_PER_CHAR = 2
     var charToNumEncoding: [Character: Int] = ["A": 11, "B": 12, "C": 13, "D": 14, "E": 15, "F": 16,
                                                "G": 17, "H": 18, "I": 19, "J": 20, "K": 21, "L": 22,
                                                "M": 23, "N": 24, "O": 25, "P": 26, "Q": 27, "R": 28,
@@ -28,11 +28,21 @@ class RSA: ObservableObject {
     
     var inputMessageNumList: [Number] = []
     var encodedMessageList: [Number] = []
+    var decodedMessageList: [Number] = []
+    var decodedMessageNum: String = ""
+    var decodedMessageStr: String = ""
     
     var prime1: Int = 12553
     var prime2: Int = 13007
     
-    var publickeyK: Int = 0
+    var decodePrime1: Int = 12553
+    var decodePrime2: Int = 13007
+    var phi_decode: Int {
+        return (decodePrime1 - 1) * (decodePrime2 - 1)
+    }
+    
+    var publicKeyK: Int = 0
+    var invPublicKeyK: Int = 0
     
     var productOfPrimes: Int = 0
     
@@ -44,13 +54,40 @@ class RSA: ObservableObject {
     // uses inputMessageNumList, publicKeyK, and productOfPrimes to
     // encode the message by modular exponentiation
     func encodeMessage() {
-        var encodedMessage: [Int] = []
         for num in inputMessageNumList {
-            let encodedNum = modExponent(base: num.value, power: publickeyK, modulo: productOfPrimes)
-            encodedMessage.append(encodedNum)
+            let encodedNum = modExponent(base: num.value, power: publicKeyK, modulo: productOfPrimes)
+            encodedMessageList.append(Number(value: encodedNum))
+        }        
+    }
+    
+    func computeInvPublicKeyK() {
+        // need to find inverse of publicKeyK modulo phi_decode
+        do {
+            let (invK, invPhi, gcd) = try extendedEuclidean(a: publicKeyK, b: phi_decode)
+            guard invK > 0 && invPhi < 0 else {
+                print("Error decoding the message")
+                return
+            }
+            
+            if gcd != 1 {
+                print("Incorrect primes given. Value of phi is not correct.")
+            }
+            
+            invPublicKeyK = invK
         }
-
-        print("Encoded message is: \(encodedMessage)")
+        catch {
+            print("Something went wrong! You need to enter two positive integers.")
+        }
+    }
+    
+    func decodeMessage() {
+        for encodedNum in encodedMessageList {
+            let decodedNum = modExponent(base: encodedNum.value, power: invPublicKeyK, modulo: productOfPrimes)
+            print("DecodedNum: \(decodedNum)")
+            
+            decodedMessageList.append(Number(value: decodedNum))
+            decodedMessageNum += String(decodedNum)
+        }
     }
     
     func computeProductOfPrimes() {
@@ -76,7 +113,7 @@ class RSA: ObservableObject {
             (_, _, gcd) = try extendedEuclidean(a: tempK, b: phi)
         }
         
-        publickeyK = tempK
+        publicKeyK = tempK
     }
     
     // converts inputMessageStr to inputMessageNum using charToNumEncoding
@@ -91,10 +128,36 @@ class RSA: ObservableObject {
         }
     }
     
+    // converts decodedMessageNum to decodedMessageStr using the inverse of charToNumEncoding
+    func numberToStringConversion() {
+        var numToCharEncoding: [Int: Character] = [:]
+        for (char, num) in charToNumEncoding {
+            numToCharEncoding.updateValue(char, forKey: num)
+        }
+
+        var tempDigits = ""
+        for decodedNum in decodedMessageNum {
+            tempDigits.append(decodedNum)
+            if tempDigits.count == DIGITS_PER_CHAR {
+                let currNum = Int(tempDigits)!
+                let currChar = numToCharEncoding[currNum]
+                
+                decodedMessageStr.append(currChar ?? "X")
+                tempDigits = ""
+            }
+        }
+    }
+    
     // splits inputNumber to an array of numbers by making sure
     // each number has fewer digits than the product of the primes
     func splitInputNumberByDigits() {
         let maxDigits = String(productOfPrimes).count
+        
+        guard maxDigits > 0 else {
+            print("Error splitting the input number into separate numbers")
+            return
+        }
+        
         var tempSubstring = "" // substring of entire message with < maxDigits
         
         for num in inputMessageNum {

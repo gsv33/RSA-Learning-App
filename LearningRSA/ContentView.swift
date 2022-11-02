@@ -25,8 +25,11 @@ struct ContentView: View {
                     NavigationLink("Enter primes to encode") { EnterEncodePrimesView() }
                     NavigationLink("Split numbers") { SplitNumbersView() }
                     NavigationLink("Generate keys") { GenerateKeysView() }
-                    NavigationLink("Encode Message") { EncodeMessageView() }
-//                    NavigationLink("Enter primes to decode!") { EnterDecodePrimesView() }
+                    NavigationLink("Encoded Message") { EncodeMessageView() }
+                    NavigationLink("Enter primes to decode") { EnterDecodePrimesView() }
+                    NavigationLink("Calculate phi and u") { DecodingMathView() }
+                    NavigationLink("Decode message") { DecodedMessageView()}
+                    NavigationLink("Decoded message to text") { NumbersToTextView() }
                 }
                 .navigationTitle("RSA Steps")
             }

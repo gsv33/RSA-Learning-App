@@ -22,6 +22,11 @@ struct EnterEncodePrimesView: View {
             Button("Check if numbers are prime", action: {})
             
             Button("Generate random primes", action: {})
+            
+            Button("Next", action: {
+                rsa.computeProductOfPrimes()
+                rsa.splitInputNumberByDigits()
+            })
         }
     }
 }

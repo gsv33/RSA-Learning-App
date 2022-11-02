@@ -8,13 +8,19 @@
 import SwiftUI
 
 struct EncodeMessageView: View {
+    @EnvironmentObject var rsa: RSA
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            ForEach(rsa.encodedMessageList) { number in
+                Text(String(number.value))
+            }
+        }
     }
 }
 
-struct EncodeMessageView_Previews: PreviewProvider {
-    static var previews: some View {
-        EncodeMessageView()
-    }
-}
+//struct EncodeMessageView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        EncodeMessageView()
+//    }
+//}
