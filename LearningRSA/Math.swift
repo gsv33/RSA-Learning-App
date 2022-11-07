@@ -7,6 +7,7 @@
 //  This files contains the math functions needed to implement
 //  a basic version of the RSA algorithm.
 
+import Foundation
 
 // Uses successive squaring to calculate a^k mod m
 // Algorithm from "A Friendly Introduction to Number Theory", 4th edition
@@ -68,3 +69,39 @@ func extendedEuclidean(a: Int, b: Int) throws -> (Int, Int, Int) {
     return (x,y,g)
 }
 
+
+// checks if a number is prime
+func isPrime(n: Int) -> Bool {
+    guard n > 1 else {
+        return false
+    }
+    
+    let sqrtN = Int(sqrt(Double(n)))
+    var i = 2
+    
+    while i <= sqrtN {
+        if n % i == 0 {
+            return false
+        }
+        
+        i += 1
+    }
+    return true
+}
+
+// Uses the isPrime function to generate a random prime number
+// Optional int parameter: number of digits the prime should be
+// TODO: Add timeout in case something goes wrong
+func generatePrimeNumber(numDigits: Int = 6) -> Int {
+    var p = 0
+    
+    let n = Double(numDigits)
+    let rangeStart = Int(pow(10.0, n - 1))
+    let rangeEnd = Int(pow(10.0, n))
+
+    while isPrime(n: p) == false {
+        p = Int.random(in: rangeStart ..< rangeEnd)
+    }
+    
+    return p
+}

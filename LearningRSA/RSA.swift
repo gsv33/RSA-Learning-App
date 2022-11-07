@@ -32,8 +32,8 @@ class RSA: ObservableObject {
     var decodedMessageNum: String = ""
     var decodedMessageStr: String = ""
     
-    var prime1: Int = 12553
-    var prime2: Int = 13007
+    var prime1: Int = 0
+    var prime2: Int = 0
     
     var decodePrime1: Int = 12553
     var decodePrime2: Int = 13007
@@ -118,7 +118,7 @@ class RSA: ObservableObject {
     
     // converts inputMessageStr to inputMessageNum using charToNumEncoding
     func stringToNumberConversion() {
-        guard inputMessageNum == "" else {
+        guard inputMessageStr == "" || inputMessageNum == "" else {
             return
         }
         

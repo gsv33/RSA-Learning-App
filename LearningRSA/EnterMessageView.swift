@@ -9,15 +9,17 @@ import SwiftUI
 
 struct EnterMessageView: View {
     @EnvironmentObject var rsa: RSA
+    @EnvironmentObject var vc: ViewCoordinator
     
     var body: some View {
         VStack {
             TextField("Enter your message", text: $rsa.inputMessageStr)
                 .padding()
-            
-            Button("Entered message", action: {
+
+            Button("Convert message to numbers") {
                 rsa.stringToNumberConversion()
-            })
+                vc.currentView = 2
+            }
         }
     }
 }

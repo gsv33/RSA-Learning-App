@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SplitNumbersView: View {
     @EnvironmentObject var rsa: RSA
+    @EnvironmentObject var vc: ViewCoordinator
     
     var body: some View {
         VStack{
@@ -22,6 +23,7 @@ struct SplitNumbersView: View {
             Button("Generate keys", action: {
                 do {
                     try rsa.computePublicKeyK()
+                    vc.currentView = 5
                 }
                 catch {
                     print("Error computing the public key.")

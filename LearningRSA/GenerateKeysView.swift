@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GenerateKeysView: View {
     @EnvironmentObject var rsa: RSA
+    @EnvironmentObject var vc: ViewCoordinator
     
     var body: some View {
         VStack {
@@ -16,6 +17,7 @@ struct GenerateKeysView: View {
             
             Button("Encode message", action: {
                 rsa.encodeMessage()
+                vc.currentView = 6
             })
         }
     }

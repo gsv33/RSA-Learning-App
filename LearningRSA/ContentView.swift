@@ -7,35 +7,40 @@
 
 import SwiftUI
 
+class ViewCoordinator: ObservableObject {
+    @Published var currentView = 1
+}
 
 struct ContentView: View {
-    @StateObject var rsa = RSA()
+    @EnvironmentObject var rsa: RSA
+    @EnvironmentObject var vc: ViewCoordinator
     
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Explore the RSA Cryptosystem!")
-            
-            NavigationStack {
-                List {
-                    NavigationLink("Enter message") { EnterMessageView() }
-                    NavigationLink("Convert message to numbers") {MessageToNumbersView()}
-                    NavigationLink("Enter primes to encode") { EnterEncodePrimesView() }
-                    NavigationLink("Split numbers") { SplitNumbersView() }
-                    NavigationLink("Generate keys") { GenerateKeysView() }
-                    NavigationLink("Encoded Message") { EncodeMessageView() }
-                    NavigationLink("Enter primes to decode") { EnterDecodePrimesView() }
-                    NavigationLink("Calculate phi and u") { DecodingMathView() }
-                    NavigationLink("Decode message") { DecodedMessageView()}
-                    NavigationLink("Decoded message to text") { NumbersToTextView() }
-                }
-                .navigationTitle("RSA Steps")
-            }
-            .environmentObject(rsa)
+        
+        switch vc.currentView {
+        case 1:
+            EnterMessageView()
+        case 2:
+            MessageToNumbersView()
+        case 3:
+            EnterEncodePrimesView()
+        case 4:
+            SplitNumbersView()
+        case 5:
+            GenerateKeysView()
+        case 6:
+            EncodeMessageView()
+        case 7:
+            EnterDecodePrimesView()
+        case 8:
+            DecodingMathView()
+        case 9:
+            DecodedMessageView()
+        case 10:
+            NumbersToTextView()
+        default:
+            Text("ERROR!")
         }
-        .padding()
     }
 }
 
