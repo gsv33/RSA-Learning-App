@@ -8,8 +8,11 @@
 import SwiftUI
 
 class ViewCoordinator: ObservableObject {
-    @Published var currentView = 1
+    @Published var currentView = 0
 }
+
+let backgroundColor = Color.black
+let textColor = Color.green
 
 struct ContentView: View {
     @EnvironmentObject var rsa: RSA
@@ -17,7 +20,10 @@ struct ContentView: View {
     
     var body: some View {
         
+        // TODO: Switch numbered cases to enum
         switch vc.currentView {
+        case 0:
+            WelcomeView()
         case 1:
             EnterMessageView()
         case 2:
@@ -45,7 +51,12 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    @StateObject static var rsa = RSA()
+    @StateObject static var vc = ViewCoordinator()
+    
     static var previews: some View {
         ContentView()
+            .environmentObject(rsa)
+            .environmentObject(vc)
     }
 }

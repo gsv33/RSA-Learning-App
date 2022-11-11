@@ -24,20 +24,13 @@ struct EnterEncodePrimesView: View {
             HStack{
                 TextField("Enter the first prime number", text: $prime1)
                 Image(systemName: primeImage1)
+                    .foregroundColor(primeImage1 == validSymbol ? Color.green : Color.red)
             }
             HStack {
                 TextField("Enter the second prime number", text: $prime2)
                 Image(systemName: primeImage2)
+                    .foregroundColor(primeImage2 == validSymbol ? Color.green : Color.red)
             }
-            
-            // TODO: need to store primes in rsa object if they are valid
-            Button("Check if numbers are prime", action: {
-                let p1 = isPrime(n: Int(prime1) ?? 0)
-                let p2 = isPrime(n: Int(prime2) ?? 0)
-                
-                primeImage1 = p1 ? validSymbol : invalidSymbol
-                primeImage2 = p2 ? validSymbol : invalidSymbol
-            })
             
             Button("Generate random primes", action: {
                 let p1 = generatePrimeNumber()
@@ -47,13 +40,27 @@ struct EnterEncodePrimesView: View {
                 
                 prime1 = String(p1)
                 prime2 = String(p2)
+                
+                primeImage1 = validSymbol
+                primeImage2 = validSymbol
             })
             
             Button("Next", action: {
-                rsa.computeProductOfPrimes()
-                rsa.splitInputNumberByDigits()
+                let p1 = isPrime(n: Int(prime1) ?? 0)
+                let p2 = isPrime(n: Int(prime2) ?? 0)
                 
-                vc.currentView = 4
+                primeImage1 = p1 ? validSymbol : invalidSymbol
+                primeImage2 = p2 ? validSymbol : invalidSymbol
+
+                if p1 && p2 {
+                    rsa.prime1 = Int(prime1)!
+                    rsa.prime2 = Int(prime2)!
+                    
+                    rsa.computeProductOfPrimes()
+                    rsa.splitInputNumberByDigits()
+                    
+                    vc.currentView = 4
+                }
             })
         }
     }

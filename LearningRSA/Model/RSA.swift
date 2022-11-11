@@ -7,15 +7,15 @@
 
 import Foundation
 
+struct Number: Identifiable {
+    let id = UUID()
+    let value: Int
+}
+
 // Note: This is NOT a secure implementation of RSA. It is just a tool for learning
 // about the algorithm.
 class RSA: ObservableObject {
-    struct Number: Identifiable {
-        let id = UUID()
-        let value: Int
-    }
-                        
-                        
+                                                
     let DIGITS_PER_CHAR = 2
     var charToNumEncoding: [Character: Int] = ["A": 11, "B": 12, "C": 13, "D": 14, "E": 15, "F": 16,
                                                "G": 17, "H": 18, "I": 19, "J": 20, "K": 21, "L": 22,
@@ -23,8 +23,9 @@ class RSA: ObservableObject {
                                                "S": 29, "T": 30, "U": 31, "V": 32, "W": 33, "X": 34,
                                                "Y": 35, "Z": 36, " ": 37]
     
+    //TODO: Replace placeholder numbers
     var inputMessageStr: String = "TO BE OR NOT TO BE"
-    var inputMessageNum: String = ""
+    var inputMessageNum: String = "302537121537252837242530373025371215"
     
     var inputMessageNumList: [Number] = []
     var encodedMessageList: [Number] = []
