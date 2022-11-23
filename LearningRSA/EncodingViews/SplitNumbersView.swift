@@ -13,17 +13,26 @@ struct SplitNumbersView: View {
     
     var body: some View {
         VStack{
-            Text(rsa.inputMessageStr)
-            Text(rsa.inputMessageNum)
-     
-            ForEach(rsa.inputMessageNumList) { number in
-                Text(String(number.value))
+            Group {
+                Text("Your Message: \(rsa.inputMessageStr)")
+                Divider()
+                Text("Your Message in Numbers: \(rsa.inputMessageNum)")
+                Divider()
+                
+                Text("Your prime numbers: \(String(rsa.prime1)) and \(String(rsa.prime2)). ").bold()
+                Divider()
+            }
+            Text("Now let's split your numbers up into smaller pieces that are easier to manage").padding()
+            HStack{
+                ForEach(rsa.inputMessageNumList) { number in
+                    Text(String(number.value))
+                }
             }
             
             Button("Generate keys", action: {
                 do {
                     try rsa.computePublicKeyK()
-                    vc.currentView = 5
+                    vc.currentView = .generateKeysView
                 }
                 catch {
                     print("Error computing the public key.")
@@ -33,8 +42,14 @@ struct SplitNumbersView: View {
     }
 }
 
-//struct SplitNumbersView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SplitNumbersView()
-//    }
-//}
+struct SplitNumbersView_Previews: PreviewProvider {
+    @StateObject static var rsa = RSA()
+    @StateObject static var vc = ViewCoordinator()
+
+    static var previews: some View {
+        SplitNumbersView()
+            .environmentObject(rsa)
+            .environmentObject(vc)
+
+    }
+}

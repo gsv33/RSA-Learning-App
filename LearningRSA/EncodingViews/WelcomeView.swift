@@ -22,7 +22,7 @@ struct WelcomeView: View {
                     .padding()
                 
                 Button("Begin") {
-                    vc.currentView = 1
+                    vc.currentView = .enterMessageView
                 }
                 .foregroundColor(.black)
                 .buttonStyle(.borderedProminent)

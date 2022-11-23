@@ -92,7 +92,7 @@ func isPrime(n: Int) -> Bool {
 // Uses the isPrime function to generate a random prime number
 // Optional int parameter: number of digits the prime should be
 // TODO: Add timeout in case something goes wrong
-func generatePrimeNumber(numDigits: Int = 6) -> Int {
+func generatePrimeNumber(numDigits: Int = 4) -> Int {
     var p = 0
     
     let n = Double(numDigits)
@@ -104,4 +104,25 @@ func generatePrimeNumber(numDigits: Int = 6) -> Int {
     }
     
     return p
+}
+
+
+// checks to see if given String is a prime number
+// and if it is not too long
+func validateEnteredPrime(s: String, maxDigitsInPrime: Double = 5) -> Bool {
+    guard let n = Int(s) else {
+        return false
+    }
+    
+    // if log10(n) == maxDigitsInPrime, there are 1 too many digits
+    if log10(Double(n)) >= maxDigitsInPrime {
+        return false
+    }
+    
+    if isPrime(n: n) {
+        return true
+    }
+    else {
+        return false
+    }
 }

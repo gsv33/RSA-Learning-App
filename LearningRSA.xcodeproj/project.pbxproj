@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		474F9035292B11B500F5E858 /* EncodedMessageOutputList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474F9034292B11B500F5E858 /* EncodedMessageOutputList.swift */; };
 		47636E68290B4384006C3124 /* LearningRSAApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47636E67290B4384006C3124 /* LearningRSAApp.swift */; };
 		47636E6A290B4384006C3124 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47636E69290B4384006C3124 /* ContentView.swift */; };
 		47636E6C290B4385006C3124 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47636E6B290B4385006C3124 /* Assets.xcassets */; };
@@ -19,6 +20,8 @@
 		4792B887290F1FD000ECDDBE /* EnterEncodePrimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4792B886290F1FD000ECDDBE /* EnterEncodePrimesView.swift */; };
 		4796FE32291ACD9E000C33F2 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4796FE31291ACD9E000C33F2 /* WelcomeView.swift */; };
 		479D7E78291052030088B47E /* SplitNumbersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479D7E77291052030088B47E /* SplitNumbersView.swift */; };
+		47A7D8712929B46300B68A13 /* TestAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A7D8702929B46300B68A13 /* TestAnimations.swift */; };
+		47C42E9D292DBB5400A2CE59 /* EnterPrimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C42E9C292DBB5400A2CE59 /* EnterPrimesView.swift */; };
 		47DFF68A2911D2D20000D74A /* RSA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFF6892911D2D20000D74A /* RSA.swift */; };
 		47DFF68C2911D3E00000D74A /* EncodeMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFF68B2911D3E00000D74A /* EncodeMessageView.swift */; };
 		47FE13F62912F24B00DE6886 /* EnterDecodePrimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FE13F52912F24B00DE6886 /* EnterDecodePrimesView.swift */; };
@@ -28,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		474F9034292B11B500F5E858 /* EncodedMessageOutputList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodedMessageOutputList.swift; sourceTree = "<group>"; };
 		47636E64290B4384006C3124 /* LearningRSA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearningRSA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47636E67290B4384006C3124 /* LearningRSAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningRSAApp.swift; sourceTree = "<group>"; };
 		47636E69290B4384006C3124 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -41,6 +45,8 @@
 		4792B886290F1FD000ECDDBE /* EnterEncodePrimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEncodePrimesView.swift; sourceTree = "<group>"; };
 		4796FE31291ACD9E000C33F2 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		479D7E77291052030088B47E /* SplitNumbersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitNumbersView.swift; sourceTree = "<group>"; };
+		47A7D8702929B46300B68A13 /* TestAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAnimations.swift; sourceTree = "<group>"; };
+		47C42E9C292DBB5400A2CE59 /* EnterPrimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPrimesView.swift; sourceTree = "<group>"; };
 		47DFF6892911D2D20000D74A /* RSA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSA.swift; sourceTree = "<group>"; };
 		47DFF68B2911D3E00000D74A /* EncodeMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodeMessageView.swift; sourceTree = "<group>"; };
 		47FE13F52912F24B00DE6886 /* EnterDecodePrimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterDecodePrimesView.swift; sourceTree = "<group>"; };
@@ -84,10 +90,8 @@
 				4785B8F0291C4A7200FB2A6E /* Model */,
 				47636E67290B4384006C3124 /* LearningRSAApp.swift */,
 				47636E69290B4384006C3124 /* ContentView.swift */,
-				4796FE31291ACD9E000C33F2 /* WelcomeView.swift */,
 				47636E6B290B4385006C3124 /* Assets.xcassets */,
 				47636E6D290B4385006C3124 /* Preview Content */,
-				47636E75290B4C51006C3124 /* Math.swift */,
 			);
 			path = LearningRSA;
 			sourceTree = "<group>";
@@ -103,6 +107,7 @@
 		4785B8F0291C4A7200FB2A6E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				47636E75290B4C51006C3124 /* Math.swift */,
 				47DFF6892911D2D20000D74A /* RSA.swift */,
 				4785B8F3291C4BED00FB2A6E /* CharacterConverter.swift */,
 			);
@@ -112,12 +117,15 @@
 		4785B8F1291C4A7800FB2A6E /* EncodingViews */ = {
 			isa = PBXGroup;
 			children = (
+				4796FE31291ACD9E000C33F2 /* WelcomeView.swift */,
 				4792B882290F0BD100ECDDBE /* EnterMessageView.swift */,
 				4792B884290F18DB00ECDDBE /* MessageToNumbersView.swift */,
 				4792B886290F1FD000ECDDBE /* EnterEncodePrimesView.swift */,
 				479D7E77291052030088B47E /* SplitNumbersView.swift */,
 				477F3FFA29119335006C6B2E /* GenerateKeysView.swift */,
 				47DFF68B2911D3E00000D74A /* EncodeMessageView.swift */,
+				47A7D8702929B46300B68A13 /* TestAnimations.swift */,
+				474F9034292B11B500F5E858 /* EncodedMessageOutputList.swift */,
 			);
 			path = EncodingViews;
 			sourceTree = "<group>";
@@ -126,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				47FE13F52912F24B00DE6886 /* EnterDecodePrimesView.swift */,
+				47C42E9C292DBB5400A2CE59 /* EnterPrimesView.swift */,
 				47FE13F72913043C00DE6886 /* DecodingMathView.swift */,
 				47FE13F929130C9600DE6886 /* DecodedMessageView.swift */,
 				47FE13FB29131E6700DE6886 /* NumbersToTextView.swift */,
@@ -204,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				47DFF68C2911D3E00000D74A /* EncodeMessageView.swift in Sources */,
+				47A7D8712929B46300B68A13 /* TestAnimations.swift in Sources */,
 				47FE13FC29131E6700DE6886 /* NumbersToTextView.swift in Sources */,
 				47636E6A290B4384006C3124 /* ContentView.swift in Sources */,
 				4792B885290F18DB00ECDDBE /* MessageToNumbersView.swift in Sources */,
@@ -217,6 +227,8 @@
 				4796FE32291ACD9E000C33F2 /* WelcomeView.swift in Sources */,
 				4792B883290F0BD100ECDDBE /* EnterMessageView.swift in Sources */,
 				47FE13F62912F24B00DE6886 /* EnterDecodePrimesView.swift in Sources */,
+				474F9035292B11B500F5E858 /* EncodedMessageOutputList.swift in Sources */,
+				47C42E9D292DBB5400A2CE59 /* EnterPrimesView.swift in Sources */,
 				47DFF68A2911D2D20000D74A /* RSA.swift in Sources */,
 				47FE13F82913043C00DE6886 /* DecodingMathView.swift in Sources */,
 			);

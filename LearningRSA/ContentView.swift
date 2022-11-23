@@ -7,8 +7,23 @@
 
 import SwiftUI
 
+enum ViewNames {
+    case welcomeView
+    case enterMessageView
+    case messageToNumbersView
+    case enterEncodePrimesView
+    case splitNumbersView
+    case generateKeysView
+    case encodeMessageView
+    case enterDecodePrimesView
+    case decodingMathView
+    case decodedMessageView
+    case numbersToTextView
+    case errorView
+}
+
 class ViewCoordinator: ObservableObject {
-    @Published var currentView = 0
+    @Published var currentView = ViewNames.welcomeView
 }
 
 let backgroundColor = Color.black
@@ -20,31 +35,30 @@ struct ContentView: View {
     
     var body: some View {
         
-        // TODO: Switch numbered cases to enum
         switch vc.currentView {
-        case 0:
+        case .welcomeView:
             WelcomeView()
-        case 1:
+        case .enterMessageView:
             EnterMessageView()
-        case 2:
+        case .messageToNumbersView:
             MessageToNumbersView()
-        case 3:
+        case .enterEncodePrimesView:
             EnterEncodePrimesView()
-        case 4:
+        case .splitNumbersView:
             SplitNumbersView()
-        case 5:
+        case .generateKeysView:
             GenerateKeysView()
-        case 6:
+        case .encodeMessageView:
             EncodeMessageView()
-        case 7:
+        case .enterDecodePrimesView:
             EnterDecodePrimesView()
-        case 8:
+        case .decodingMathView:
             DecodingMathView()
-        case 9:
+        case .decodedMessageView:
             DecodedMessageView()
-        case 10:
+        case .numbersToTextView:
             NumbersToTextView()
-        default:
+        case .errorView:
             Text("ERROR!")
         }
     }

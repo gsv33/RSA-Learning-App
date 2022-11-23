@@ -78,7 +78,7 @@ struct MessageToNumbersView: View {
             }
 
             Button("Enter primes to encode") {
-                vc.currentView = 3
+                vc.currentView = .enterEncodePrimesView
             }            
         }
     }
