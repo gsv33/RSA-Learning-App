@@ -29,20 +29,24 @@ struct EncodeMessageView: View {
                 
                 Text("Then we use your public key and modular exponentiation to compute")
 
-                EncodedMessageOutputList(animationFinished: $animationFinished)
+                EncodedMessageOutputList(
+                    inputs: rsa.inputMessageNumList,
+                    outputs: rsa.encodedMessageNumList,
+                    animationFinished: $animationFinished
+                )
             }
             
             if animationFinished {
                 Text("Putting it all together, this is your encoded message! Do you think you could possibly guess what it corresponds to?").padding()
                 
-                Text(rsa.encodedMessageStr)
+                Text(rsa.encodedMessageNum)
                 
                 Button(showMessage ? "Hide original message" : "HINT: Reveal Original message") {
                     showMessage.toggle()
                 }
                 
                 if showMessage {
-                    Text("\(rsa.inputMessageStr)")
+                    Text("\(rsa.inputMessageEng)")
                         .foregroundColor(.red)
                 }
                 

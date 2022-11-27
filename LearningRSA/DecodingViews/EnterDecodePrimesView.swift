@@ -12,7 +12,8 @@ import SwiftUI
 // been entered!
 struct EnterFakePrimesView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
+    
+    @Binding var showNextView: Bool
     
     @State var prime1 = ""
     @State var prime2 = ""
@@ -65,7 +66,7 @@ struct EnterFakePrimesView: View {
                     rsa.fakeDecodePrime1 = Int(prime1)!
                     rsa.fakeDecodePrime2 = Int(prime2)!
                     
-//                    vc.currentView = .splitNumbersView
+                    showNextView = true
                 }
             }
         }
@@ -156,13 +157,21 @@ struct EnterDecodePrimesView: View {
     @EnvironmentObject var vc: ViewCoordinator
     
     @State var showFakePrimesView = false
+    @State var moveToDecodingMathView = false
     
     var body: some View {
         VStack {
             EnterRealPrimesView(showNextView: $showFakePrimesView)
             
             if showFakePrimesView {
-                EnterFakePrimesView()
+                EnterFakePrimesView(showNextView: $moveToDecodingMathView)
+                    .onChange(of: moveToDecodingMathView) { _ in
+                        if moveToDecodingMathView {
+                            rsa.computeInvPublicKeys()
+                            rsa.decodeRealAndFakeMessages()
+                            vc.currentView = .decodingMathView
+                        }
+                    }
             }
         }
     }

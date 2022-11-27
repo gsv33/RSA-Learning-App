@@ -94,7 +94,7 @@ struct EnterMessageView: View {
             
             Button("Convert message to numbers") {
                 if finalValidateText() {
-                    rsa.inputMessageStr = inputMessage
+                    rsa.inputMessageEng = inputMessage
                     rsa.stringToNumberConversion()
                     vc.currentView = .messageToNumbersView
                 }
@@ -106,7 +106,7 @@ struct EnterMessageView: View {
             }
         }
         .onAppear { // TODO: For testing purposes only, need to remove
-            print("Input String is: \(rsa.inputMessageStr)")
+            print("Input String is: \(rsa.inputMessageEng)")
             rsa.stringToNumberConversion()
             print("Input Number is: \(rsa.inputMessageNum)")
             rsa.computeProductOfPrimes()
@@ -115,12 +115,30 @@ struct EnterMessageView: View {
                 print("Split digits are: \(i.value)")
             }
             try! rsa.computePublicKeyK()
+            print("K: \(rsa.publicKeyK)")
             print("P1: \(rsa.prime1), P2: \(rsa.prime2), M: \(rsa.productOfPrimes)")
             rsa.encodeMessage()
-            for i in rsa.encodedMessageList {
+            for i in rsa.encodedMessageNumList {
                 print("Encoded message is: \(i.value)")
             }
-            print("Encoded message str: \(rsa.encodedMessageStr)")
+            print("Encoded message str: \(rsa.encodedMessageNum)")
+            
+            rsa.computeInvPublicKeys()
+            print("Real Inv Key: \(rsa.realInvPublicKeyK)")
+            print("Fake Inv Key: \(rsa.fakeInvPublicKeyK)")
+
+            rsa.decodeRealAndFakeMessages()
+            for i in rsa.realDecodedMessageNumList {
+                print("Real decoded message: \(i.value)")
+            }
+            print("Real decoded message: \(rsa.realDecodedMessageNum)")
+            
+            print("")
+            for i in rsa.fakeDecodedMessageNumList {
+                print("Fake decoded message: \(i.value)")
+            }
+            print("Fake decoded message: \(rsa.fakeDecodedMessageNum)")
+            
             print("Done.")
             
             // Looks good so far!

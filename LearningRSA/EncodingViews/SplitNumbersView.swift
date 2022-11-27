@@ -14,7 +14,7 @@ struct SplitNumbersView: View {
     var body: some View {
         VStack{
             Group {
-                Text("Your Message: \(rsa.inputMessageStr)")
+                Text("Your Message: \(rsa.inputMessageEng)")
                 Divider()
                 Text("Your Message in Numbers: \(rsa.inputMessageNum)")
                 Divider()

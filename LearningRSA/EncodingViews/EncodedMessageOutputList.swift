@@ -9,7 +9,9 @@
 import SwiftUI
 
 struct EncodedMessageOutputList: View {
-    @EnvironmentObject var rsa: RSA
+    var inputs: [Number]
+    var outputs: [Number]
+    
     @Binding var animationFinished: Bool
     
     @State private var currNum = 0
@@ -22,11 +24,11 @@ struct EncodedMessageOutputList: View {
     
     // move to the next equation in the encoding 
     func updateEquation() {
-        let listCount = rsa.inputMessageNumList.count
+        let listCount = inputs.count
         
         if currNum < listCount {
-            currInput = String(rsa.inputMessageNumList[currNum].value)
-            currOutput = String(rsa.encodedMessageList[currNum].value)
+            currInput = String(inputs[currNum].value)
+            currOutput = String(outputs[currNum].value)
             showEncodedNums[currNum] = true
             
             currNum += 1
@@ -66,7 +68,7 @@ struct EncodedMessageOutputList: View {
             HStack {
                 ForEach(0..<showEncodedNums.count, id: \.self) {i in
                     if showEncodedNums[i] {
-                        let val = rsa.encodedMessageList[i].value
+                        let val = outputs[i].value
                         Text(String(val))
                     }
                 }
@@ -75,7 +77,7 @@ struct EncodedMessageOutputList: View {
             .padding([.top], 20)
         }
         .onAppear {
-            let encodedNumsCount = rsa.encodedMessageList.count
+            let encodedNumsCount = outputs.count
             showEncodedNums = Array(repeating: false, count: encodedNumsCount)
         }
         .onReceive(timer) { _ in
@@ -89,7 +91,10 @@ struct EncodedMessageOutputList_Previews: PreviewProvider {
     @State static var animationFinished = false
     
     static var previews: some View {
-        EncodedMessageOutputList(animationFinished: $animationFinished)
-            .environmentObject(rsa)
+        EncodedMessageOutputList(
+            inputs: rsa.inputMessageNumList,
+            outputs: rsa.encodedMessageNumList,
+            animationFinished: $animationFinished
+        )
     }
 }

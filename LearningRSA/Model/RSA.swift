@@ -24,17 +24,21 @@ class RSA: ObservableObject {
                                                "Y": 35, "Z": 36, " ": 37]
     
     //TODO: Replace placeholder numbers
-    var inputMessageStr: String = "THIS IS A TEST"
+    var inputMessageEng: String = "THIS IS A TEST"
     var inputMessageNum: String = "3018192937192937113730152930"
+    var inputMessageNumList: [Number] = [Number(value: 3018192), Number(value: 9371929), Number(value: 3711373), Number(value: -1152930)]
     
-    var inputMessageNumList: [Number] = [Number(value: 3018192), Number(value: 9371929), Number(value: 3711373), Number(value: -120812819)]
-    var encodedMessageList: [Number] = [Number(value: 4647069), Number(value: 28956032), Number(value: 10898488), Number(value: -129495095)]
-    var encodedMessageStr: String = "46470692895603210898488-120812819"
+    var encodedMessageNumList: [Number] = [Number(value: 4647069), Number(value: 28956032), Number(value: 10898488), Number(value: -129495095)]
+    var encodedMessageNum: String = "46470692895603210898488-120812819"
     
-    var decodedMessageList: [Number] = []
-    var decodedMessageNum: String = ""
-    var decodedMessageStr: String = ""
-    
+    var realDecodedMessageNumList: [Number] = [Number(value: 3018192), Number(value: 9371929), Number(value: 3711373), Number(value: -1152930)]
+    var realDecodedMessageNum: String = "301819293719293711373-1152930"
+    var realDecodedMessageEng: String = ""
+
+    var fakeDecodedMessageNumList: [Number] = [Number(value: 26007518), Number(value: 19201995), Number(value: 6333876), Number(value: -120616234)]
+    var fakeDecodedMessageNum: String = "26007518192019956333876-120616234"
+    var fakeDecodedMessageEng: String = ""
+
     var prime1: Int = 4241
     var prime2: Int = 7331
     
@@ -50,22 +54,22 @@ class RSA: ObservableObject {
         return (fakeDecodePrime1 - 1) * (fakeDecodePrime2 - 1)
     }
     
-    
-    var publicKeyK: Int = 0
-    var invPublicKeyK: Int = 0
+    var publicKeyK: Int = 2079
+    var realInvPublicKeyK: Int = 19000319
+    var fakeInvPublicKeyK: Int = 4440983
     
     var productOfPrimes: Int = 31090771
     
     // number of integers relatively prime to the product of the primes
-    var phi: Int {
+    var encodePhi: Int {
         return (prime1 - 1) * (prime2 - 1)
     }
     
     // uses inputMessageNumList, publicKeyK, and productOfPrimes to
     // encode the message by modular exponentiation
     func encodeMessage() {
-        encodedMessageList = []
-        encodedMessageStr = ""
+        encodedMessageNumList = []
+        encodedMessageNum = ""
         
         var numVal = 0
         var leadingZerosAdjustment = ""
@@ -85,42 +89,78 @@ class RSA: ObservableObject {
                 encodedNum = modExponent(base: numVal, power: publicKeyK, modulo: productOfPrimes)
             }
             
-            encodedMessageList.append(Number(value: encodedNum))
-            encodedMessageStr.append(String(encodedNum))
+            encodedMessageNumList.append(Number(value: encodedNum))
+            encodedMessageNum.append(String(encodedNum))
             leadingZerosAdjustment = ""
         }        
     }
     
-    func computeInvPublicKeyK() {
-        // need to find inverse of publicKeyK modulo realDecodePhi
+    // calculate inverse of publicKeyK modulo phi
+    func computeInvPublicKeyK(phi: Int) -> Int {
         do {
-            let (invK, invPhi, gcd) = try extendedEuclidean(a: publicKeyK, b: realDecodePhi)
+            let (invK, invPhi, gcd) = try extendedEuclidean(a: publicKeyK, b: phi)
             guard invK > 0 && invPhi < 0 else {
                 print("Error decoding the message")
-                return
+                return -1
             }
             
             if gcd != 1 {
                 print("Incorrect primes given. Value of phi is not correct.")
             }
             
-            invPublicKeyK = invK
+            return invK
         }
         catch {
             print("Something went wrong! You need to enter two positive integers.")
+            return -1
         }
     }
     
-    func decodeMessage() {
+    func computeInvPublicKeys() {
+        realInvPublicKeyK = computeInvPublicKeyK(phi: realDecodePhi)
+        fakeInvPublicKeyK = computeInvPublicKeyK(phi: fakeDecodePhi)
+    }
+    
+    // TODO: Combine with encode message function?
+    func decodeMessage(invPublicKeyK: Int, decodedMessageList: inout [Number], decodedMessageNum: inout String) {
         decodedMessageList = []
+        decodedMessageNum = ""
         
-        for encodedNum in encodedMessageList {
-            let decodedNum = modExponent(base: encodedNum.value, power: invPublicKeyK, modulo: productOfPrimes)
-            print("DecodedNum: \(decodedNum)")
+        var numVal = 0
+        var leadingZerosAdjustment = ""
+        var decodedNum = 0
+        
+        for encodedNum in encodedMessageNumList {
+            numVal = encodedNum.value
             
+            if numVal < 0 {
+                leadingZerosAdjustment = String(String(numVal).prefix(2)) // e.g. -450 -> -4
+                numVal = Int(String(numVal).dropFirst(2))! // e.g. -450 -> 50
+                
+                decodedNum = modExponent(base: numVal, power: invPublicKeyK, modulo: productOfPrimes)
+                decodedNum = Int("\(leadingZerosAdjustment)\(decodedNum)")!
+            }
+            else {
+                decodedNum = modExponent(base: numVal, power: invPublicKeyK, modulo: productOfPrimes)
+            }
+                        
             decodedMessageList.append(Number(value: decodedNum))
             decodedMessageNum += String(decodedNum)
         }
+    }
+    
+    func decodeRealAndFakeMessages() {
+        decodeMessage(
+            invPublicKeyK: realInvPublicKeyK,
+            decodedMessageList: &realDecodedMessageNumList,
+            decodedMessageNum: &realDecodedMessageNum
+        )
+
+        decodeMessage(
+            invPublicKeyK: fakeInvPublicKeyK,
+            decodedMessageList: &fakeDecodedMessageNumList,
+            decodedMessageNum: &fakeDecodedMessageNum
+        )
     }
     
     func computeProductOfPrimes() {
@@ -143,7 +183,7 @@ class RSA: ObservableObject {
         // calculate publicKeyK by generating random numbers and checking if gcd = 1
         while gcd != 1 {
             tempK = Int.random(in: randomRangeStart ..< randomRangeEnd)
-            (_, _, gcd) = try extendedEuclidean(a: tempK, b: phi)
+            (_, _, gcd) = try extendedEuclidean(a: tempK, b: encodePhi)
         }
         
         publicKeyK = tempK
@@ -152,18 +192,18 @@ class RSA: ObservableObject {
     // converts inputMessageStr to inputMessageNum using charToNumEncoding
     func stringToNumberConversion() {
         inputMessageNum = ""
-        guard inputMessageStr != "" else {
+        guard inputMessageEng != "" else {
             return
         }
 
-        for char in inputMessageStr {
+        for char in inputMessageEng {
             let num = charToNumEncoding[char]!
             inputMessageNum += "\(num)"
         }
     }
     
     // converts decodedMessageNum to decodedMessageStr using the inverse of charToNumEncoding
-    func numberToStringConversion() {
+    func numberToStringConversion(decodedMessageNum: String, decodedMessageStr: inout String) {
         var numToCharEncoding: [Int: Character] = [:]
         for (char, num) in charToNumEncoding {
             numToCharEncoding.updateValue(char, forKey: num)

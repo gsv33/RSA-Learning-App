@@ -11,7 +11,8 @@ struct NumbersToTextView: View {
     @EnvironmentObject var rsa: RSA
     
     var body: some View {
-        Text(rsa.decodedMessageStr)
+        Text("Hello world!")
+//        Text(rsa.decodedMessageStr)
     }
 }
 

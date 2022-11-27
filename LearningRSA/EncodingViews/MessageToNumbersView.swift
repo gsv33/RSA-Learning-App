@@ -22,7 +22,7 @@ struct MessageToNumbersView: View {
             Group {
                 Divider()
                 Text("Here's what you entered:")
-                Text(rsa.inputMessageStr)
+                Text(rsa.inputMessageEng)
                 Divider()
             }
 
