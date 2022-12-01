@@ -18,7 +18,8 @@ enum ViewNames {
     case enterDecodePrimesView
     case decodingMathView
     case decodedMessageView
-    case numbersToTextView
+    case exploreRSAView
+    case exploreRSADecodeView
     case errorView
 }
 
@@ -56,8 +57,10 @@ struct ContentView: View {
             DecodingMathView()
         case .decodedMessageView:
             DecodedMessageView()
-        case .numbersToTextView:
-            NumbersToTextView()
+        case .exploreRSAView:
+            ExploreRSAView()
+        case .exploreRSADecodeView:
+            ExploreRSADecodeView()
         case .errorView:
             Text("ERROR!")
         }

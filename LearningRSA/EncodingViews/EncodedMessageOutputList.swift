@@ -69,7 +69,7 @@ struct EncodedMessageOutputList: View {
                 ForEach(0..<showEncodedNums.count, id: \.self) {i in
                     if showEncodedNums[i] {
                         let val = outputs[i].value
-                        Text(String(val))
+                        Text(val)
                     }
                 }
             }

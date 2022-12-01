@@ -25,7 +25,7 @@ struct SplitNumbersView: View {
             Text("Now let's split your numbers up into smaller pieces that are easier to manage").padding()
             HStack{
                 ForEach(rsa.inputMessageNumList) { number in
-                    Text(String(number.value))
+                    Text(number.value)
                 }
             }
             

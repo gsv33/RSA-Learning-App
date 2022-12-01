@@ -9,7 +9,7 @@ import Foundation
 
 struct Number: Identifiable {
     let id = UUID()
-    let value: Int
+    let value: String
 }
 
 // Note: This is NOT a secure implementation of RSA. It is just a tool for learning
@@ -26,18 +26,18 @@ class RSA: ObservableObject {
     //TODO: Replace placeholder numbers
     var inputMessageEng: String = "THIS IS A TEST"
     var inputMessageNum: String = "3018192937192937113730152930"
-    var inputMessageNumList: [Number] = [Number(value: 3018192), Number(value: 9371929), Number(value: 3711373), Number(value: -1152930)]
+    var inputMessageNumList: [Number] = [Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930")]
     
-    var encodedMessageNumList: [Number] = [Number(value: 4647069), Number(value: 28956032), Number(value: 10898488), Number(value: -129495095)]
+    var encodedMessageNumList: [Number] = [Number(value: "4647069"), Number(value: "28956032"), Number(value: "10898488"), Number(value: "-129495095")]
     var encodedMessageNum: String = "46470692895603210898488-120812819"
     
-    var realDecodedMessageNumList: [Number] = [Number(value: 3018192), Number(value: 9371929), Number(value: 3711373), Number(value: -1152930)]
-    var realDecodedMessageNum: String = "301819293719293711373-1152930"
-    var realDecodedMessageEng: String = ""
+    var realDecodedMessageNumList: [Number] = [Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930")]
+    var realDecodedMessageNum: String = "3018192937192937113730152930"
+    var realDecodedMessageEng: String = "THIS IS A TEST"
 
-    var fakeDecodedMessageNumList: [Number] = [Number(value: 26007518), Number(value: 19201995), Number(value: 6333876), Number(value: -120616234)]
-    var fakeDecodedMessageNum: String = "26007518192019956333876-120616234"
-    var fakeDecodedMessageEng: String = ""
+    var fakeDecodedMessageNumList: [Number] = [Number(value: "26007518"), Number(value: "19201995"), Number(value: "6333876"), Number(value: "020616234")]
+    var fakeDecodedMessageNum: String = "26007518192019956333876020616234"
+    var fakeDecodedMessageEng: String = "MXXWKXXXE XXXXXX" // TODO: Need to change encoding scheme used (ascii?)
 
     var prime1: Int = 4241
     var prime2: Int = 7331
@@ -75,21 +75,22 @@ class RSA: ObservableObject {
         var leadingZerosAdjustment = ""
         var encodedNum = 0
         
-        for num in inputMessageNumList {
-            numVal = num.value
+        for inputNum in inputMessageNumList {
+            let numAdjusted = adjustLeadingZeros(originalStr: inputNum.value) // e.g. "00123" -> "-2123"
+            numVal = Int(numAdjusted)! //TODO: Make sure this is really an integer
             
             if numVal < 0 {
                 leadingZerosAdjustment = String(String(numVal).prefix(2)) // e.g. -450 -> -4
                 numVal = Int(String(numVal).dropFirst(2))! // e.g. -450 -> 50
                 
-                encodedNum = modExponent(base: numVal, power: publicKeyK, modulo: productOfPrimes)
-                encodedNum = Int("\(leadingZerosAdjustment)\(encodedNum)")!
+                encodedNum = modExponent(base: numVal, power: publicKeyK, modulo: productOfPrimes) // 50 -> 72
+                encodedNum = Int("\(leadingZerosAdjustment)\(encodedNum)")! // 72 -> -472
             }
             else {
                 encodedNum = modExponent(base: numVal, power: publicKeyK, modulo: productOfPrimes)
             }
             
-            encodedMessageNumList.append(Number(value: encodedNum))
+            encodedMessageNumList.append(Number(value: String(encodedNum)))
             encodedMessageNum.append(String(encodedNum))
             leadingZerosAdjustment = ""
         }        
@@ -127,25 +128,26 @@ class RSA: ObservableObject {
         decodedMessageNum = ""
         
         var numVal = 0
-        var leadingZerosAdjustment = ""
-        var decodedNum = 0
+        var decodedNum = ""
         
         for encodedNum in encodedMessageNumList {
-            numVal = encodedNum.value
-            
+            numVal = Int(encodedNum.value)!
+
             if numVal < 0 {
-                leadingZerosAdjustment = String(String(numVal).prefix(2)) // e.g. -450 -> -4
-                numVal = Int(String(numVal).dropFirst(2))! // e.g. -450 -> 50
+                let numZeros = Int(String(numVal).prefix(2).dropFirst())! // e.g. "-450" -> 4
+                let leadingZeros = String(repeating: "0", count: numZeros)
                 
-                decodedNum = modExponent(base: numVal, power: invPublicKeyK, modulo: productOfPrimes)
-                decodedNum = Int("\(leadingZerosAdjustment)\(decodedNum)")!
+                numVal = Int(String(numVal).dropFirst(2))! // e.g. -450 -> 50
+                decodedNum = String(modExponent(base: numVal, power: invPublicKeyK, modulo: productOfPrimes)) // e.g. 50 -> 72
+
+                decodedNum = "\(leadingZeros)\(decodedNum)"
             }
             else {
-                decodedNum = modExponent(base: numVal, power: invPublicKeyK, modulo: productOfPrimes)
+                decodedNum = String(modExponent(base: numVal, power: invPublicKeyK, modulo: productOfPrimes))
             }
                         
             decodedMessageList.append(Number(value: decodedNum))
-            decodedMessageNum += String(decodedNum)
+            decodedMessageNum += decodedNum
         }
     }
     
@@ -222,6 +224,11 @@ class RSA: ObservableObject {
         }
     }
     
+    func convertDecodedMessagesToEnglish() {
+        numberToStringConversion(decodedMessageNum: realDecodedMessageNum, decodedMessageStr: &realDecodedMessageEng)
+        numberToStringConversion(decodedMessageNum: fakeDecodedMessageNum, decodedMessageStr: &fakeDecodedMessageEng)
+    }
+    
     // splits inputNumber to an array of numbers by making sure
     // each number has fewer digits than the product of the primes
     func splitInputNumberByDigits() {
@@ -239,18 +246,24 @@ class RSA: ObservableObject {
             substring.append(num)
             
             if substring.count == maxDigits - 1 {
-                let adjustedSubstring = adjustLeadingZeros(originalStr: substring)
+                guard let _ = Int(substring) else { //TODO: Need to handle this error
+                    print("Error. Invalid int entered")
+                    return
+                }
                 
-                inputMessageNumList.append(Number(value: Int(adjustedSubstring)!)) //TODO: Need to make sure these are really ints
+                inputMessageNumList.append(Number(value: substring))
                 substring = ""
             }
         }
         
         // Add remaining substring to array, regardless of length
         if substring != "" {
-            let adjustedSubstring = adjustLeadingZeros(originalStr: substring)
-            
-            inputMessageNumList.append(Number(value: Int(adjustedSubstring)!))
+            guard let _ = Int(substring) else { //TODO: Need to handle this error
+                print("Error. Invalid int entered")
+                return
+            }
+
+            inputMessageNumList.append(Number(value: substring))
             substring = ""
         }
     }

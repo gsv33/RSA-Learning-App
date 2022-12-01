@@ -21,7 +21,7 @@ struct EncodeMessageView: View {
                 Text("First, we take your input numbers: ")
                 HStack {
                     ForEach(rsa.inputMessageNumList) { number in
-                        Text(String(number.value))
+                        Text(number.value)
                     }
                 }
                 

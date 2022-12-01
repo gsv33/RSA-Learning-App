@@ -11,16 +11,28 @@ import SwiftUI
 
 struct DecodedMessageView: View {
     @EnvironmentObject var rsa: RSA
+    @EnvironmentObject var vc: ViewCoordinator
     
     var body: some View {
-        Text("Display the messages!!!!")
         
-//        VStack{
-//            ForEach(rsa.decodedMessageList) { number in
-//                Text(String(number.value))
-//            }
-//            Text(rsa.decodedMessageNum)
-//        }
+        VStack{
+            Text("Fake message conversion!")
+            
+            Text(rsa.fakeDecodedMessageNum)
+            Text(rsa.fakeDecodedMessageEng)
+            
+            Divider()
+            
+            Text("Real message conversion")
+            Text(rsa.realDecodedMessageNum)
+            Text(rsa.realDecodedMessageEng)
+            
+            Text("Did it work? Can you tell which is the real message and which is the fake one?").padding()
+            
+            Button("Play around with RSA") {
+                vc.currentView = .exploreRSAView
+            }
+        }
     }
 }
 

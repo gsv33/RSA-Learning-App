@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		47190B3B2938333C00286341 /* ExploreRSADecodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47190B3A2938333C00286341 /* ExploreRSADecodeView.swift */; };
+		472934AD2939652B00BF85A8 /* ErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472934AC2939652B00BF85A8 /* ErrorMessages.swift */; };
 		474F9035292B11B500F5E858 /* EncodedMessageOutputList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474F9034292B11B500F5E858 /* EncodedMessageOutputList.swift */; };
 		47636E68290B4384006C3124 /* LearningRSAApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47636E67290B4384006C3124 /* LearningRSAApp.swift */; };
 		47636E6A290B4384006C3124 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47636E69290B4384006C3124 /* ContentView.swift */; };
@@ -21,6 +23,7 @@
 		4796FE32291ACD9E000C33F2 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4796FE31291ACD9E000C33F2 /* WelcomeView.swift */; };
 		479D7E78291052030088B47E /* SplitNumbersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479D7E77291052030088B47E /* SplitNumbersView.swift */; };
 		47A7D8712929B46300B68A13 /* TestAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A7D8702929B46300B68A13 /* TestAnimations.swift */; };
+		47AA8187293417570009849C /* ExploreRSAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AA8186293417570009849C /* ExploreRSAView.swift */; };
 		47C42E9D292DBB5400A2CE59 /* EnterPrimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C42E9C292DBB5400A2CE59 /* EnterPrimesView.swift */; };
 		47DFF68A2911D2D20000D74A /* RSA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFF6892911D2D20000D74A /* RSA.swift */; };
 		47DFF68C2911D3E00000D74A /* EncodeMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFF68B2911D3E00000D74A /* EncodeMessageView.swift */; };
@@ -31,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		47190B3A2938333C00286341 /* ExploreRSADecodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreRSADecodeView.swift; sourceTree = "<group>"; };
+		472934AC2939652B00BF85A8 /* ErrorMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessages.swift; sourceTree = "<group>"; };
 		474F9034292B11B500F5E858 /* EncodedMessageOutputList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodedMessageOutputList.swift; sourceTree = "<group>"; };
 		47636E64290B4384006C3124 /* LearningRSA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearningRSA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47636E67290B4384006C3124 /* LearningRSAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningRSAApp.swift; sourceTree = "<group>"; };
@@ -46,6 +51,7 @@
 		4796FE31291ACD9E000C33F2 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		479D7E77291052030088B47E /* SplitNumbersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitNumbersView.swift; sourceTree = "<group>"; };
 		47A7D8702929B46300B68A13 /* TestAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAnimations.swift; sourceTree = "<group>"; };
+		47AA8186293417570009849C /* ExploreRSAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreRSAView.swift; sourceTree = "<group>"; };
 		47C42E9C292DBB5400A2CE59 /* EnterPrimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPrimesView.swift; sourceTree = "<group>"; };
 		47DFF6892911D2D20000D74A /* RSA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSA.swift; sourceTree = "<group>"; };
 		47DFF68B2911D3E00000D74A /* EncodeMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodeMessageView.swift; sourceTree = "<group>"; };
@@ -85,6 +91,7 @@
 		47636E66290B4384006C3124 /* LearningRSA */ = {
 			isa = PBXGroup;
 			children = (
+				47AA8185293416B20009849C /* ExploreRSA */,
 				4785B8F2291C4A7E00FB2A6E /* DecodingViews */,
 				4785B8F1291C4A7800FB2A6E /* EncodingViews */,
 				4785B8F0291C4A7200FB2A6E /* Model */,
@@ -110,6 +117,7 @@
 				47636E75290B4C51006C3124 /* Math.swift */,
 				47DFF6892911D2D20000D74A /* RSA.swift */,
 				4785B8F3291C4BED00FB2A6E /* CharacterConverter.swift */,
+				472934AC2939652B00BF85A8 /* ErrorMessages.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -140,6 +148,15 @@
 				47FE13FB29131E6700DE6886 /* NumbersToTextView.swift */,
 			);
 			path = DecodingViews;
+			sourceTree = "<group>";
+		};
+		47AA8185293416B20009849C /* ExploreRSA */ = {
+			isa = PBXGroup;
+			children = (
+				47AA8186293417570009849C /* ExploreRSAView.swift */,
+				47190B3A2938333C00286341 /* ExploreRSADecodeView.swift */,
+			);
+			path = ExploreRSA;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,15 +235,18 @@
 				47636E6A290B4384006C3124 /* ContentView.swift in Sources */,
 				4792B885290F18DB00ECDDBE /* MessageToNumbersView.swift in Sources */,
 				479D7E78291052030088B47E /* SplitNumbersView.swift in Sources */,
+				472934AD2939652B00BF85A8 /* ErrorMessages.swift in Sources */,
 				47FE13FA29130C9600DE6886 /* DecodedMessageView.swift in Sources */,
 				477F3FFB29119335006C6B2E /* GenerateKeysView.swift in Sources */,
 				47636E68290B4384006C3124 /* LearningRSAApp.swift in Sources */,
 				4785B8F4291C4BED00FB2A6E /* CharacterConverter.swift in Sources */,
 				4792B887290F1FD000ECDDBE /* EnterEncodePrimesView.swift in Sources */,
 				47636E76290B4C51006C3124 /* Math.swift in Sources */,
+				47190B3B2938333C00286341 /* ExploreRSADecodeView.swift in Sources */,
 				4796FE32291ACD9E000C33F2 /* WelcomeView.swift in Sources */,
 				4792B883290F0BD100ECDDBE /* EnterMessageView.swift in Sources */,
 				47FE13F62912F24B00DE6886 /* EnterDecodePrimesView.swift in Sources */,
+				47AA8187293417570009849C /* ExploreRSAView.swift in Sources */,
 				474F9035292B11B500F5E858 /* EncodedMessageOutputList.swift in Sources */,
 				47C42E9D292DBB5400A2CE59 /* EnterPrimesView.swift in Sources */,
 				47DFF68A2911D2D20000D74A /* RSA.swift in Sources */,

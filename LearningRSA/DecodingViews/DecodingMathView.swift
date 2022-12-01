@@ -99,6 +99,7 @@ struct DecodingMathView: View {
             
             if fakeAnimationFinished {
                 Button("Next") {
+                    rsa.convertDecodedMessagesToEnglish()
                     vc.currentView = .decodedMessageView
                 }
             }
