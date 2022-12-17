@@ -17,11 +17,7 @@ struct Number: Identifiable {
 class RSA: ObservableObject {
                                                 
     let DIGITS_PER_CHAR = 2
-    var charToNumEncoding: [Character: Int] = ["A": 11, "B": 12, "C": 13, "D": 14, "E": 15, "F": 16,
-                                               "G": 17, "H": 18, "I": 19, "J": 20, "K": 21, "L": 22,
-                                               "M": 23, "N": 24, "O": 25, "P": 26, "Q": 27, "R": 28,
-                                               "S": 29, "T": 30, "U": 31, "V": 32, "W": 33, "X": 34,
-                                               "Y": 35, "Z": 36, " ": 37]
+    let charToNumEncoding = CharacterConverter.charToNumEncoding
     
     //TODO: Replace placeholder numbers
     var inputMessageEng: String = "THIS IS A TEST"
@@ -191,7 +187,7 @@ class RSA: ObservableObject {
         publicKeyK = tempK
     }
     
-    // converts inputMessageStr to inputMessageNum using charToNumEncoding
+    // converts inputMessageEng to inputMessageNum using charToNumEncoding
     func stringToNumberConversion() {
         inputMessageNum = ""
         guard inputMessageEng != "" else {
@@ -200,13 +196,13 @@ class RSA: ObservableObject {
 
         for char in inputMessageEng {
             let num = charToNumEncoding[char]!
-            inputMessageNum += "\(num)"
+            inputMessageNum += num
         }
     }
     
     // converts decodedMessageNum to decodedMessageStr using the inverse of charToNumEncoding
     func numberToStringConversion(decodedMessageNum: String, decodedMessageStr: inout String) {
-        var numToCharEncoding: [Int: Character] = [:]
+        var numToCharEncoding: [String: Character] = [:]
         for (char, num) in charToNumEncoding {
             numToCharEncoding.updateValue(char, forKey: num)
         }
@@ -215,7 +211,7 @@ class RSA: ObservableObject {
         for decodedNum in decodedMessageNum {
             tempDigits.append(decodedNum)
             if tempDigits.count == DIGITS_PER_CHAR {
-                let currNum = Int(tempDigits)!
+                let currNum = tempDigits
                 let currChar = numToCharEncoding[currNum]
                 
                 decodedMessageStr.append(currChar ?? "X")

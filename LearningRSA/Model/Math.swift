@@ -109,8 +109,8 @@ func generatePrimeNumber(numDigits: Int = 4) -> Int {
 
 // checks to see if given String is a prime number
 // and if it is not too long
-func validateEnteredPrime(s: String, maxDigitsInPrime: Double = 5) -> Bool {
-    guard let n = Int(s) else {
+func validatePrime(p: String, maxDigitsInPrime: Double = 5) -> Bool {
+    guard let n = Int(p) else {
         return false
     }
     

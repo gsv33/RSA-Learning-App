@@ -20,6 +20,7 @@ enum ViewNames {
     case decodedMessageView
     case exploreRSAView
     case exploreRSADecodeView
+    case testView
     case errorView
 }
 
@@ -36,34 +37,44 @@ struct ContentView: View {
     
     var body: some View {
         
-        switch vc.currentView {
-        case .welcomeView:
+        NavigationView {
             WelcomeView()
-        case .enterMessageView:
-            EnterMessageView()
-        case .messageToNumbersView:
-            MessageToNumbersView()
-        case .enterEncodePrimesView:
-            EnterEncodePrimesView()
-        case .splitNumbersView:
-            SplitNumbersView()
-        case .generateKeysView:
-            GenerateKeysView()
-        case .encodeMessageView:
-            EncodeMessageView()
-        case .enterDecodePrimesView:
-            EnterDecodePrimesView()
-        case .decodingMathView:
-            DecodingMathView()
-        case .decodedMessageView:
-            DecodedMessageView()
-        case .exploreRSAView:
-            ExploreRSAView()
-        case .exploreRSADecodeView:
-            ExploreRSADecodeView()
-        case .errorView:
-            Text("ERROR!")
         }
+        
+//        ZStack {
+//            backgroundColor.ignoresSafeArea()
+//
+//            switch vc.currentView {
+//            case .welcomeView:
+//                WelcomeView()
+//            case .enterMessageView:
+//                EnterMessageView()
+//            case .messageToNumbersView:
+//                MessageToNumbersView()
+//            case .enterEncodePrimesView:
+//                EnterEncodePrimesView()
+//            case .splitNumbersView:
+//                SplitNumbersView()
+//            case .generateKeysView:
+//                GenerateKeysView()
+//            case .encodeMessageView:
+//                EncodeMessageView()
+//            case .enterDecodePrimesView:
+//                EnterDecodePrimesView()
+//            case .decodingMathView:
+//                DecodingMathView()
+//            case .decodedMessageView:
+//                DecodedMessageView()
+//            case .exploreRSAView:
+//                ExploreRSAView()
+//            case .exploreRSADecodeView:
+//                ExploreRSADecodeView()
+//            case .testView: //TODO: Remove after testing
+//                TestView()
+//            case .errorView:
+//                Text("ERROR!")
+//            }
+//        }.foregroundColor(textColor)
     }
 }
 

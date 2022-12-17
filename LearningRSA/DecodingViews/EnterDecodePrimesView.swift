@@ -56,8 +56,8 @@ struct EnterFakePrimesView: View {
             
             Button("Next!") {
                 // validate primes
-                let p1 = validateEnteredPrime(s: prime1)
-                let p2 = validateEnteredPrime(s: prime2)
+                let p1 = validatePrime(p: prime1)
+                let p2 = validatePrime(p: prime2)
 
                 primeImage1 = p1 ? validSymbol : invalidSymbol
                 primeImage2 = p2 ? validSymbol : invalidSymbol

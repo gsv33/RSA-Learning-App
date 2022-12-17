@@ -27,6 +27,8 @@ struct ExploreRSAView: View {
     let validSymbol = "checkmark"
     let invalidSymbol = "multiply"
 
+    @State var startDecodeButtonAnimation = false
+    
     func clearInputs() {
         textFieldMessage = ""
         inputMessage = ""
@@ -38,6 +40,7 @@ struct ExploreRSAView: View {
         k = ""
         m = ""
         errorMessage = .noError
+        startDecodeButtonAnimation = false
     }
     
     func encodeMessage() {
@@ -58,8 +61,8 @@ struct ExploreRSAView: View {
             return false
         }
         
-        let p1 = validateEnteredPrime(s: prime1)
-        let p2 = validateEnteredPrime(s: prime2)
+        let p1 = validatePrime(p: prime1)
+        let p2 = validatePrime(p: prime2)
         
         primeImage1 = p1 ? validSymbol : invalidSymbol
         primeImage2 = p2 ? validSymbol : invalidSymbol
@@ -80,15 +83,16 @@ struct ExploreRSAView: View {
                 Group {
                     HStack {
                         Button("Menu") {vc.currentView = .welcomeView}
+                            .buttonStyle(MenuButtonStyle())
+
                         Spacer()
-                    }
+                    }.padding([.leading])
                 }.padding([.bottom], 5)
 
                 Group {
-                    Text(errorMessage.rawValue)
-                        .foregroundColor(errorMessage == .success ? Color.green : Color.red)
-                        .font(.system(.body, design: .monospaced, weight: .semibold))
 
+                    ErrorMessageBar(errorMessage: errorMessage)
+                    
                     Text("Encode your message")
                         .font(.system(.title, design: .monospaced))
                     
@@ -103,72 +107,33 @@ struct ExploreRSAView: View {
                 }
                 
                 Group {
-                    Text("Primes")
-                        .font(.system(.title, design: .monospaced))
-                        .padding([.bottom], 5)
-                    
-                    Grid {
-                        GridRow {
-                            Image(systemName: primeImage1)
-                                .foregroundColor(primeImage1 == validSymbol ? Color.green : Color.red)
-                                .bold()
-
-                            Image(systemName: primeImage2)
-                                .foregroundColor(primeImage2 == validSymbol ? Color.green : Color.red)
-                                .bold()
-                        }.padding([.bottom], 5)
-                        GridRow {
-                            TextField("Prime 1", text: $prime1)
-                                .font(.system(.title))
-                                .textFieldStyle(.roundedBorder)
-                                .foregroundColor(.black)
-                                .fixedSize()
-                                                    
-                            TextField("Prime 2", text: $prime2)
-                                .font(.system(.title))
-                                .textFieldStyle(.roundedBorder)
-                                .foregroundColor(.black)
-                                .fixedSize()
-                        }
-                    }
-                        
-                    Button("Generate random primes") {
-                        prime1 = String(generatePrimeNumber())
-                        prime2 = String(generatePrimeNumber())
-                        
-                        primeImage1 = validSymbol
-                        primeImage2 = validSymbol
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .font(.system(.title3, design: .monospaced))
-                    .tint(.green)
-                    .buttonBorderShape(.roundedRectangle)
-                    .padding([.bottom], 20)
+                    PrimeTextFieldsView(
+                        prime1: $prime1, prime2: $prime2,
+                        primeImage1: $primeImage1, primeImage2: $primeImage2,
+                        validSymbol: validSymbol, invalidSymbol: invalidSymbol,
+                        allowEditPrimes: .constant(true),
+                        showUseDifferentPrimesCheckbox: false
+                    )
                     
                     Button("Encode Message") {
                         let inputsValid = checkInputsAreValid()
                         
                         if inputsValid {
                             encodeMessage()
+                            startDecodeButtonAnimation = true
                         }
                         else {
-                            
+                            errorMessage = ErrorMessages.encodeMessage
                         }
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.red)
-                    .font(.system(.largeTitle, design: .monospaced))
+                    .font(.system(.title3, design: .monospaced))
                 }
                 
                 Group {
-                    ScrollView() {
-                        Text("\(encodedMessage)")
-                            .font(.system(.title))
-                            .padding([.top, .bottom], 10)
-                            .padding([.leading, .trailing], 5)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .border(.white, width:3)
+                    TextInScrollView(message: encodedMessage)
+
                     ScrollView(.horizontal) {
                         Text("Public Key: \(k) \(m)")
                     }
@@ -178,15 +143,49 @@ struct ExploreRSAView: View {
                 Group {
                     HStack {
                         Button("Clear") {clearInputs()}
+                            .buttonStyle(MenuButtonStyle())
                         Spacer()
-                        Button("Decode") {
-                            vc.currentView = .exploreRSADecodeView
-                        }
-                    }.padding()
+                        DecodeButtonView(startAnimation: $startDecodeButtonAnimation)
+                        
+                    }.padding([.leading, .trailing])
                 }
                 
             }
             .foregroundColor(.white)
+        }
+    }
+}
+
+struct DecodeButtonView: View {
+    @State var buttonOpacity = 1.0
+    @State var backgroundColor = Color.white.opacity(0.0)
+    
+    @EnvironmentObject var vc: ViewCoordinator
+    
+    var buttonAnimation = Animation.easeInOut(duration: 1)
+        .repeatForever(autoreverses: true)
+    
+    @Binding var startAnimation: Bool
+    
+    var body: some View {
+        Button("Decode") {
+            vc.currentView = .exploreRSADecodeView
+        }
+        .buttonStyle(MenuButtonStyle())
+        .background(
+            backgroundColor,
+            in: RoundedRectangle(cornerRadius: 10))
+        .opacity(buttonOpacity)
+        .animation(startAnimation ? buttonAnimation : nil, value: buttonOpacity)
+        .onChange(of: startAnimation) {_ in
+            if startAnimation {
+                backgroundColor = Color.white.opacity(0.5)
+                buttonOpacity = 0.5
+            }
+            else {
+                backgroundColor = Color.white.opacity(0.0)
+                buttonOpacity = 1.0
+            }
         }
     }
 }

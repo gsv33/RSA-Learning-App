@@ -14,23 +14,33 @@ struct WelcomeView: View {
         ZStack {
             backgroundColor.ignoresSafeArea()
             
-            VStack {
-                Text("Welcome to the learning RSA App!")
-                    .padding()
+            VStack() {
+                Text("Welcome to the ")
+                    .font(.system(.title, design: .monospaced))
+                + Text ("Learning RSA")
+                    .font(.system(.largeTitle, design: .monospaced))
+                    .foregroundColor(.white)
+                + Text (" App")
+                    .font(.system(.title, design: .monospaced))
                 
                 Text("This is an interactive app that will take you through the steps of encoding a message using the RSA cryptosystem.")
+                    .font(.system(.title, design: .monospaced))
                     .padding()
+                    .padding(.bottom, 20)
                 
-                Button("Begin") {
-                    vc.currentView = .enterMessageView
+                NavigationLink(destination: EnterMessageView()) {
+                    Text("Step-by-Step Walkthrough")
                 }
-                .foregroundColor(.black)
-                .buttonStyle(.borderedProminent)
-                .tint(.white)
+                .buttonStyle(MenuButtonStyle(textStyle: Font.TextStyle.title2))
+                .padding(.bottom, 20)
+                
+                NavigationLink(destination: ExploreRSAView()) {
+                    Text("Explore RSA")
+                }.buttonStyle(MenuButtonStyle(textStyle: Font.TextStyle.title2))
+                
             }
-            .foregroundColor(textColor)
             .bold()
-        }
+        }.foregroundColor(textColor)
     }
 }
 
@@ -39,8 +49,10 @@ struct WelcomeView_Previews: PreviewProvider {
     @StateObject static var vc = ViewCoordinator()
     
     static var previews: some View {
-        WelcomeView()
-            .environmentObject(rsa)
-            .environmentObject(vc)
+        NavigationView {
+            WelcomeView()
+                .environmentObject(rsa)
+                .environmentObject(vc)
+        }
     }
 }

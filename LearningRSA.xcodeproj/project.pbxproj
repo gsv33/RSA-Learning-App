@@ -15,6 +15,8 @@
 		47636E6C290B4385006C3124 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47636E6B290B4385006C3124 /* Assets.xcassets */; };
 		47636E6F290B4385006C3124 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47636E6E290B4385006C3124 /* Preview Assets.xcassets */; };
 		47636E76290B4C51006C3124 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47636E75290B4C51006C3124 /* Math.swift */; };
+		47759471293AA2C300A5ADAC /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47759470293AA2C300A5ADAC /* TestView.swift */; };
+		47759473293AB2FB00A5ADAC /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47759472293AB2FB00A5ADAC /* Styles.swift */; };
 		477F3FFB29119335006C6B2E /* GenerateKeysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477F3FFA29119335006C6B2E /* GenerateKeysView.swift */; };
 		4785B8F4291C4BED00FB2A6E /* CharacterConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4785B8F3291C4BED00FB2A6E /* CharacterConverter.swift */; };
 		4792B883290F0BD100ECDDBE /* EnterMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4792B882290F0BD100ECDDBE /* EnterMessageView.swift */; };
@@ -43,6 +45,8 @@
 		47636E6B290B4385006C3124 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47636E6E290B4385006C3124 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		47636E75290B4C51006C3124 /* Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		47759470293AA2C300A5ADAC /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		47759472293AB2FB00A5ADAC /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		477F3FFA29119335006C6B2E /* GenerateKeysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateKeysView.swift; sourceTree = "<group>"; };
 		4785B8F3291C4BED00FB2A6E /* CharacterConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterConverter.swift; sourceTree = "<group>"; };
 		4792B882290F0BD100ECDDBE /* EnterMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterMessageView.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 				47DFF6892911D2D20000D74A /* RSA.swift */,
 				4785B8F3291C4BED00FB2A6E /* CharacterConverter.swift */,
 				472934AC2939652B00BF85A8 /* ErrorMessages.swift */,
+				47759472293AB2FB00A5ADAC /* Styles.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -154,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				47AA8186293417570009849C /* ExploreRSAView.swift */,
+				47759470293AA2C300A5ADAC /* TestView.swift */,
 				47190B3A2938333C00286341 /* ExploreRSADecodeView.swift */,
 			);
 			path = ExploreRSA;
@@ -232,6 +238,7 @@
 				47DFF68C2911D3E00000D74A /* EncodeMessageView.swift in Sources */,
 				47A7D8712929B46300B68A13 /* TestAnimations.swift in Sources */,
 				47FE13FC29131E6700DE6886 /* NumbersToTextView.swift in Sources */,
+				47759473293AB2FB00A5ADAC /* Styles.swift in Sources */,
 				47636E6A290B4384006C3124 /* ContentView.swift in Sources */,
 				4792B885290F18DB00ECDDBE /* MessageToNumbersView.swift in Sources */,
 				479D7E78291052030088B47E /* SplitNumbersView.swift in Sources */,
@@ -248,6 +255,7 @@
 				47FE13F62912F24B00DE6886 /* EnterDecodePrimesView.swift in Sources */,
 				47AA8187293417570009849C /* ExploreRSAView.swift in Sources */,
 				474F9035292B11B500F5E858 /* EncodedMessageOutputList.swift in Sources */,
+				47759471293AA2C300A5ADAC /* TestView.swift in Sources */,
 				47C42E9D292DBB5400A2CE59 /* EnterPrimesView.swift in Sources */,
 				47DFF68A2911D2D20000D74A /* RSA.swift in Sources */,
 				47FE13F82913043C00DE6886 /* DecodingMathView.swift in Sources */,
