@@ -53,18 +53,31 @@ struct MonospacedBodyText: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .font(.system(.body, design: .monospaced, weight: .semibold))
+            .font(.system(.headline, design: .monospaced, weight: .semibold))
             .foregroundColor(.white)
     }
 }
 
-extension Text {
+struct MonospacedInfoText: ViewModifier {
+    
+    func body(content: Content) -> some View {
+        content
+            .font(.system(.headline, design: .monospaced, weight: .semibold))
+            .foregroundColor(textColor)
+    }
+}
+
+extension View {
     func monospacedTitleText() -> some View {
         modifier(MonospacedTitleText())
     }
     
     func monospacedBodyText() -> some View {
         modifier(MonospacedBodyText())
+    }
+    
+    func monospacedInfoText() -> some View {
+        modifier(MonospacedInfoText())
     }
 }
 

@@ -8,72 +8,6 @@
 import SwiftUI
 
 
-struct TestView2: View {
-    @State private var animationAmount = 1.0
-
-    var body: some View {
-        Button("Tap Me") {
-//            animationAmount += 1
-        }
-        .padding(50)
-        .background(.red)
-        .foregroundColor(.white)
-        .clipShape(Circle())
-        .overlay(
-            Circle()
-                .stroke(.blue)
-                .scaleEffect(animationAmount)
-                .opacity(2 - animationAmount)
-                .animation(
-                    .easeInOut(duration: 1)
-                    .repeatForever(autoreverses: false),
-                    value: animationAmount
-                )
-        )
-        .onAppear {
-            animationAmount = 2
-        }
-    }
-}
-
-
-
-struct TestView: View {
-    @State var startAnimation = false
-    
-    var body: some View {
-        VStack {
-            Button("Click") {
-                startAnimation.toggle()
-                print(startAnimation)
-            }
-            
-            ZStack {
-                Color.black.ignoresSafeArea()
-                DecodeButtonView(startAnimation: $startAnimation)
-            }
-        }
-    }
-
-}
-
-struct TextEditingView: View {
-    @State private var fullText: String = "This is some editable text... type something"
-
-
-    var body: some View {
-        TextEditor(text: $fullText)
-            .font(.system(.title2, design: .monospaced, weight: .medium))
-            .padding()
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(.black, lineWidth: 2)
-            )
-            .padding()
-
-    }
-}
-
 struct NavTest2: View {
     @Environment(\.dismiss) var dismiss
     
@@ -199,85 +133,78 @@ struct NavMenuViewTest: View {
 
 struct LetterNumberTest: View {
     
-    var charToNumArr = CharacterConverter().charToNumArr
+//    var charToNumArr = CharacterConverter().charToNumArr
     
     var body: some View {
         ScrollView {
             
-            
-            
-            Grid {
-                GridRow {
-                    ForEach(0 ..< 10) { i in
-                        Text(String(charToNumArr[i].char))
-                    }
-                }
-                Divider()
-                GridRow {
-                    ForEach(0 ..< 10) { i in
-                        Text(String(charToNumArr[i].number))
-                    }
-                }
-                Divider()
-                GridRow {
-                    ForEach(10 ..< 20) { i in
-                        Text(String(charToNumArr[i].char))
-                    }
-                }
-                Divider()
-                GridRow {
-                    ForEach(10 ..< 20) { i in
-                        Text(String(charToNumArr[i].number))
-                    }
-                }
-            }.padding()
+                    
+//            Grid {
+//                GridRow {
+//                    ForEach(0 ..< 10) { i in
+//                        Text(String(charToNumArr[i].char))
+//                    }
+//                }
+//                Divider()
+//                GridRow {
+//                    ForEach(0 ..< 10) { i in
+//                        Text(String(charToNumArr[i].number))
+//                    }
+//                }
+//                Divider()
+//                GridRow {
+//                    ForEach(10 ..< 20) { i in
+//                        Text(String(charToNumArr[i].char))
+//                    }
+//                }
+//                Divider()
+//                GridRow {
+//                    ForEach(10 ..< 20) { i in
+//                        Text(String(charToNumArr[i].number))
+//                    }
+//                }
+//            }.padding()
         }
     }
 }
 
-struct GridItemDemo: View {
-    let rows = [
-        GridItem(.fixed(30), spacing: 1),
-        GridItem(.fixed(60), spacing: 10),
-        GridItem(.fixed(90), spacing: 20),
-        GridItem(.fixed(10), spacing: 50)
-    ]
-
-    var body: some View {
-        ScrollView(.horizontal) {
-            LazyHGrid(rows: rows, spacing: 5) {
-                ForEach(0...300, id: \.self) { _ in
-                    Color.red.frame(width: 30)
-                    Divider()
-                    Color.green.frame(width: 30)
-                    Color.blue.frame(width: 30)
-                    Divider()
-                    Color.yellow.frame(width: 30)
-                }
-            }
-        }
-    }
-}
 
 struct VerticalTest: View {
-    var charToNumArr = CharacterConverter().charToNumArr
-    let columns = [GridItem()]
+    var charToNumArr = CharacterConverter.charToNumArray
+    let columns = [GridItem(), GridItem(), GridItem()]
 
+    let charColor = Color(red: 255 / 255, green: 215 / 255, blue: 135 / 255)
+    let numColor = Color(red: 125 / 255, green: 255 / 255, blue: 255 / 255)
+    
     var body: some View {
-         ScrollView {
-             LazyVGrid(columns: columns) {
-                 ForEach(0 ..< charToNumArr.count) { i in
-                     Text(String(charToNumArr[i].char)) +
-                     Text("🟰") +
-                     Text(String(charToNumArr[i].number))
-                 }
-             }
-         }
-    }
-
-    private func emoji(_ value: Int) -> String {
-        guard let scalar = UnicodeScalar(value) else { return "?" }
-        return String(Character(scalar))
+        ZStack {
+            backgroundColor.ignoresSafeArea()
+            
+            ScrollView {
+                LazyVGrid(columns: columns) {
+                    ForEach(0 ..< charToNumArr.count) { i in
+                        
+                        if charToNumArr[i].character == " " { // separate to show space bar as an image
+                            Text(Image(systemName: "space"))
+                                .foregroundColor(charColor) +
+                            Text(" = ")
+                                .font(.system(.headline, design: .rounded, weight: .semibold)) +
+                            Text(charToNumArr[i].number)
+                                .foregroundColor(numColor)
+                        }
+                        else {
+                            Text(String(charToNumArr[i].character))
+                                .foregroundColor(charColor) +
+                            Text(" = ") +
+                            Text(charToNumArr[i].number)
+                                .foregroundColor(numColor)
+                        }
+                    }
+                }
+            }
+            .foregroundColor(.white)
+            .font(.system(.headline, design: .monospaced, weight: .semibold))
+        }
     }
 }
 

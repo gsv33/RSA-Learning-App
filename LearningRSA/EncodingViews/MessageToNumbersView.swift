@@ -12,6 +12,11 @@ struct MappingView: View {
     @Environment(\.dismiss) var dismiss
     
     var charToNumArr = CharacterConverter.charToNumArray
+    let columns = [GridItem(), GridItem(), GridItem()]
+
+    let charColor = Color(red: 255 / 255, green: 215 / 255, blue: 135 / 255)
+    let numColor = Color(red: 125 / 255, green: 255 / 255, blue: 255 / 255)
+
     
     var body: some View {
         ZStack {
@@ -19,59 +24,46 @@ struct MappingView: View {
 
             VStack {
                 Text("Character to Number Mapping")
-                    .monospacedTitleText().padding()
-                
-                Text("This is how each character is converted to a number.")
-                    .monospacedBodyText().padding()
-                
+                    .monospacedTitleText().padding(5)
+                                
                 ScrollView {
-                    Grid {
-                        Group {
-                            GridRow {
-                                ForEach(0 ..< 10) { i in
-                                    Text(String(charToNumArr[i].char))
-                                }
+                    LazyVGrid(columns: columns) {
+                        ForEach(0 ..< charToNumArr.count) { i in
+                            
+                            if charToNumArr[i].character == " " { // separate to show space bar as an image
+                                Text(Image(systemName: "space"))
+                                    .foregroundColor(charColor) +
+                                Text(" = ")
+                                    .font(.system(.headline, design: .rounded, weight: .semibold)) +
+                                Text(charToNumArr[i].number)
+                                    .foregroundColor(numColor)
                             }
-                            Divider()
-                            GridRow {
-                                ForEach(0 ..< 10) { i in
-                                    Text(String(charToNumArr[i].number))
-                                }
-                            }
-                            Divider()
-                            GridRow {
-                                ForEach(10 ..< 20) { i in
-                                    Text(String(charToNumArr[i].char))
-                                }
-                            }
-                            Divider()
-                            GridRow {
-                                ForEach(10 ..< 20) { i in
-                                    Text(String(charToNumArr[i].number))
-                                }
+                            else {
+                                Text(String(charToNumArr[i].character))
+                                    .foregroundColor(charColor) +
+                                Text(" = ") +
+                                Text(charToNumArr[i].number)
+                                    .foregroundColor(numColor)
                             }
                         }
-                        Group {
-                            Divider()
-                            GridRow {
-                                ForEach(20 ..< 26) { i in
-                                    Text(String(charToNumArr[i].char))
-                                }
-                            }
-                            Divider()
-                            GridRow {
-                                ForEach(20 ..< 26) { i in
-                                    Text(String(charToNumArr[i].number))
-                                }
-                            }
-                        }
-                    }.padding()
+                    }
                 }
+                .foregroundColor(.white)
+                .font(.system(.headline, design: .monospaced, weight: .semibold))
+
                 
                 Button("Dismiss") { dismiss() }
                     .buttonStyle(MenuButtonStyle())
             }
         }.foregroundColor(textColor)
+    }
+}
+
+// Explainer on why this step is needed
+struct MessageEncodingInfoView: View {
+    
+    var body: some View {
+        Text("Test")
     }
 }
 
@@ -82,44 +74,76 @@ struct MessageToNumbersView: View {
     let titleText = "Message Encoding"
     
     @State var showMappingPopover = false
+    @State var showInfoPopover = false
     
     var body: some View {
         ZStack {
             backgroundColor.ignoresSafeArea()
             
             VStack{
-                Text("Next we'll take your message and convert it to numbers. This isn't part of the algorithm, its just easier to work with numbers than letters.").font(.system(.headline, design: .monospaced))
-                
-                Group {
-                    Divider()
-                    Text("Here's what you entered:")
-                    Text(rsa.inputMessageEng)
-                    Divider()
-                }
-                                
-                Group {
-                    Divider()
-                    Text("This is the output:")
-                    Text(rsa.inputMessageNum)
-                    Divider()
-                }
-                
-                Button("See Mapping") {
+                Text("First, we encode the message by converting each letter to a different number.")
+                    .padding(.bottom)
+
+                Button("See how each letter is converted to a number") {
                     showMappingPopover = true
                 }
-                .popover(isPresented: $showMappingPopover) {
-                    MappingView()
-                }.buttonStyle(MenuButtonStyle())
+                .popover(isPresented: $showMappingPopover) { MappingView() }
+                .buttonStyle(MenuButtonStyle())
+                .padding(.bottom)
+
+                Button(action: {
+                    showInfoPopover = true
+                }) {
+                    Label("More Info", systemImage: "info.square")
+                }
+                .popover(isPresented: $showInfoPopover) { MessageEncodingInfoView() }
+                .monospacedBodyText()
+                                
+                Divider()
+                    .frame(height: 1)
+                    .overlay(.white)
+                    .padding([.top, .bottom])
                 
+                Text("Input Message:")
+                ScrollView {
+                    Text(rsa.inputMessageEng)
+                        .foregroundColor(.black)
+                        .font(.system(.headline, design: .monospaced, weight: .semibold))
+                        .padding()
+                        .background(.white)
+                        .cornerRadius(10)
+                }
+                .frame(maxHeight: 100)
+                                
+                Text("Encoded Message:")
+                ScrollView {
+                    Text(rsa.inputMessageNum)
+                        .foregroundColor(.black)
+                        .font(.system(.headline, design: .monospaced, weight: .semibold))
+                        .padding()
+                        .background(.white)
+                        .cornerRadius(10)
+                }
+                .frame(maxHeight: 100)
+                
+                
+                Text("Next, create your secret key.")
+                    .padding(.bottom)
+
                 NavigationLink(destination: EnterEncodePrimesView()) {
-                    Text("Enter primes to encode")
+                    Text("Create secret key")
                 }
                 .buttonStyle(MenuButtonStyle())
                 .toolbar { NavigationToolbar(titleText: titleText) }
                 .navigationBarBackButtonHidden()
-
             }
-        }.foregroundColor(textColor)
+            .monospacedInfoText()
+            .padding()
+        }
+        // The next two lines are to remove the space otherwise reserved for
+        // the navigation title. I'm not sure if there's a better solution.
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
