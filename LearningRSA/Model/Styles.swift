@@ -41,11 +41,12 @@ extension TextField {
 }
 
 struct MonospacedTitleText: ViewModifier {
+    var textStyle: Font.TextStyle
     
     func body(content: Content) -> some View {
         content
             .foregroundColor(.white)
-            .font(.system(.title3, design: .monospaced, weight: .semibold))
+            .font(.system(textStyle, design: .monospaced, weight: .semibold))
     }
 }
 
@@ -68,8 +69,8 @@ struct MonospacedInfoText: ViewModifier {
 }
 
 extension View {
-    func monospacedTitleText() -> some View {
-        modifier(MonospacedTitleText())
+    func monospacedTitleText(textStyle: Font.TextStyle = .title3) -> some View {
+        modifier(MonospacedTitleText(textStyle: textStyle))
     }
     
     func monospacedBodyText() -> some View {

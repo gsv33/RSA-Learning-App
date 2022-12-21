@@ -1,0 +1,7 @@
+To Do List
+
+- Set separate error messages for when the inputs are not prime, or when they are but the primes are too long
+    - Additional bugs in the wrong error message showing up
+- Create automatic encoding and decoding updates for the ExploreRSA views
+- Combine checkInputsAreValid functions
+- sync color scheme across views

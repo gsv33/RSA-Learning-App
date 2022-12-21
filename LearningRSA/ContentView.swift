@@ -31,6 +31,10 @@ class ViewCoordinator: ObservableObject {
 let backgroundColor = Color.black
 let textColor = Color.green
 
+let inputColor = Color(red: 255 / 255, green: 215 / 255, blue: 135 / 255)
+let outputColor = Color(red: 125 / 255, green: 255 / 255, blue: 255 / 255)
+
+
 struct ContentView: View {
     @EnvironmentObject var rsa: RSA
     @EnvironmentObject var vc: ViewCoordinator

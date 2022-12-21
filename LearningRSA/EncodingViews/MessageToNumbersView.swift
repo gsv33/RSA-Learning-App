@@ -13,10 +13,6 @@ struct MappingView: View {
     
     var charToNumArr = CharacterConverter.charToNumArray
     let columns = [GridItem(), GridItem(), GridItem()]
-
-    let charColor = Color(red: 255 / 255, green: 215 / 255, blue: 135 / 255)
-    let numColor = Color(red: 125 / 255, green: 255 / 255, blue: 255 / 255)
-
     
     var body: some View {
         ZStack {
@@ -32,18 +28,18 @@ struct MappingView: View {
                             
                             if charToNumArr[i].character == " " { // separate to show space bar as an image
                                 Text(Image(systemName: "space"))
-                                    .foregroundColor(charColor) +
+                                    .foregroundColor(inputColor) +
                                 Text(" = ")
                                     .font(.system(.headline, design: .rounded, weight: .semibold)) +
                                 Text(charToNumArr[i].number)
-                                    .foregroundColor(numColor)
+                                    .foregroundColor(outputColor)
                             }
                             else {
                                 Text(String(charToNumArr[i].character))
-                                    .foregroundColor(charColor) +
+                                    .foregroundColor(inputColor) +
                                 Text(" = ") +
                                 Text(charToNumArr[i].number)
-                                    .foregroundColor(numColor)
+                                    .foregroundColor(outputColor)
                             }
                         }
                     }
@@ -56,14 +52,6 @@ struct MappingView: View {
                     .buttonStyle(MenuButtonStyle())
             }
         }.foregroundColor(textColor)
-    }
-}
-
-// Explainer on why this step is needed
-struct MessageEncodingInfoView: View {
-    
-    var body: some View {
-        Text("Test")
     }
 }
 
@@ -136,14 +124,11 @@ struct MessageToNumbersView: View {
                 .buttonStyle(MenuButtonStyle())
                 .toolbar { NavigationToolbar(titleText: titleText) }
                 .navigationBarBackButtonHidden()
+                .navigationBarTitleDisplayMode(.inline) // needed to remove the space reserved for the nav title
             }
             .monospacedInfoText()
             .padding()
         }
-        // The next two lines are to remove the space otherwise reserved for
-        // the navigation title. I'm not sure if there's a better solution.
-        .navigationTitle("")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -157,7 +142,6 @@ struct MessageToNumbersView_Previews: PreviewProvider {
                 .environmentObject(rsa)
                 .environmentObject(vc)
             
-//            MappingView()
         }
     }
 }

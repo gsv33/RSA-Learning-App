@@ -145,7 +145,7 @@ struct PrimeTextFieldsView: View {
     
     var body: some View {
         Text("Primes")
-            .font(.system(.title, design: .monospaced))
+            .monospacedTitleText(textStyle: .title)
             .padding([.bottom], 5)
         
         Grid {

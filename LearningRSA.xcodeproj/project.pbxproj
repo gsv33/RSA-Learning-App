@@ -19,6 +19,8 @@
 		47759473293AB2FB00A5ADAC /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47759472293AB2FB00A5ADAC /* Styles.swift */; };
 		477F3FFB29119335006C6B2E /* GenerateKeysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477F3FFA29119335006C6B2E /* GenerateKeysView.swift */; };
 		4785B8F4291C4BED00FB2A6E /* CharacterConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4785B8F3291C4BED00FB2A6E /* CharacterConverter.swift */; };
+		478900CD2950D98B00159AFB /* Explanations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478900CC2950D98B00159AFB /* Explanations.swift */; };
+		478900CF2950EFCB00159AFB /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 478900CE2950EFCB00159AFB /* ToDo.txt */; };
 		4792B883290F0BD100ECDDBE /* EnterMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4792B882290F0BD100ECDDBE /* EnterMessageView.swift */; };
 		4792B885290F18DB00ECDDBE /* MessageToNumbersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4792B884290F18DB00ECDDBE /* MessageToNumbersView.swift */; };
 		4792B887290F1FD000ECDDBE /* EnterEncodePrimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4792B886290F1FD000ECDDBE /* EnterEncodePrimesView.swift */; };
@@ -49,6 +51,8 @@
 		47759472293AB2FB00A5ADAC /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		477F3FFA29119335006C6B2E /* GenerateKeysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateKeysView.swift; sourceTree = "<group>"; };
 		4785B8F3291C4BED00FB2A6E /* CharacterConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterConverter.swift; sourceTree = "<group>"; };
+		478900CC2950D98B00159AFB /* Explanations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explanations.swift; sourceTree = "<group>"; };
+		478900CE2950EFCB00159AFB /* ToDo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
 		4792B882290F0BD100ECDDBE /* EnterMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterMessageView.swift; sourceTree = "<group>"; };
 		4792B884290F18DB00ECDDBE /* MessageToNumbersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageToNumbersView.swift; sourceTree = "<group>"; };
 		4792B886290F1FD000ECDDBE /* EnterEncodePrimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEncodePrimesView.swift; sourceTree = "<group>"; };
@@ -95,6 +99,7 @@
 		47636E66290B4384006C3124 /* LearningRSA */ = {
 			isa = PBXGroup;
 			children = (
+				478900CE2950EFCB00159AFB /* ToDo.txt */,
 				47AA8185293416B20009849C /* ExploreRSA */,
 				4785B8F2291C4A7E00FB2A6E /* DecodingViews */,
 				4785B8F1291C4A7800FB2A6E /* EncodingViews */,
@@ -123,6 +128,7 @@
 				4785B8F3291C4BED00FB2A6E /* CharacterConverter.swift */,
 				472934AC2939652B00BF85A8 /* ErrorMessages.swift */,
 				47759472293AB2FB00A5ADAC /* Styles.swift */,
+				478900CC2950D98B00159AFB /* Explanations.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -134,8 +140,8 @@
 				4792B882290F0BD100ECDDBE /* EnterMessageView.swift */,
 				4792B884290F18DB00ECDDBE /* MessageToNumbersView.swift */,
 				4792B886290F1FD000ECDDBE /* EnterEncodePrimesView.swift */,
-				479D7E77291052030088B47E /* SplitNumbersView.swift */,
 				477F3FFA29119335006C6B2E /* GenerateKeysView.swift */,
+				479D7E77291052030088B47E /* SplitNumbersView.swift */,
 				47DFF68B2911D3E00000D74A /* EncodeMessageView.swift */,
 				47A7D8702929B46300B68A13 /* TestAnimations.swift */,
 				474F9034292B11B500F5E858 /* EncodedMessageOutputList.swift */,
@@ -225,6 +231,7 @@
 			files = (
 				47636E6F290B4385006C3124 /* Preview Assets.xcassets in Resources */,
 				47636E6C290B4385006C3124 /* Assets.xcassets in Resources */,
+				478900CF2950EFCB00159AFB /* ToDo.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +250,7 @@
 				4792B885290F18DB00ECDDBE /* MessageToNumbersView.swift in Sources */,
 				479D7E78291052030088B47E /* SplitNumbersView.swift in Sources */,
 				472934AD2939652B00BF85A8 /* ErrorMessages.swift in Sources */,
+				478900CD2950D98B00159AFB /* Explanations.swift in Sources */,
 				47FE13FA29130C9600DE6886 /* DecodedMessageView.swift in Sources */,
 				477F3FFB29119335006C6B2E /* GenerateKeysView.swift in Sources */,
 				47636E68290B4384006C3124 /* LearningRSAApp.swift in Sources */,

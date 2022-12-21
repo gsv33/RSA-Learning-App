@@ -141,6 +141,7 @@ struct EnterMessageView: View {
             NavigationLink(destination: MessageToNumbersView(), isActive: $showNextView) {}
                 .toolbar { NavigationToolbar(titleText: "Enter Message") }
                 .navigationBarBackButtonHidden()
+                .navigationBarTitleDisplayMode(.inline)
             
             VStack {
                 ErrorMessageBar(errorMessage: errorMessage)
