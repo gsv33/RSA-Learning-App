@@ -5,3 +5,4 @@ To Do List
 - Create automatic encoding and decoding updates for the ExploreRSA views
 - Combine checkInputsAreValid functions
 - sync color scheme across views
+- add generate random message button

@@ -137,15 +137,19 @@ struct PrimeTextFieldsView: View {
     @Binding var primeImage1: String
     @Binding var primeImage2: String
     
-    var validSymbol: String
-    var invalidSymbol: String
+    var validSymbol: String = "checkmark"
+    var invalidSymbol: String = "multiply"
     
     @Binding var allowEditPrimes: Bool
     var showUseDifferentPrimesCheckbox = true
+    var showGenerateRandomPrimesButton = true
+        
+    var title = "Primes"
+    var titleTextStyle = Font.TextStyle.title
     
     var body: some View {
-        Text("Primes")
-            .monospacedTitleText(textStyle: .title)
+        Text(title)
+            .monospacedTitleText(textStyle: titleTextStyle)
             .padding([.bottom], 5)
         
         Grid {
@@ -185,17 +189,18 @@ struct PrimeTextFieldsView: View {
             .toggleStyle(ChecklistToggleStyle())
         }
         
-        
-        Button("Generate random primes") {
-            prime1 = String(generatePrimeNumber())
-            prime2 = String(generatePrimeNumber())
-
-            primeImage1 = validSymbol
-            primeImage2 = validSymbol
+        if showGenerateRandomPrimesButton {
+            Button("Generate random primes") {
+                prime1 = String(generatePrimeNumber())
+                prime2 = String(generatePrimeNumber())
+                
+                primeImage1 = validSymbol
+                primeImage2 = validSymbol
+            }
+            .buttonStyle(GenerateRandomPrimesButtonStyle())
+            .disabled(!allowEditPrimes)
+            .padding([.bottom], 10)
         }
-        .buttonStyle(GenerateRandomPrimesButtonStyle())
-        .disabled(!allowEditPrimes)
-        .padding([.bottom], 10)
 
 
     }

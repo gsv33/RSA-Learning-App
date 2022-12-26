@@ -13,25 +13,38 @@ struct DecodedMessageView: View {
     @EnvironmentObject var rsa: RSA
     @EnvironmentObject var vc: ViewCoordinator
     
+    @State var showNextView = false
+    var titleText = "Decoded Message"
+    
     var body: some View {
-        
-        VStack{
-            Text("Fake message conversion!")
+        ZStack {
+            backgroundColor.ignoresSafeArea()
             
-            Text(rsa.fakeDecodedMessageNum)
-            Text(rsa.fakeDecodedMessageEng)
+            NavigationLink(destination: DecodingMathView(), isActive: $showNextView) {}
+                .toolbar { NavigationToolbar(titleText: titleText) }
+                .navigationBarBackButtonHidden()
+                .navigationBarTitleDisplayMode(.inline)
             
-            Divider()
-            
-            Text("Real message conversion")
-            Text(rsa.realDecodedMessageNum)
-            Text(rsa.realDecodedMessageEng)
-            
-            Text("Did it work? Can you tell which is the real message and which is the fake one?").padding()
-            
-            Button("Play around with RSA") {
-                vc.currentView = .exploreRSAView
+            VStack{
+                Text("Fake message conversion!")
+                
+                Text(rsa.fakeDecodedMessageNum)
+                Text(rsa.fakeDecodedMessageEng)
+                
+                Divider()
+                
+                Text("Real message conversion")
+                Text(rsa.realDecodedMessageNum)
+                Text(rsa.realDecodedMessageEng)
+                
+                Text("Did it work? Can you tell which is the real message and which is the fake one?").padding()
+                
+                Button("Play around with RSA") {
+                    vc.currentView = .exploreRSAView
+                }
+                .buttonStyle(MenuButtonStyle())
             }
+            .monospacedBodyText()
         }
     }
 }
@@ -42,8 +55,10 @@ struct DecodedMessageView_Previews: PreviewProvider {
     @StateObject static var vc = ViewCoordinator()
 
     static var previews: some View {
-        DecodedMessageView()
-            .environmentObject(rsa)
-            .environmentObject(vc)
+        NavigationView {
+            DecodedMessageView()
+                .environmentObject(rsa)
+                .environmentObject(vc)
+        }
     }
 }

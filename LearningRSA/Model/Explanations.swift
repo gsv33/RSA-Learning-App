@@ -76,19 +76,65 @@ struct EnterPrimesInfoView: View {
     }
 }
 
-struct SplitNumbersInfoView: View {
- 
+struct GeneratePublicKeyInfoView: View {
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         ZStack {
             backgroundColor.ignoresSafeArea()
+            
+            VStack {
+                
+                Button("Dismiss") { dismiss() }
+                    .buttonStyle(MenuButtonStyle())
+            }
+        }
+    }
+}
+
+
+struct SplitNumbersInfoView: View {
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        ZStack {
+            backgroundColor.ignoresSafeArea()
+            
+            VStack {
+                Text("Splitting up the Message")
+                    .monospacedTitleText()
+                    .padding()
+
+                ScrollView {
+                    Text("Why can't we just use the original message? Why do we need to break it up into smaller pieces? The reason is.")
+                }
+                
+            }.monospacedBodyText()
         }
     }
     
 }
 
+struct EncodeMessageInfoView: View {
+    
+    var body: some View {
+        ZStack {
+            
+        }
+    }
+}
+
+struct EnterDecodePrimesInfoView: View {
+    
+    var body: some View {
+        ZStack {
+            backgroundColor.ignoresSafeArea()
+        }
+    }
+}
 
 struct Explanations_Previews: PreviewProvider {
     static var previews: some View {
-        EnterPrimesInfoView()
+        SplitNumbersInfoView()
     }
 }

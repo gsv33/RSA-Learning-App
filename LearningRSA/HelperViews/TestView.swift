@@ -208,9 +208,22 @@ struct VerticalTest: View {
     }
 }
 
+
+struct CustomView<Content: View>: View {
+    var testView: Content
+    
+    var body: some View {
+        VStack {
+            Text("Test")
+            
+            testView
+        }
+    }
+}
+
 struct TestView_Previews: PreviewProvider {
     
     static var previews: some View {
-        VerticalTest()
+        CustomView(testView: Text("Test 5"))
     }
 }

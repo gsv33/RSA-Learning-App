@@ -55,6 +55,11 @@ struct EnterEncodePrimesView: View {
         ZStack {
             backgroundColor.ignoresSafeArea()
             
+            NavigationLink(destination: GenerateKeysView(), isActive: $showNextView) {}
+                .toolbar { NavigationToolbar(titleText: titleText) }
+                .navigationBarBackButtonHidden()
+                .navigationBarTitleDisplayMode(.inline)
+            
             VStack {
                 ErrorMessageBar(errorMessage: errorMessage)
                 
@@ -81,12 +86,7 @@ struct EnterEncodePrimesView: View {
                     allowEditPrimes: .constant(true),
                     showUseDifferentPrimesCheckbox: false
                 )
-                
-                NavigationLink(destination: GenerateKeysView(), isActive: $showNextView) {}
-                    .toolbar { NavigationToolbar(titleText: titleText) }
-                    .navigationBarBackButtonHidden()
-                    .navigationBarTitleDisplayMode(.inline)
-                
+                                
                 Text("Next, create your public key. This will let anyone communicate with you.")
                     .padding()
                 

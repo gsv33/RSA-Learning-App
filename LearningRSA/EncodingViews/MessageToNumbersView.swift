@@ -7,54 +7,6 @@
 
 import SwiftUI
 
-// Shows the entire character to number mapping used as a popover
-struct MappingView: View {
-    @Environment(\.dismiss) var dismiss
-    
-    var charToNumArr = CharacterConverter.charToNumArray
-    let columns = [GridItem(), GridItem(), GridItem()]
-    
-    var body: some View {
-        ZStack {
-            backgroundColor.ignoresSafeArea()
-
-            VStack {
-                Text("Character to Number Mapping")
-                    .monospacedTitleText().padding(5)
-                                
-                ScrollView {
-                    LazyVGrid(columns: columns) {
-                        ForEach(0 ..< charToNumArr.count) { i in
-                            
-                            if charToNumArr[i].character == " " { // separate to show space bar as an image
-                                Text(Image(systemName: "space"))
-                                    .foregroundColor(inputColor) +
-                                Text(" = ")
-                                    .font(.system(.headline, design: .rounded, weight: .semibold)) +
-                                Text(charToNumArr[i].number)
-                                    .foregroundColor(outputColor)
-                            }
-                            else {
-                                Text(String(charToNumArr[i].character))
-                                    .foregroundColor(inputColor) +
-                                Text(" = ") +
-                                Text(charToNumArr[i].number)
-                                    .foregroundColor(outputColor)
-                            }
-                        }
-                    }
-                }
-                .foregroundColor(.white)
-                .font(.system(.headline, design: .monospaced, weight: .semibold))
-
-                
-                Button("Dismiss") { dismiss() }
-                    .buttonStyle(MenuButtonStyle())
-            }
-        }.foregroundColor(textColor)
-    }
-}
-
 struct MessageToNumbersView: View {
     @EnvironmentObject var rsa: RSA
     @EnvironmentObject var vc: ViewCoordinator

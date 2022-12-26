@@ -16,44 +16,99 @@ struct SplitNumbersView: View {
     @State var showInfoPopover = false
     @State var showNextView = false
 
+    @State var elapsedTime = 0
+    @State var textOpacity1 = 0.0
+    @State var textOpacity2 = 0.0
+    @State var textOpacity3 = 0.0
+    @State var textOpacity4 = 0.0
+    
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect() // for animations
+
     
     var body: some View {
         ZStack {
             backgroundColor.ignoresSafeArea()
+                .onReceive(timer) { _ in
+                    elapsedTime += 1
+                    
+                    if elapsedTime == 5 {
+                        textOpacity2 = 1.0
+                    } else if elapsedTime == 10 {
+                        textOpacity3 = 1.0
+                    } else if elapsedTime == 14 {
+                        textOpacity4 = 1.0
+                    }
+                }
+            
+            NavigationLink(destination: EncodeMessageView(), isActive: $showNextView) {}
+                .toolbar { NavigationToolbar(titleText: titleText) }
+                .navigationBarBackButtonHidden()
+                .navigationBarTitleDisplayMode(.inline)
             
             VStack{
                 Group {
-                    Text("Your Message: \(rsa.inputMessageEng)")
-                    Text("Your Message in Numbers: \(rsa.inputMessageNum)")
-                    Text("Your prime numbers: \(String(rsa.prime1)) and \(String(rsa.prime2)). ").bold()
+                    Text("Your message: \n") +
+                    Text("\(rsa.inputMessageEng)\n").foregroundColor(outputColor)
+                    
+                    
+                    Text("Your message in numbers:\n") +
+                    Text("\(rsa.inputMessageNum)\n").foregroundColor(outputColor)
+                    
+                    
+                    Text("Your public key:\n ") +
+                    Text("\(String(rsa.encodePhi))").foregroundColor(outputColor) +
+                    Text("-") +
+                    Text("\(String(rsa.publicKeyK))").foregroundColor(outputColor)
                 }
-                Text("Now let's split your numbers up into smaller pieces that are easier to manage").padding()
+                .onAppear { textOpacity1 = 1.0 }
+                .opacity(textOpacity1)
+                .animation(.easeIn(duration: 1.0), value: textOpacity1)
+
+                Group {
+                    Text("Before we can convert your message, we need to split it up into pieces smaller than the first part of your public key. This lets us properly apply the mathematical transformation the secures the message.").padding()
+                }
+                .opacity(textOpacity2)
+                .animation(.easeIn(duration: 1.0), value: textOpacity2)
+                    
+                
+                Text("Here is your new message:")
+                    .opacity(textOpacity3)
+                    .animation(.easeIn(duration: 1.0), value: textOpacity3)
+                
                 HStack{
                     ForEach(rsa.inputMessageNumList) { number in
-                        Text(number.value)
+                        Text(number.value).foregroundColor(outputColor)
                     }
                 }
-                
-                Button(action: {
-                    showInfoPopover = true
-                }) {
-                    Label("More Info", systemImage: "info.square")
-                }
-                .popover(isPresented: $showInfoPopover) { SplitNumbersInfoView() }
-                .monospacedBodyText()
-                .padding()
-                
-                NavigationLink(destination: GenerateKeysView(), isActive: $showNextView) {}
-                    .toolbar { NavigationToolbar(titleText: titleText) }
-                    .navigationBarBackButtonHidden()
-                    .navigationBarTitleDisplayMode(.inline)
+                .opacity(textOpacity3)
+                .animation(.easeIn(duration: 1.0).delay(1), value: textOpacity3)
 
-                
-                Button("Encode Message") {
-                    rsa.encodeMessage()
+                Text("Now, we are finally ready to encode your message.")
+                    .padding()
+                    .opacity(textOpacity4)
+                    .animation(.easeIn(duration: 1.0), value: textOpacity4)
+                           
+                Group {
+                    Button(action: {
+                        showInfoPopover = true
+                    }) {
+                        Label("More Info", systemImage: "info.square")
+                    }
+                    .popover(isPresented: $showInfoPopover) { SplitNumbersInfoView() }
+                    .monospacedBodyText()
+                    .padding(.bottom)
+                    
+                    Button("Encode Message") {
+                        rsa.encodeMessage()
+                        showNextView = true
+                    }
+                    .buttonStyle(GenerateRandomPrimesButtonStyle())
+                    .padding()
                 }
-                .buttonStyle(GenerateRandomPrimesButtonStyle())
-            }.foregroundColor(.white)
+                .opacity(textOpacity4)
+                .animation(.easeIn(duration: 1.0).delay(1), value: textOpacity4)
+            }
+            .monospacedBodyText()
         }
     }
 }
