@@ -18,7 +18,7 @@ struct MessageToNumbersView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
             
             VStack{
                 Text("First, we encode the message by converting each letter to a different number.")

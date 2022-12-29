@@ -27,7 +27,7 @@ struct SplitNumbersView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
                 .onReceive(timer) { _ in
                     elapsedTime += 1
                     
@@ -48,17 +48,17 @@ struct SplitNumbersView: View {
             VStack{
                 Group {
                     Text("Your message: \n") +
-                    Text("\(rsa.inputMessageEng)\n").foregroundColor(outputColor)
+                    Text("\(rsa.inputMessageEng)\n").foregroundColor(Colors.outputColor)
                     
                     
                     Text("Your message in numbers:\n") +
-                    Text("\(rsa.inputMessageNum)\n").foregroundColor(outputColor)
+                    Text("\(rsa.inputMessageNum)\n").foregroundColor(Colors.outputColor)
                     
                     
                     Text("Your public key:\n ") +
-                    Text("\(String(rsa.encodePhi))").foregroundColor(outputColor) +
+                    Text("\(String(rsa.encodePhi))").foregroundColor(Colors.outputColor) +
                     Text("-") +
-                    Text("\(String(rsa.publicKeyK))").foregroundColor(outputColor)
+                    Text("\(String(rsa.publicKeyK))").foregroundColor(Colors.outputColor)
                 }
                 .onAppear { textOpacity1 = 1.0 }
                 .opacity(textOpacity1)
@@ -77,7 +77,7 @@ struct SplitNumbersView: View {
                 
                 HStack{
                     ForEach(rsa.inputMessageNumList) { number in
-                        Text(number.value).foregroundColor(outputColor)
+                        Text(number.value).foregroundColor(Colors.outputColor)
                     }
                 }
                 .opacity(textOpacity3)
@@ -89,14 +89,10 @@ struct SplitNumbersView: View {
                     .animation(.easeIn(duration: 1.0), value: textOpacity4)
                            
                 Group {
-                    Button(action: {
-                        showInfoPopover = true
-                    }) {
-                        Label("More Info", systemImage: "info.square")
-                    }
-                    .popover(isPresented: $showInfoPopover) { SplitNumbersInfoView() }
-                    .monospacedBodyText()
-                    .padding(.bottom)
+                    MoreInfoButton(
+                        showInfoPopover: $showInfoPopover,
+                        InfoView: SplitNumbersInfoView()
+                    )
                     
                     Button("Encode Message") {
                         rsa.encodeMessage()

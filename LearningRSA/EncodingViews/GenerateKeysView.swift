@@ -27,7 +27,7 @@ struct GenerateKeysView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
                 .onReceive(timer) { _ in
                     elapsedTime += 1
                     
@@ -62,11 +62,11 @@ struct GenerateKeysView: View {
                     Group {
                         Text("The first part is the product of your two prime numbers, p and q.").padding()
                         
-                        Text("\(String(rsa.prime1))").foregroundColor(inputColor) +
+                        Text("\(String(rsa.prime1))").foregroundColor(Colors.inputColor) +
                         Text(" x ") +
-                        Text("\(String(rsa.prime2))").foregroundColor(inputColor) +
+                        Text("\(String(rsa.prime2))").foregroundColor(Colors.inputColor) +
                         Text(" = ") +
-                        Text("\(String(rsa.productOfPrimes))").foregroundColor(outputColor)
+                        Text("\(String(rsa.productOfPrimes))").foregroundColor(Colors.outputColor)
                     }
                     .opacity(textOpacity2)
                     .animation(.easeIn(duration: 1.0), value: textOpacity2)
@@ -79,17 +79,17 @@ struct GenerateKeysView: View {
                     .animation(.easeIn(duration: 1.0), value: textOpacity3)
                     
                     Group {
-                        Text("\(String(rsa.prime1 - 1))").foregroundColor(inputColor) +
+                        Text("\(String(rsa.prime1 - 1))").foregroundColor(Colors.inputColor) +
                         Text(" x ") +
-                        Text("\(String(rsa.prime2 - 1))").foregroundColor(inputColor) +
+                        Text("\(String(rsa.prime2 - 1))").foregroundColor(Colors.inputColor) +
                         Text(" = ") +
-                        Text("\(String(rsa.encodePhi))").foregroundColor(outputColor)
+                        Text("\(String(rsa.encodePhi))").foregroundColor(Colors.outputColor)
                         
                         Text("")
                     
-                        Text("\(String(rsa.encodePhi))").foregroundColor(inputColor) +
+                        Text("\(String(rsa.encodePhi))").foregroundColor(Colors.inputColor) +
                         Text(" is relatively prime to ") +
-                        Text("\(String(rsa.publicKeyK))").foregroundColor(outputColor)
+                        Text("\(String(rsa.publicKeyK))").foregroundColor(Colors.outputColor)
                     }
                     .opacity(textOpacity4)
                     .animation(.easeIn(duration: 1.0), value: textOpacity4)
@@ -100,21 +100,16 @@ struct GenerateKeysView: View {
                         Text("Your public key is")
                         Text("\(String(rsa.productOfPrimes))")
                             .font(.system(.title2, weight: .semibold))
-                            .foregroundColor(outputColor) +
+                            .foregroundColor(Colors.outputColor) +
                         Text("-") +
                         Text("\(String(rsa.publicKeyK))")
                             .font(.system(.title2, weight: .semibold))
-                            .foregroundColor(outputColor)
+                            .foregroundColor(Colors.outputColor)
                         
-                        Button(action: {
-                            showInfoPopover = true
-                        }) {
-                            Label("More Info", systemImage: "info.square")
-                        }
-                        .popover(isPresented: $showInfoPopover) { GeneratePublicKeyInfoView() }
-                        .monospacedBodyText()
-                        .padding()
-                        
+                        MoreInfoButton(
+                            showInfoPopover: $showInfoPopover,
+                            InfoView: GeneratePublicKeyInfoView()
+                        ).padding()
                         
                         Button("Next") {
                             showNextView = true

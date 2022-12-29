@@ -13,7 +13,7 @@ struct MessageEncodingInfoView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
             
             VStack {
                 
@@ -50,7 +50,7 @@ struct EnterPrimesInfoView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
             
             VStack{
                 Text("Why Prime Numbers?")
@@ -81,7 +81,7 @@ struct GeneratePublicKeyInfoView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
             
             VStack {
                 
@@ -98,7 +98,7 @@ struct SplitNumbersInfoView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
             
             VStack {
                 Text("Splitting up the Message")
@@ -128,7 +128,7 @@ struct EnterDecodePrimesInfoView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
         }
     }
 }

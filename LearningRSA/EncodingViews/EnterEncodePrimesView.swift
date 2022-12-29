@@ -53,7 +53,7 @@ struct EnterEncodePrimesView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
             
             NavigationLink(destination: GenerateKeysView(), isActive: $showNextView) {}
                 .toolbar { NavigationToolbar(titleText: titleText) }

@@ -38,7 +38,8 @@ struct FakeDecodingMathView: View {
             EncodedMessageOutputList(
                 inputs: rsa.encodedMessageNumList,
                 outputs: rsa.fakeDecodedMessageNumList,
-                animationFinished: $decodingAnimationFinished
+                animationFinished: $decodingAnimationFinished,
+                hideText: .constant(false)
             )
         }
     }
@@ -75,7 +76,8 @@ struct RealDecodingMathView: View {
             EncodedMessageOutputList(
                 inputs: rsa.encodedMessageNumList,
                 outputs: rsa.realDecodedMessageNumList,
-                animationFinished: $decodingAnimationFinished
+                animationFinished: $decodingAnimationFinished,
+                hideText: .constant(false)
             )
         }
     }

@@ -33,7 +33,7 @@ struct MappingView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
 
             VStack {
                 Text("Character to Number Mapping")
@@ -45,18 +45,18 @@ struct MappingView: View {
                             
                             if charToNumArr[i].character == " " { // separate to show space bar as an image
                                 Text(Image(systemName: "space"))
-                                    .foregroundColor(inputColor) +
+                                    .foregroundColor(Colors.inputColor) +
                                 Text(" = ")
                                     .font(.system(.headline, design: .rounded, weight: .semibold)) +
                                 Text(charToNumArr[i].number)
-                                    .foregroundColor(outputColor)
+                                    .foregroundColor(Colors.outputColor)
                             }
                             else {
                                 Text(String(charToNumArr[i].character))
-                                    .foregroundColor(inputColor) +
+                                    .foregroundColor(Colors.inputColor) +
                                 Text(" = ") +
                                 Text(charToNumArr[i].number)
-                                    .foregroundColor(outputColor)
+                                    .foregroundColor(Colors.outputColor)
                             }
                         }
                     }
@@ -68,7 +68,7 @@ struct MappingView: View {
                 Button("Dismiss") { dismiss() }
                     .buttonStyle(MenuButtonStyle())
             }
-        }.foregroundColor(textColor)
+        }.foregroundColor(Colors.textColor)
     }
 }
 

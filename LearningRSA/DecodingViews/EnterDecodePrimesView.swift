@@ -123,7 +123,7 @@ struct EnterDecodePrimesView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
             
             NavigationLink(destination: DecodingMathView(), isActive: $showNextView) {}
                 .toolbar { NavigationToolbar(titleText: titleText) }

@@ -11,8 +11,11 @@ import SwiftUI
 struct EncodedMessageOutputList: View {
     var inputs: [Number]
     var outputs: [Number]
+    var exponent: String = "d"
+    var modulus: String = "m"
     
     @Binding var animationFinished: Bool
+    @Binding var hideText: Bool
     
     @State private var currNum = 0
     @State private var currInput = "X"
@@ -43,28 +46,39 @@ struct EncodedMessageOutputList: View {
     var body: some View {
         VStack {
             
-            // first row of equation (x^k mod m)
-            HStack(spacing: 0) {
-                Text(currInput).font(.system(size: 24))
-                Grid {
-                    GridRow {
-                        Text("k")
+            if hideText == false {
+                // first row of equation (x^k mod m)
+                HStack(spacing: 0) {
+                    Text(currInput)
+                        .font(.system(size: 24))
+                        .foregroundColor(Colors.inputColor)
+                    Grid {
+                        GridRow {
+                            Text(exponent)
+                                .foregroundColor(Colors.expColor)
+                        }
+                        GridRow {Text("")}
+                        GridRow {Text("")}
                     }
-                    GridRow {Text("")}
-                    GridRow {Text("")}
+                    
+                    Group {
+                        Text("mod ") + Text("\(modulus)").foregroundColor(Colors.modColor)
+                    }
+                    .font(.system(size: 24))
+                    .padding([.leading],10)
                 }
                 
-                Text("(mod m)").font(.system(size: 24))
-                    .padding([.leading],10)
+                // second row of equation (=)
+                Text("=").font(.system(size: 30)).padding([.top], -25)
+                
+                // third row of equation (y)
+                Text(currOutput)
+                    .font(.system(size: 24))
+                    .foregroundColor(Colors.outputColor)
             }
             
-            // second row of equation (=)
-            Text("=").font(.system(size: 30)).padding([.top], -25)
-            
-            // third row of equation (y)
-            Text(currOutput).font(.system(size: 24))
-
             // animated list of all the outputs combined
+            Text("Output Numbers:").padding(.top, 10)
             HStack {
                 ForEach(0..<showEncodedNums.count, id: \.self) {i in
                     if showEncodedNums[i] {
@@ -74,7 +88,7 @@ struct EncodedMessageOutputList: View {
                 }
             }
             .animation(.easeInOut.delay(1), value: currNum)
-            .padding([.top], 20)
+            .foregroundColor(Colors.outputColor)
         }
         .onAppear {
             let encodedNumsCount = outputs.count
@@ -92,9 +106,12 @@ struct EncodedMessageOutputList_Previews: PreviewProvider {
     
     static var previews: some View {
         EncodedMessageOutputList(
-            inputs: rsa.inputMessageNumList,
-            outputs: rsa.encodedMessageNumList,
-            animationFinished: $animationFinished
+            inputs: [Number(value: "A")],
+            outputs: [Number(value: "B")],
+            exponent: "d",
+            modulus: "m",
+            animationFinished: $animationFinished,
+            hideText: .constant(false)
         )
     }
 }

@@ -12,7 +12,7 @@ struct WelcomeView: View {
         
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
             
             VStack() {
                 Text("Welcome to the ")
@@ -40,7 +40,7 @@ struct WelcomeView: View {
                 
             }
             .bold()
-        }.foregroundColor(textColor)
+        }.foregroundColor(Colors.textColor)
     }
 }
 

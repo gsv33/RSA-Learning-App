@@ -121,7 +121,7 @@ struct PopoverTest: View {
 struct NavMenuViewTest: View {
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
             VStack {
                 Text("This is a test")
             }.toolbar {
@@ -178,7 +178,7 @@ struct VerticalTest: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
             
             ScrollView {
                 LazyVGrid(columns: columns) {
@@ -221,9 +221,24 @@ struct CustomView<Content: View>: View {
     }
 }
 
+struct PaddingTest: View {
+    var body: some View {
+        VStack {
+            Text("ABC")
+            (Text("Test") + Text(" Test 2")).padding()
+
+            Text("ABC")
+            Group {
+                Text("Test") + Text(" Test 2")
+            }.padding()
+
+        }
+    }
+}
+
 struct TestView_Previews: PreviewProvider {
     
     static var previews: some View {
-        CustomView(testView: Text("Test 5"))
+        PaddingTest()
     }
 }

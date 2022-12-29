@@ -64,7 +64,7 @@ struct MonospacedInfoText: ViewModifier {
     func body(content: Content) -> some View {
         content
             .font(.system(.headline, design: .monospaced, weight: .semibold))
-            .foregroundColor(textColor)
+            .foregroundColor(Colors.textColor)
     }
 }
 
@@ -156,6 +156,27 @@ struct ChecklistToggleStyle: ToggleStyle {
         .tint(.primary)
         .buttonStyle(.borderless)
     }
+}
+
+
+struct UnicodeCharacters {
+    
+    static let superscriptD = "\u{1D30}"
+    static let superscriptE = "\u{1D31}"
+}
+
+// contains colors used in the app's views
+struct Colors {
+     
+    static let backgroundColor = Color.black
+    static let textColor = Color.green
+
+    static let inputColor = Color(red: 255 / 255, green: 215 / 255, blue: 135 / 255)
+    static let outputColor = Color(red: 125 / 255, green: 255 / 255, blue: 255 / 255)
+    
+    static let baseColor = Color.yellow
+    static let expColor = Color.blue
+    static let modColor = Color.red
 }
 
 // title text style

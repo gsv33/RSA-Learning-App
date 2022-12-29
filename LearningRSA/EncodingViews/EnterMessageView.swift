@@ -136,7 +136,7 @@ struct EnterMessageView: View {
     
     var body: some View {
         ZStack {
-            backgroundColor.ignoresSafeArea()
+            Colors.backgroundColor.ignoresSafeArea()
             
             NavigationLink(destination: MessageToNumbersView(), isActive: $showNextView) {}
                 .toolbar { NavigationToolbar(titleText: "Enter Message") }
@@ -170,7 +170,7 @@ struct EnterMessageView: View {
                 }.buttonStyle(MenuButtonStyle())
             }
         }
-        .foregroundColor(textColor)
+        .foregroundColor(Colors.textColor)
         .onAppear { // TODO: For testing purposes only, need to remove
 //            print("Input String is: \(rsa.inputMessageEng)")
 //            rsa.stringToNumberConversion()
