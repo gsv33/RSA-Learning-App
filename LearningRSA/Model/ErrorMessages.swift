@@ -17,6 +17,7 @@ enum ErrorMessages: String {
     case success = "Success!"
     case miscError = "Sorry, something went wrong. Please enter your message again."
     case encodeMessage = "Please encode a message first!"
+    case primesMatch = "Prime numbers must be different"
 }
 
 // Text displaying the current error message across the app's views

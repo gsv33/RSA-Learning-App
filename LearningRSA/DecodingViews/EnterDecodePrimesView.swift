@@ -38,7 +38,7 @@ struct EnterFakePrimesView: View {
         rsa.computeInvPublicKeys()
         rsa.decodeRealAndFakeMessages()
     }
-    
+        
     var body: some View {
         VStack {
             Text("Now enter two incorrect prime numbers, just to see what kind of message you'll get!").padding()
@@ -58,22 +58,14 @@ struct EnterFakePrimesView: View {
             )
             
             Button("Next!") {
-                // validate primes
-                let p1 = validatePrime(p: prime1)
-                let p2 = validatePrime(p: prime2)
-
-                primeImage1 = p1 ? validSymbol : invalidSymbol
-                primeImage2 = p2 ? validSymbol : invalidSymbol
+                let validInputs = validateInputs(prime1: prime1, prime2: prime2,
+                                                 primeImage1: &primeImage1, primeImage2: &primeImage2,
+                                                 errorMessage: &errorMessage)
                 
-                if p1 && p2 {
+                if validInputs {
                     updateRSA()
                     showNextView = true
                 }
-                
-                if prime1 == "" && prime2 == "" {
-                    errorMessage = .notPrimes
-                }
-                
             }
             .buttonStyle(MenuButtonStyle())
         }
@@ -131,7 +123,7 @@ struct EnterDecodePrimesView: View {
                 .navigationBarTitleDisplayMode(.inline)
             
             VStack {
-                ErrorMessageBar(errorMessage: errorMessage)
+                ErrorMessageBar(errorMessage: errorMessage).padding()
                 
                 EnterRealPrimesView(hideText: $showFakePrimesView, errorMessage: $errorMessage)
 

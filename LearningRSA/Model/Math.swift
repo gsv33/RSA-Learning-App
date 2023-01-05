@@ -109,7 +109,7 @@ func generatePrimeNumber(numDigits: Int = 4) -> Int {
 
 // checks to see if given String is a prime number
 // and if it is not too long
-func validatePrime(p: String, maxDigitsInPrime: Double = 5) -> Bool {
+func isPrime(p: String, maxDigitsInPrime: Double = 5) -> Bool {
     guard let n = Int(p) else {
         return false
     }
@@ -126,3 +126,48 @@ func validatePrime(p: String, maxDigitsInPrime: Double = 5) -> Bool {
         return false
     }
 }
+
+// checks if two inputs are unique prime numbers
+// Return values:
+// 1 (failure) - both primes match
+// 0 (success) - two different primes
+// -1 (failure) - both aren't primes
+func checkInputsAreUniquePrimes(prime1: String, prime2: String) -> Int {
+    let p1 = isPrime(p: prime1)
+    let p2 = isPrime(p: prime2)
+    
+    if p1 && p2 && prime1 == prime2 { // primes cannot be the same
+        return 1
+    }
+    else if p1 && p2 {
+        return 0
+    } else {
+        return -1
+    }
+}
+
+// checks that the inputs are unique primes and
+// updates the prime image symbols and error messages in certain cases
+func validateInputs(prime1: String, prime2: String,
+                    primeImage1: inout String, primeImage2: inout String,
+                    errorMessage: inout ErrorMessages) -> Bool {
+    
+    let inputsValid = checkInputsAreUniquePrimes(prime1: prime1, prime2: prime2)
+    
+    if inputsValid == 0 { // success
+        return true
+    }
+    else if inputsValid == 1 { // both primes are the same
+        //TODO: Set appropriate error Message if primes are too long
+        primeImage1 = GlobalVars.invalidSymbol
+        primeImage2 = GlobalVars.invalidSymbol
+        
+        errorMessage = .primesMatch
+    }
+    else { // inputsValid == -1, both aren't prime numbers
+        errorMessage = .notPrimes
+    }
+    
+    return false
+}
+

@@ -236,9 +236,26 @@ struct PaddingTest: View {
     }
 }
 
+struct GroupTest: View {
+    
+    var body: some View {
+        VStack {
+            Text("One")
+            Text("Two")
+            
+            Divider()
+                .frame(height:5)
+                .overlay(.black)
+            
+            Text("Three")
+            Text("Four")
+        }
+    }
+}
+
 struct TestView_Previews: PreviewProvider {
     
     static var previews: some View {
-        PaddingTest()
+        GroupTest()
     }
 }

@@ -7,33 +7,6 @@
 
 import SwiftUI
 
-struct NavigationToolbar: ToolbarContent {
-
-    @Environment(\.dismiss) var dismiss
-    var titleText: String
-    
-    var body: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarLeading) {
-            Button("Back") {
-                dismiss()
-            }
-            .buttonStyle(BackButtonStyle())
-        }
-        
-        ToolbarItem(placement: .navigationBarTrailing) {
-            Button("Menu") {
-                // TODO: disimss all views and go back to the Menu
-            }
-            .buttonStyle(BackButtonStyle())
-        }
-        
-        ToolbarItem(placement: .principal) {
-            Text(titleText)
-                .monospacedTitleText()
-        }
-    }
-}
-
 struct MessageFieldView: View {
     
     //TODO: Modify max character limit for the message

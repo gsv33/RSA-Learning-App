@@ -19,36 +19,30 @@ struct EnterEncodePrimesView: View {
     
     let validSymbol = "checkmark"
     let invalidSymbol = "multiply"
-    let maxDigitsInPrime: Double = 5 // TODO: What's a good setting for this number?
     
     let titleText = "Private Key"
     
     @State var showInfoPopover = false
     @State var showNextView = false
-    
-    func checkInputsAreValid() -> Bool {
-        let p1 = validatePrime(p: prime1, maxDigitsInPrime: maxDigitsInPrime)
-        let p2 = validatePrime(p: prime2, maxDigitsInPrime: maxDigitsInPrime)
         
-        primeImage1 = p1 ? validSymbol : invalidSymbol
-        primeImage2 = p2 ? validSymbol : invalidSymbol
-        
-        if p1 && p2 {
-            return true
-        } else {
-            errorMessage = .notPrimes
-            return false
-        }
-    }
-    
     // updates RSA with the entered primes
     // also computes next steps in RSA algorithm
-    func updateRSAWithPrimes() {
+    func updateRSA() -> Bool {
         rsa.prime1 = Int(prime1)!
         rsa.prime2 = Int(prime2)!
         
         rsa.computeProductOfPrimes()
         rsa.splitInputNumberByDigits()
+        
+        do {
+            try rsa.computePublicKeyK()
+            return true
+        }
+        catch {
+            print("Error computing the public key.")
+        }
+        
+        return false
     }
     
     var body: some View {
@@ -91,21 +85,19 @@ struct EnterEncodePrimesView: View {
                     .padding()
                 
                 Button("Create public key") {
-                    let inputsValid = checkInputsAreValid()
+                    let validInputs = validateInputs(prime1: prime1, prime2: prime2,
+                                                     primeImage1: &primeImage1, primeImage2: &primeImage2,
+                                                     errorMessage: &errorMessage)
                     
-                    if inputsValid {
-                        updateRSAWithPrimes()
-                        do {
-                            try rsa.computePublicKeyK()
+                    if validInputs {
+                        let successfulUpdate = updateRSA()
+                
+                        if successfulUpdate {
                             showNextView = true
                         }
-                        catch {
+                        else {
                             // TODO: What should we do if there's an error?
-                            print("Error computing the public key.")
                         }
-                    }
-                    else {
-                        //TODO: Set appropriate error Message if primes are too long
                     }
                 }
                 .buttonStyle(MenuButtonStyle())

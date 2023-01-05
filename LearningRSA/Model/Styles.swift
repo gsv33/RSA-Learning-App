@@ -177,6 +177,15 @@ struct Colors {
     static let baseColor = Color.yellow
     static let expColor = Color.blue
     static let modColor = Color.red
+    
+    static let lightRed = Color(red: 235 / 255, green: 69 / 255, blue: 95 / 255)
+}
+
+struct GlobalVars {
+    
+    static let invalidSymbol = "multiply"
+    static let validSymbol = "checkmark"
+
 }
 
 // title text style

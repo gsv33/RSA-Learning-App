@@ -6,3 +6,6 @@ To Do List
 - Combine checkInputsAreValid functions
 - sync color scheme across views
 - add generate random message button
+- Set max acceptable digits in prime number
+- ** Primes must be distinct! Otherwise the math doesn't work**
+- Remove 0s from mapping

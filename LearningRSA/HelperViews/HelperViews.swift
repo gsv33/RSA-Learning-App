@@ -7,6 +7,35 @@
 
 import SwiftUI
 
+// Displays the navigation toolbar used across the
+// app's views
+struct NavigationToolbar: ToolbarContent {
+    @Environment(\.dismiss) var dismiss
+    var titleText: String
+    
+    var body: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button("Back") {
+                dismiss()
+            }
+            .buttonStyle(BackButtonStyle())
+        }
+        
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button("Menu") {
+                // TODO: disimss all views and go back to the Menu
+            }
+            .buttonStyle(BackButtonStyle())
+        }
+        
+        ToolbarItem(placement: .principal) {
+            Text(titleText)
+                .monospacedTitleText()
+        }
+    }
+}
+
+
 // This is the "More Info" button that provides more detailed
 // explanations across the app's views
 struct MoreInfoButton<Content: View>: View {
@@ -71,6 +100,27 @@ struct MappingView: View {
         }.foregroundColor(Colors.textColor)
     }
 }
+
+// Displays text in a scroll view with a border
+// around it
+struct TextInScrollView: View {
+    var message: String
+    
+    var body: some View {
+        ScrollView() {
+            Text("\(message)")
+                .font(.system(.title))
+                .padding([.top, .bottom], 10)
+                .padding([.leading, .trailing], 5)
+        }
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.white, lineWidth: 3)
+        )
+    }
+}
+
 
 
 

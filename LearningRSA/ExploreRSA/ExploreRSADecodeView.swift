@@ -26,25 +26,22 @@ struct ExploreRSADecodeView: View {
     @State var decodedMessage = "This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!"
     @State var showDecodedMessage = false
     
-    func checkInputsAreValid() -> Bool {
-        let p1 = validatePrime(p: prime1)
-        let p2 = validatePrime(p: prime2)
-        
-        primeImage1 = p1 ? validSymbol : invalidSymbol
-        primeImage2 = p2 ? validSymbol : invalidSymbol
-
-        guard p1 && p2 else {
-            errorMessage = .notPrimes
-            return false
-        }
-        
-        return true
-    }
-    
     func decodeMessage() {
         rsa.computeInvPublicKeys()
         rsa.decodeRealAndFakeMessages()
         rsa.convertDecodedMessagesToEnglish()
+    }
+    
+    func decodeMessagePressed() {
+        // Check if primes are both valid
+        let validInputs = validateInputs(prime1: prime1, prime2: prime2,
+                                         primeImage1: &primeImage1, primeImage2: &primeImage2,
+                                         errorMessage: &errorMessage)
+
+        if validInputs {
+//            decodeMessage() // TODO: This doesn't work
+            showDecodedMessage = true
+        }
     }
     
     var body: some View {
@@ -75,16 +72,7 @@ struct ExploreRSADecodeView: View {
                     )
 
                     Button("Decode Message") {
-                        // Check if primes are both valid
-                        let inputsValid = checkInputsAreValid()
-
-                        if inputsValid {
-                            showDecodedMessage = true
-                        }
-                        else {
-                            showDecodedMessage = false
-                            errorMessage = .notPrimes
-                        }
+                        decodeMessagePressed()
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.red)
@@ -109,100 +97,6 @@ struct ExploreRSADecodeView: View {
                 }
             }.foregroundColor(.white)
         }
-    }
-}
-
-struct TextInScrollView: View {
-    var message: String
-    
-    var body: some View {
-        ScrollView() {
-            Text("\(message)")
-                .font(.system(.title))
-                .padding([.top, .bottom], 10)
-                .padding([.leading, .trailing], 5)
-        }
-        .frame(maxWidth: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(.white, lineWidth: 3)
-        )
-    }
-}
-
-struct PrimeTextFieldsView: View {
-    @Binding var prime1: String
-    @Binding var prime2: String
-    
-    @Binding var primeImage1: String
-    @Binding var primeImage2: String
-    
-    var validSymbol: String = "checkmark"
-    var invalidSymbol: String = "multiply"
-    
-    @Binding var allowEditPrimes: Bool
-    var showUseDifferentPrimesCheckbox = true
-    var showGenerateRandomPrimesButton = true
-        
-    var title = "Primes"
-    var titleTextStyle = Font.TextStyle.title
-    
-    var body: some View {
-        Text(title)
-            .monospacedTitleText(textStyle: titleTextStyle)
-            .padding([.bottom], 5)
-        
-        Grid {
-            GridRow {
-                Image(systemName: primeImage1)
-                    .opacity(prime1.count == 0 ? 0.0 : 1.0)
-                    .foregroundColor(primeImage1 == validSymbol ? Color.green : Color.red)
-                    .bold()
-                
-                Image(systemName: primeImage2)
-                    .opacity(prime2.count == 0 ? 0.0 : 1.0)
-                    .foregroundColor(primeImage2 == validSymbol ? Color.green : Color.red)
-                    .bold()
-            }.padding([.bottom], 5)
-            GridRow {
-                TextField("Prime 1", text: $prime1)
-                    .borderedTextField(disable: !allowEditPrimes)
-                    .onChange(of: prime1) { _ in
-                        let p1 = validatePrime(p: prime1)
-                        primeImage1 = p1 ? validSymbol : invalidSymbol
-                    }
-                
-                TextField("Prime 2", text: $prime2)
-                    .borderedTextField(disable: !allowEditPrimes)
-                    .onChange(of: prime2) { _ in
-                        let p2 = validatePrime(p: prime2)
-                        primeImage2 = p2 ? validSymbol : invalidSymbol
-                    }
-            }
-        }
-        
-        if showUseDifferentPrimesCheckbox  {
-            Toggle(isOn: $allowEditPrimes) {
-                Text("Use different primes")
-            }
-            .padding(2)
-            .toggleStyle(ChecklistToggleStyle())
-        }
-        
-        if showGenerateRandomPrimesButton {
-            Button("Generate random primes") {
-                prime1 = String(generatePrimeNumber())
-                prime2 = String(generatePrimeNumber())
-                
-                primeImage1 = validSymbol
-                primeImage2 = validSymbol
-            }
-            .buttonStyle(GenerateRandomPrimesButtonStyle())
-            .disabled(!allowEditPrimes)
-            .padding([.bottom], 10)
-        }
-
-
     }
 }
 

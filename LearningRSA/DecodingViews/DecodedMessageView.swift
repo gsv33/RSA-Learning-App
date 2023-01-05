@@ -7,44 +7,161 @@
 
 import SwiftUI
 
-// Displays the final message of both the fake and real text
+struct DecodeMessageView2: View {
+    @EnvironmentObject var rsa: RSA
+
+    @State private var showPhiEquation = true
+    @State private var showInfoPopover = false
+    @Binding var showNextView: Bool
+    
+    var body: some View {
+        let fakePrime1 = String(rsa.fakeDecodePrime1)
+        let fakePrime2 = String(rsa.fakeDecodePrime2)
+        let M = String(rsa.productOfPrimes)
+        let F = String(rsa.fakeInvPublicKeyK)
+        
+        VStack {
+            Text("Here's your decoded message:").padding()
+            
+            Text(rsa.realDecodedMessageNum).foregroundColor(Colors.outputColor)
+                .padding([.leading, .trailing, .bottom])
+
+            Group {
+                Text("Now, using the fake primes and fake private key, here's what you would have gotten.").padding()
+                
+                Text("Fake primes: ")
+                Text("\(fakePrime1)").foregroundColor(Colors.lightRed) + Text(", ") +
+                Text("\(fakePrime2)").foregroundColor(Colors.lightRed)
+                
+                Text("Fake private key: ").padding(.top)
+                Text("\(M)")
+                    .foregroundColor(Colors.lightRed) +
+                Text("-") +
+                Text("\(F)")
+                    .foregroundColor(Colors.lightRed)
+                
+                Text("Fake Decoded Message:").padding(.top)
+                Text(rsa.fakeDecodedMessageNum).foregroundColor(Colors.lightRed)
+            }
+            
+            MoreInfoButton(showInfoPopover: $showInfoPopover, InfoView: DecodedMessageInfoView()).padding()
+            
+            Button("Next") {
+                rsa.convertDecodedMessagesToEnglish()
+                showNextView = true
+            }
+            .buttonStyle(MenuButtonStyle())
+        }
+    }
+}
+
+struct DecodeMessageView1: View {
+    @EnvironmentObject var rsa: RSA
+    
+    @State private var showPhiEquation = true
+    @State private var showInfoPopover = false
+    
+    @Binding var hideText: Bool
+    @State private var animationFinished = false
+    
+    var body: some View {
+        let E = String(rsa.realInvPublicKeyK)
+        let M = String(rsa.productOfPrimes)
+
+        VStack {
+            
+            if !hideText {
+                Text("Now we are ready to decode the message. Remember the equation we use to take an encoded message, Y, and get back the original decoded message, X.").padding()
+            }
+            
+            Group {
+                Text("X = Y") +
+                Text("\(UnicodeCharacters.superscriptE)") +
+                Text(" mod ") +
+                Text("M")
+            }
+            .font(.system(.title))
+            .foregroundColor(Colors.outputColor)
+            .padding(.bottom)
+
+            if !hideText {
+                
+                Text("Encoded Message: ")
+                HStack {
+                    ForEach(rsa.inputMessageNumList) { number in
+                        Text(number.value).foregroundColor(Colors.inputColor)
+                    }
+                }.padding(.bottom)
+                
+                Text("Your private key:").padding(.bottom, 3)
+                Group {
+                    Text("\(E)")
+                        .foregroundColor(Colors.expColor) +
+                    Text("-") +
+                    Text("\(M)")
+                        .foregroundColor(Colors.modColor)
+                }
+                .font(.system(.title2))
+                
+                Group {
+                    Text("E = ") + Text("\(E)").foregroundColor(Colors.expColor)
+                    Text("M = ") + Text("\(M)").foregroundColor(Colors.modColor)
+                }
+                
+                Text("Decoding:").padding(.top)
+            }
+            
+            EncodedMessageOutputList(
+                inputs: rsa.encodedMessageNumList,
+                outputs: rsa.realDecodedMessageNumList,
+                exponent: E,
+                modulus: M,
+                animationFinished: $animationFinished,
+                hideText: $hideText
+            )
+
+            if !hideText {
+                Button("Next") {
+                    withAnimation(.easeIn(duration: 0.50)) {
+                        hideText = true
+                    }
+                }
+                .buttonStyle(MenuButtonStyle())
+                .opacity(animationFinished ? 1.0 : 0.0)
+                .animation(.default, value: animationFinished)
+                .padding()
+            }
+        }
+    }
+}
+
 
 struct DecodedMessageView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
     
     @State var showNextView = false
     var titleText = "Decoded Message"
+    
+    @State private var hideText = false
     
     var body: some View {
         ZStack {
             Colors.backgroundColor.ignoresSafeArea()
             
-            NavigationLink(destination: DecodingMathView(), isActive: $showNextView) {}
+            NavigationLink(destination: NumbersToTextView(), isActive: $showNextView) {}
                 .toolbar { NavigationToolbar(titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
-            VStack{
-                Text("Fake message conversion!")
+            VStack {
+                DecodeMessageView1(hideText: $hideText)
                 
-                Text(rsa.fakeDecodedMessageNum)
-                Text(rsa.fakeDecodedMessageEng)
-                
-                Divider()
-                
-                Text("Real message conversion")
-                Text(rsa.realDecodedMessageNum)
-                Text(rsa.realDecodedMessageEng)
-                
-                Text("Did it work? Can you tell which is the real message and which is the fake one?").padding()
-                
-                Button("Play around with RSA") {
-                    vc.currentView = .exploreRSAView
+                if hideText {
+                    DecodeMessageView2(showNextView: $showNextView)
                 }
-                .buttonStyle(MenuButtonStyle())
             }
             .monospacedBodyText()
+            
         }
     }
 }

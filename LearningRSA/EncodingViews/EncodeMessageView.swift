@@ -101,7 +101,8 @@ struct EncodeMessageViewPart1: View {
         
         Text("A\(UnicodeCharacters.superscriptD) mod M")
             .font(.system(.title))
-            .padding([.leading, .trailing, .bottom])
+            .foregroundColor(Colors.outputColor)
+            .padding()
         
     }
 }
@@ -113,8 +114,8 @@ struct EncodeMessageView: View {
     @State private var animationFinished = false    
     @State private var showNextView = false
     
-    @State var hideView1 = true
-    @State var hideView2 = true
+    @State var hideView1 = false
+    @State var hideView2 = false
     
     let titleText = "Encode Message"
     

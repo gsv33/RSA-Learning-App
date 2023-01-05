@@ -7,116 +7,64 @@
 
 import SwiftUI
 
-struct FakeDecodingMathView: View {
-    @EnvironmentObject var rsa: RSA
-
-    @State private var showPhiEquation = true
-    @Binding var decodingAnimationFinished: Bool
-    
-    var body: some View {
-        let fakePrime1 = String(rsa.fakeDecodePrime1)
-        let fakePrime2 = String(rsa.fakeDecodePrime2)
-        let fakePhi = String(rsa.fakeDecodePhi)
-        let fakeInvK = String(rsa.fakeInvPublicKeyK)
-        
-        VStack {
-            Text("Now, using the fake primes, here's what you would have gotten.").padding()
-            
-            Text("Decoding prime numbers: \(fakePrime1) and \(fakePrime2).")
-            
-            if showPhiEquation {
-                VStack {
-                    Text("Φ = (p - 1) x (q - 1)")
-                    Text("Φ = (\(fakePrime1) - 1) x (\(fakePrime2) - 1) = \(fakePhi)")
-                }
-            }
-            
-            Text("Now we need to use this to calculate k^-1 mod phi").padding()
-            Text("We do this with the Euclidean Algorithm!")
-            Text("Here's what we get k = \(fakeInvK)")
-            
-            EncodedMessageOutputList(
-                inputs: rsa.encodedMessageNumList,
-                outputs: rsa.fakeDecodedMessageNumList,
-                animationFinished: $decodingAnimationFinished,
-                hideText: .constant(false)
-            )
-        }
-    }
-}
-
-struct RealDecodingMathView: View {
-    @EnvironmentObject var rsa: RSA
-    
-    @State private var showPhiEquation = true
-    @Binding var decodingAnimationFinished: Bool
-    
-    var body: some View {
-        let realPrime1 = String(rsa.realDecodePrime1)
-        let realPrime2 = String(rsa.realDecodePrime2)
-        let realPhi = String(rsa.realDecodePhi)
-        let realInvK = String(rsa.realInvPublicKeyK)
-        
-        VStack {
-            Text("First, we calculate your decoding function. This is the Φ function, and is the glue that holds the entire cryptosystem together. This is why we kept the primes secret, because we need to calculate this one number.").padding()
-            
-            Text("Decoding prime numbers: \(realPrime1) and \(realPrime2).")
-            
-            if showPhiEquation {
-                VStack {
-                    Text("Φ = (p - 1) x (q - 1)")
-                    Text("Φ = (\(realPrime1) - 1) x (\(realPrime2) - 1) = \(realPhi)")
-                }
-            }
-            
-            Text("Now we need to use this to calculate k^-1 mod phi").padding()
-            Text("We do this with the Euclidean Algorithm!")
-            Text("Here's what we get k = \(realInvK)")
-            
-            EncodedMessageOutputList(
-                inputs: rsa.encodedMessageNumList,
-                outputs: rsa.realDecodedMessageNumList,
-                animationFinished: $decodingAnimationFinished,
-                hideText: .constant(false)
-            )
-        }
-    }
-}
-
 struct DecodingMathView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
-
-    @State private var realAnimationFinished = false
-    @State private var fakeAnimationFinished = false
+    
+    let titleText = "Decoding Process"
+    @State var showInfoPopover = false
+    @State var showNextView = false
     
     var body: some View{
-        
-        VStack {
-            RealDecodingMathView(decodingAnimationFinished: $realAnimationFinished)
+        ZStack {
+            Colors.backgroundColor.ignoresSafeArea()
             
-            if realAnimationFinished {
-                FakeDecodingMathView(decodingAnimationFinished: $fakeAnimationFinished)
-            }
+            NavigationLink(destination: PrivateKeyView(), isActive: $showNextView) {}
+                .toolbar { NavigationToolbar(titleText: titleText) }
+                .navigationBarBackButtonHidden()
+                .navigationBarTitleDisplayMode(.inline)
             
-            if fakeAnimationFinished {
+            VStack {
+                Text("Now, we're ready to decode your message. To do this, we use modular exponentiation, the same thing we used to encode it.")
+                    .padding()
+                
+                Text("Remember the formula we used to encode the message, where our original message was X and our encoded message was Y?")
+                    .padding([.leading, .trailing, .bottom])
+                
+                Text("Y = X\(UnicodeCharacters.superscriptD) mod M")
+                    .font(.system(.title))
+                    .foregroundColor(Colors.outputColor)
+                    .padding()
+
+                Text("To decode it, we use almost the exact same formula. The only difference is that we use a different exponent, E, instead of D. We calculate E by solving the equation: de - phi*y = 1").padding()
+                
+                Text("So given, an encoded message Y, we can get X back by solving: ")
+                
+                Text("X = Y\(UnicodeCharacters.superscriptE) mod M")
+                    .font(.system(.title))
+                    .foregroundColor(Colors.outputColor)
+                    .padding()
+                
+                MoreInfoButton(
+                    showInfoPopover: $showInfoPopover,
+                    InfoView: DecodingMathInfoView())
+                
                 Button("Next") {
-                    rsa.convertDecodedMessagesToEnglish()
-                    vc.currentView = .decodedMessageView
-                }
+                    showNextView = true
+                }.buttonStyle(MenuButtonStyle())
             }
+            .monospacedBodyText()
         }
     }
 }
 
 struct DecodingMathView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
 
     static var previews: some View {
-        DecodingMathView()
-            .environmentObject(rsa)
-            .environmentObject(vc)
         
+        NavigationView {
+            DecodingMathView()
+                .environmentObject(rsa)
+        }
     }
 }

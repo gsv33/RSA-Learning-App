@@ -7,6 +7,45 @@
 
 import SwiftUI
 
+struct ExploreRSAToolbar: ToolbarContent {
+    @Environment(\.dismiss) var dismiss
+    var titleText: String
+    
+    var body: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button("Back") {
+                dismiss()
+            }
+            .buttonStyle(BackButtonStyle())
+        }
+        
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button("Help") {
+                // TODO: disimss all views and go back to the Menu
+            }
+            .buttonStyle(BackButtonStyle())
+        }
+        
+        ToolbarItem(placement: .principal) {
+            Text(titleText)
+                .monospacedTitleText()
+        }
+        
+        ToolbarItemGroup(placement: .bottomBar) {
+            Button("Clear") {
+//                clearInputs()
+                
+            }
+                .buttonStyle(BackButtonStyle())
+            Spacer()
+//            DecodeButtonView(
+//                startAnimation: .constant(false) //TODO: Need to update
+//            )
+        }
+    }
+}
+
+
 struct ExploreRSAView: View {
     @EnvironmentObject var rsa: RSA
     @EnvironmentObject var vc: ViewCoordinator
@@ -26,6 +65,8 @@ struct ExploreRSAView: View {
     @State var primeImage2 = "checkmark"
     let validSymbol = "checkmark"
     let invalidSymbol = "multiply"
+    
+    @State var currentView = 1
 
     @State var startDecodeButtonAnimation = false
     
@@ -53,57 +94,51 @@ struct ExploreRSAView: View {
         rsa.encodeMessage()
         encodedMessage = rsa.encodedMessageNum
     }
-    
-    func checkInputsAreValid() -> Bool {
-        // validate entered message
+        
+    func encodeMessagePressed() {
         if inputMessage.count == 0 {
             errorMessage = .noMessage
-            return false
+            return
         }
-        
-        let p1 = validatePrime(p: prime1)
-        let p2 = validatePrime(p: prime2)
-        
-        primeImage1 = p1 ? validSymbol : invalidSymbol
-        primeImage2 = p2 ? validSymbol : invalidSymbol
 
-        guard p1 && p2 else {
-            errorMessage = .notPrimes
-            return false
-        }
+        let validInputs = validateInputs(prime1: prime1, prime2: prime2,
+                                         primeImage1: &primeImage1, primeImage2: &primeImage2,
+                                         errorMessage: &errorMessage)
         
-        return true
+        if validInputs {
+            encodeMessage()
+            startDecodeButtonAnimation = true
+        }
     }
     
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
-            
+                .toolbar { ExploreRSAToolbar(titleText: "Encode Message") }
+                .navigationBarTitleDisplayMode(.inline)
+                        
             VStack {
-                Group {
-                    HStack {
-                        Button("Menu") {vc.currentView = .welcomeView}
-                            .buttonStyle(MenuButtonStyle())
-
-                        Spacer()
-                    }.padding([.leading])
-                }.padding([.bottom], 5)
-
-                Group {
-
-                    ErrorMessageBar(errorMessage: errorMessage)
-                    
-                    Text("Encode your message")
-                        .font(.system(.title, design: .monospaced))
-                    
-                    MessageFieldView(
-                        textFieldMessage: $textFieldMessage,
-                        inputMessage: $inputMessage,
-                        errorMessage: $errorMessage,
-                        maxCharsInMessage: maxCharsInMessage
-                    )
-                    .frame(maxHeight: .infinity)
-                    .foregroundColor(.black)
+                ErrorMessageBar(errorMessage: errorMessage).padding()
+                
+                if currentView == 1 {
+                    Text("Enter message below")
+                        .monospacedTitleText(textStyle: .headline)
+                }
+                
+                MessageFieldView(
+                    textFieldMessage: $textFieldMessage,
+                    inputMessage: $inputMessage,
+                    errorMessage: $errorMessage,
+                    maxCharsInMessage: maxCharsInMessage
+                )
+                .frame(maxHeight: .infinity)
+                .foregroundColor(.black)
+                
+                if currentView == 1 {
+                    Button("Enter Primes") {
+                        currentView = 2
+                    }
+                        .buttonStyle(MenuButtonStyle())
                 }
                 
                 Group {
@@ -116,40 +151,20 @@ struct ExploreRSAView: View {
                     )
                     
                     Button("Encode Message") {
-                        let inputsValid = checkInputsAreValid()
-                        
-                        if inputsValid {
-                            encodeMessage()
-                            startDecodeButtonAnimation = true
-                        }
-                        else {
-                            errorMessage = ErrorMessages.encodeMessage
-                        }
+                        encodeMessagePressed()                        
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.red)
                     .font(.system(.title3, design: .monospaced))
-                }
-                
-                Group {
+
                     TextInScrollView(message: encodedMessage)
 
                     ScrollView(.horizontal) {
                         Text("Public Key: \(k) \(m)")
                     }
-                    
                 }
-                
-                Group {
-                    HStack {
-                        Button("Clear") {clearInputs()}
-                            .buttonStyle(MenuButtonStyle())
-                        Spacer()
-                        DecodeButtonView(startAnimation: $startDecodeButtonAnimation)
-                        
-                    }.padding([.leading, .trailing])
-                }
-                
+                .opacity(currentView == 1 ? 0.1 : 1.0)
+                .animation(.default, value: currentView)
             }
             .foregroundColor(.white)
         }
@@ -195,8 +210,10 @@ struct ExploreRSAView_Previews: PreviewProvider {
     @StateObject static var vc = ViewCoordinator()
 
     static var previews: some View {
-        ExploreRSAView()
-            .environmentObject(rsa)
-            .environmentObject(vc)
+        NavigationView {
+            ExploreRSAView()
+                .environmentObject(rsa)
+                .environmentObject(vc)
+        }
     }
 }

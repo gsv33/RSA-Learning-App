@@ -116,6 +116,7 @@ struct SplitNumbersInfoView: View {
 }
 
 struct EncodeMessageInfoView: View {
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -125,7 +126,8 @@ struct EncodeMessageInfoView: View {
 }
 
 struct EnterDecodePrimesInfoView: View {
-    
+    @Environment(\.dismiss) var dismiss
+
     var body: some View {
         ZStack {
             Colors.backgroundColor.ignoresSafeArea()
@@ -133,8 +135,81 @@ struct EnterDecodePrimesInfoView: View {
     }
 }
 
+struct DecodingMathInfoView: View {
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        ZStack {
+            Colors.backgroundColor.ignoresSafeArea()
+        }
+    }
+}
+
+struct PrivateKeyInfoView: View {
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        ZStack {
+            Colors.backgroundColor.ignoresSafeArea()
+        }
+    }
+}
+
+struct DecodedMessageInfoView: View {
+    @Environment(\.dismiss) var dismiss
+
+    let title = "Decoded Message"
+    
+    var body: some View {
+        ZStack {
+            Colors.backgroundColor.ignoresSafeArea()
+            
+            VStack {
+                Text(title)
+                    .monospacedTitleText()
+                    .padding()
+
+                
+                Button("Dismiss") { dismiss() }
+                    .buttonStyle(MenuButtonStyle())
+                    .padding()
+
+            }
+            .monospacedBodyText()
+        }
+    }
+}
+
+struct NumbersToTextInfoView: View {
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        ZStack {
+            Colors.backgroundColor.ignoresSafeArea()
+            
+            VStack {
+                Text("Decoded Message Translation")
+                    .monospacedTitleText()
+                    .padding()
+                
+                Text("You should have gotten two very different messages. The message that was decoded with the correct prime numbers should exactly match your input.").padding()
+                
+                Text("The message that was decoded with the wrong prime numbers should make absolutely no sense.").padding()
+                
+                Text("The idea is to give you a sense of how important prime numbers are to the security of the RSA cryptosystem, and so that you can see how just changing the two numbers can make your message completely undecipherable.").padding()
+                
+                Button("Dismiss") { dismiss() }
+                    .buttonStyle(MenuButtonStyle())
+                    .padding()
+            }
+            .monospacedBodyText()
+        }
+    }
+}
+
+
 struct Explanations_Previews: PreviewProvider {
     static var previews: some View {
-        SplitNumbersInfoView()
+        DecodedMessageInfoView()
     }
 }
