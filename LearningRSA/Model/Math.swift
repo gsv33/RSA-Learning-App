@@ -106,16 +106,28 @@ func generatePrimeNumber(numDigits: Int = 4) -> Int {
     return p
 }
 
+// returns the number of digits in the given non-negative integer
+func numDigits(n: Int) -> Int {
+    if n < 0 {
+        return -1
+    }
+    
+    if n == 0 {
+        return 1
+    }
+    
+    return Int(log10(Double(n)) + 1)
+}
+
 
 // checks to see if given String is a prime number
 // and if it is not too long
-func isPrime(p: String, maxDigitsInPrime: Double = 5) -> Bool {
+func isPrime(p: String) -> Bool {
     guard let n = Int(p) else {
         return false
     }
     
-    // if log10(n) == maxDigitsInPrime, there are 1 too many digits
-    if log10(Double(n)) >= maxDigitsInPrime {
+    if numDigits(n: n) > GlobalVars.maxDigitsInPrime {
         return false
     }
     

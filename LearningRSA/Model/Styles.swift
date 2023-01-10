@@ -7,15 +7,6 @@
 
 import SwiftUI
 
-//// holds various style properties accessible to the app
-//struct Styles {
-//    
-//    static let validSymbol = "checkmark"
-//    static let invalidSymbol = "multiply"
-//
-//    
-//}
-
 /*
  Creates a bordered text field that looks better when disabled
  against a black background than the default settings
@@ -139,6 +130,42 @@ struct BackButtonStyle: ButtonStyle {
     }
 }
 
+// Button with white text on dark blue background
+// And flashing white border around button
+struct DecodeButtonStyle: ButtonStyle {
+    @State var strokeLineWidth = 2.0
+    var buttonAnimation = Animation.easeInOut(duration: 1.5)
+    
+    @Binding var startAnimation: Bool
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.system(.headline, design: .monospaced))
+            .foregroundColor(.white)
+            .padding(EdgeInsets(top: 7, leading: 50, bottom: 7, trailing: 50))
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Colors.darkBlue)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(.white, lineWidth: strokeLineWidth)
+            )
+            .opacity(configuration.isPressed ? 0.6 : 1.0)
+            .animation(.easeOut(duration: 0.3), value: configuration.isPressed)
+
+            // Repeating animation won't stop unless it's replaced with an animation that doesn't repeat
+            // See https://stackoverflow.com/questions/59133826/swiftui-stop-an-animation-that-repeats-forever
+            .animation(startAnimation ? buttonAnimation.repeatForever() : buttonAnimation,
+                       value: strokeLineWidth)
+            .onChange(of: startAnimation) {_ in
+                strokeLineWidth = startAnimation ? 0.0 : 2.0
+            }
+    }
+}
+
+
+
 
 
 struct ChecklistToggleStyle: ToggleStyle {
@@ -179,13 +206,20 @@ struct Colors {
     static let modColor = Color.red
     
     static let lightRed = Color(red: 235 / 255, green: 69 / 255, blue: 95 / 255)
+    static let darkBlue = Color(red: 20 / 255, green: 38 / 255, blue: 71 / 255)
+    static let lightBlueGreen = Color(red: 163 / 255, green: 199 / 255, blue: 214 / 255)
+    static let lightPurple = Color(red: 229 / 255, green: 184 / 255, blue: 244 / 255)
+    static let lightBlue = Color(red: 188 / 255, green: 206 / 255, blue: 248 / 255)
 }
 
 struct GlobalVars {
     
     static let invalidSymbol = "multiply"
     static let validSymbol = "checkmark"
+    static let maxDigitsInPrime = 4
+    static let maxCharsInMessage = 50
 
+    
 }
 
 // title text style

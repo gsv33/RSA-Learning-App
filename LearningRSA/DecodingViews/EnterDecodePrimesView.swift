@@ -35,7 +35,7 @@ struct EnterFakePrimesView: View {
         rsa.fakeDecodePrime1 = Int(prime1)!
         rsa.fakeDecodePrime2 = Int(prime2)!
         
-        rsa.computeInvPublicKeys()
+        rsa.computeDecryptionKeys()
         rsa.decodeRealAndFakeMessages()
     }
         
@@ -46,6 +46,7 @@ struct EnterFakePrimesView: View {
             PrimeTextFieldsView(
                 prime1: $prime1, prime2: $prime2,
                 primeImage1: $primeImage1, primeImage2: $primeImage2,
+                errorMessage: $errorMessage,
                 allowEditPrimes: .constant(true),
                 showUseDifferentPrimesCheckbox: false,
                 showGenerateRandomPrimesButton: true,
@@ -92,6 +93,7 @@ struct EnterRealPrimesView: View {
             PrimeTextFieldsView(
                 prime1: .constant(String(rsa.prime1)), prime2: .constant(String(rsa.prime2)),
                 primeImage1: $primeImage1, primeImage2: $primeImage2,
+                errorMessage: $errorMessage,
                 allowEditPrimes: .constant(false),
                 showUseDifferentPrimesCheckbox: false,
                 showGenerateRandomPrimesButton: false,
@@ -164,9 +166,9 @@ struct EnterDecodePrimesView_Previews: PreviewProvider {
 //                    rsa.stringToNumberConversion()
 //                    rsa.computeProductOfPrimes()
 //                    rsa.splitInputNumberByDigits()
-//                    try! rsa.computePublicKeyK()
+//                    try! rsa.computeEncryptionKeyE()
 //                    rsa.encodeMessage()
-//                    rsa.computeInvPublicKeyK()
+//                    rsa.computeDecryptionKeyD()
 //                    rsa.decodeMessage()
 //                    rsa.numberToStringConversion()
 //                })

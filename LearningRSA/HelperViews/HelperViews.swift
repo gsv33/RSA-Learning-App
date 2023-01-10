@@ -49,7 +49,7 @@ struct MoreInfoButton<Content: View>: View {
             Label("More Info", systemImage: "info.square")
         }
         .popover(isPresented: $showInfoPopover) { InfoView }
-        .monospacedBodyText()
+        .monospacedInfoText()
     }
 }
 
@@ -121,8 +121,21 @@ struct TextInScrollView: View {
     }
 }
 
+struct EncodeEquation: View {
+    var body: some View {
+        Text("X\(UnicodeCharacters.superscriptE) mod M")
+            .font(.system(.title))
+            .foregroundColor(Colors.outputColor)
+    }
+}
 
-
+struct DecodeEquation: View {
+    var body: some View {
+        Text("Y\(UnicodeCharacters.superscriptD) mod M")
+            .font(.system(.title))
+            .foregroundColor(Colors.outputColor)
+    }
+}
 
 struct HelperViews_Previews: PreviewProvider {
     static var previews: some View {

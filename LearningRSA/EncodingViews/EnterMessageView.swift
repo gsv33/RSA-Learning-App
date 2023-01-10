@@ -13,8 +13,9 @@ struct MessageFieldView: View {
     @Binding var textFieldMessage: String
     @Binding var inputMessage: String
     @Binding var errorMessage: ErrorMessages
-    let maxCharsInMessage: Int
-
+    let maxCharsInMessage = GlobalVars.maxCharsInMessage
+    var textStyle = Font.TextStyle.title2
+    
     // TODO: Need to test and refactor this function
     func validateText(newValue: String) {
         if textFieldMessage != inputMessage {
@@ -48,7 +49,7 @@ struct MessageFieldView: View {
             .onChange(of: textFieldMessage) { newValue in
                 validateText(newValue: newValue)
             }
-            .font(.system(.title2, design: .monospaced, weight: .medium))
+            .font(.system(textStyle, design: .monospaced, weight: .medium))
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(.white, lineWidth: 10)
@@ -57,33 +58,19 @@ struct MessageFieldView: View {
             .autocorrectionDisabled()
             .keyboardType(.asciiCapable)
             .foregroundColor(.black)
-            .frame(maxWidth: .infinity, maxHeight: 300)
-        
-//        TextField("Enter message here", text: $textFieldMessage, axis: .vertical)
-//            .onChange(of: textFieldMessage) { newValue in
-//                validateText(newValue: newValue)
-//            }
-//            .padding()
-//            .autocorrectionDisabled()
-//            .textFieldStyle(.roundedBorder)
-//            .font(.system(.title2, design: .monospaced, weight: .medium))
-//            .keyboardType(.asciiCapable)
-//            .foregroundColor(.black)
+            .frame(maxWidth: .infinity, maxHeight: 200)
     }
 }
 
 struct EnterMessageView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
 
     @State var textFieldMessage = "THIS"
-    @State var errorMessage: ErrorMessages = .maxMessageLength
+    @State var errorMessage: ErrorMessages = .noError
     @State var inputMessage = "THIS"
     
     @State var showNextView = false
-    
-    let maxCharsInMessage = 15
-    
+        
     func finalValidateText() -> Bool {
         // make sure message does not exceed limit
         if inputMessage.count == 0 {
@@ -92,7 +79,7 @@ struct EnterMessageView: View {
         }
 
         // TODO: Should never happen, throw an error here
-        if inputMessage.count > maxCharsInMessage {
+        if inputMessage.count > GlobalVars.maxCharsInMessage {
             // TODO
             return false
         }
@@ -126,8 +113,7 @@ struct EnterMessageView: View {
                 MessageFieldView(
                     textFieldMessage: $textFieldMessage,
                     inputMessage: $inputMessage,
-                    errorMessage: $errorMessage,
-                    maxCharsInMessage: maxCharsInMessage)
+                    errorMessage: $errorMessage)
                 .padding(.bottom, 10)
                                 
                 Button("Convert message to numbers") {
@@ -141,64 +127,20 @@ struct EnterMessageView: View {
                         //TODO: Reload view if something goes wrong
                     }
                 }.buttonStyle(MenuButtonStyle())
+                
+                Text("You'll have to keep your message under 50 characters so that it's easy to understand what's going on.").padding()
             }
-        }
-        .foregroundColor(Colors.textColor)
-        .onAppear { // TODO: For testing purposes only, need to remove
-//            print("Input String is: \(rsa.inputMessageEng)")
-//            rsa.stringToNumberConversion()
-//            print("Input Number is: \(rsa.inputMessageNum)")
-//            rsa.computeProductOfPrimes()
-//            rsa.splitInputNumberByDigits()
-//            for i in rsa.inputMessageNumList {
-//                print("Split digits are: \(i.value)")
-//            }
-//            try! rsa.computePublicKeyK()
-//            print("K: \(rsa.publicKeyK)")
-//            print("P1: \(rsa.prime1), P2: \(rsa.prime2), M: \(rsa.productOfPrimes)")
-//            rsa.encodeMessage()
-//            for i in rsa.encodedMessageNumList {
-//                print("Encoded message is: \(i.value)")
-//            }
-//            print("Encoded message str: \(rsa.encodedMessageNum)")
-//
-//            rsa.computeInvPublicKeys()
-//            print("Real Inv Key: \(rsa.realInvPublicKeyK)")
-//            print("Fake Inv Key: \(rsa.fakeInvPublicKeyK)")
-//
-//            rsa.decodeRealAndFakeMessages()
-//            for i in rsa.realDecodedMessageNumList {
-//                print("Real decoded message: \(i.value)")
-//            }
-//            print("Real decoded message: \(rsa.realDecodedMessageNum)")
-//
-//            print("")
-//            for i in rsa.fakeDecodedMessageNumList {
-//                print("Fake decoded message: \(i.value)")
-//            }
-//            print("Fake decoded message: \(rsa.fakeDecodedMessageNum)")
-//
-//            rsa.convertDecodedMessagesToEnglish()
-//            print("Fake english: \(rsa.fakeDecodedMessageEng)")
-//            print("Real english: \(rsa.realDecodedMessageEng)")
-//
-//            print("Done.")
-//
-            // Looks good so far!
-        }
+        }.monospacedBodyText()
     }
 }
 
 struct EnterMessageView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
-    @State static var errorMessage: ErrorMessages = .noError
     
     static var previews: some View {
         NavigationView {
             EnterMessageView()
                 .environmentObject(rsa)
-                .environmentObject(vc)
         }
     }
 }

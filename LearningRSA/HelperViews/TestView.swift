@@ -253,6 +253,49 @@ struct GroupTest: View {
     }
 }
 
+// Tests all the RSA functions
+//            print("Input String is: \(rsa.inputMessageEng)")
+//            rsa.stringToNumberConversion()
+//            print("Input Number is: \(rsa.inputMessageNum)")
+//            rsa.computeProductOfPrimes()
+//            rsa.splitInputNumberByDigits()
+//            for i in rsa.inputMessageNumList {
+//                print("Split digits are: \(i.value)")
+//            }
+//            try! rsa.computeEncryptionKeyE()
+//            print("K: \(rsa.encryptionKeyE)")
+//            print("P1: \(rsa.prime1), P2: \(rsa.prime2), M: \(rsa.productOfPrimes)")
+//            rsa.encodeMessage()
+//            for i in rsa.encodedMessageNumList {
+//                print("Encoded message is: \(i.value)")
+//            }
+//            print("Encoded message str: \(rsa.encodedMessageNum)")
+//
+//            rsa.computeDecryptionKeys()
+//            print("Real Inv Key: \(rsa.realDecryptionKeyD)")
+//            print("Fake Inv Key: \(rsa.fakeDecryptionKeyD)")
+//
+//            rsa.decodeRealAndFakeMessages()
+//            for i in rsa.realDecodedMessageNumList {
+//                print("Real decoded message: \(i.value)")
+//            }
+//            print("Real decoded message: \(rsa.realDecodedMessageNum)")
+//
+//            print("")
+//            for i in rsa.fakeDecodedMessageNumList {
+//                print("Fake decoded message: \(i.value)")
+//            }
+//            print("Fake decoded message: \(rsa.fakeDecodedMessageNum)")
+//
+//            rsa.convertDecodedMessagesToEnglish()
+//            print("Fake english: \(rsa.fakeDecodedMessageEng)")
+//            print("Real english: \(rsa.realDecodedMessageEng)")
+//
+//            print("Done.")
+//
+            // Looks good so far!
+
+
 struct TestView_Previews: PreviewProvider {
     
     static var previews: some View {

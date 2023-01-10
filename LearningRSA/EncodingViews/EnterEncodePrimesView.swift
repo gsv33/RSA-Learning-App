@@ -16,11 +16,8 @@ struct EnterEncodePrimesView: View {
     @State var primeImage1 = "checkmark"
     @State var primeImage2 = "checkmark"
     @State var errorMessage: ErrorMessages = .noError
-    
-    let validSymbol = "checkmark"
-    let invalidSymbol = "multiply"
-    
-    let titleText = "Private Key"
+        
+    let titleText = "Prime Numbers"
     
     @State var showInfoPopover = false
     @State var showNextView = false
@@ -35,7 +32,7 @@ struct EnterEncodePrimesView: View {
         rsa.splitInputNumberByDigits()
         
         do {
-            try rsa.computePublicKeyK()
+            try rsa.computeEncryptionKeyE()
             return true
         }
         catch {
@@ -60,23 +57,16 @@ struct EnterEncodePrimesView: View {
                 Text("This is where we start to encrypt your message. Enter two prime numbers below.")
                     .padding()
                 
-                Text("These two numbers are your private key. Anyone who knows them will be able to decipher your message.")
+                Text("These two numbers are used to secure your private key. Anyone who knows them will be able to decipher your message.")
                     .padding()
                 
-                Button(action: {
-                    showInfoPopover = true
-                }) {
-                    Label("More Info", systemImage: "info.square")
-                }
-                .popover(isPresented: $showInfoPopover) { EnterPrimesInfoView() }
-                .monospacedInfoText()
-                .padding()
-
+                MoreInfoButton(showInfoPopover: $showInfoPopover, InfoView: EnterPrimesInfoView())
+                    .padding()
                 
                 PrimeTextFieldsView(
                     prime1: $prime1, prime2: $prime2,
                     primeImage1: $primeImage1, primeImage2: $primeImage2,
-                    validSymbol: validSymbol, invalidSymbol: invalidSymbol,
+                    errorMessage: $errorMessage,
                     allowEditPrimes: .constant(true),
                     showUseDifferentPrimesCheckbox: false
                 )

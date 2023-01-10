@@ -1,11 +1,16 @@
 To Do List
-
-- Set separate error messages for when the inputs are not prime, or when they are but the primes are too long
-    - Additional bugs in the wrong error message showing up
-- Create automatic encoding and decoding updates for the ExploreRSA views
-- Combine checkInputsAreValid functions
+- Additional bugs in the wrong error message showing up
 - sync color scheme across views
-- add generate random message button
-- Set max acceptable digits in prime number
-- ** Primes must be distinct! Otherwise the math doesn't work**
 - Remove 0s from mapping
+- Product of primes must have more than 1 digit
+
+Completed
+x ** Primes must be distinct! Otherwise the math doesn't work**
+x Set max acceptable digits in prime number
+x Set separate error messages for when the inputs are not prime, or when they are but the primes are too long
+x Combine checkInputsAreValid functions
+x Fix animation bug in mod exponentiation
+
+Later
+- add generate random message button
+- Create automatic encoding and decoding updates for the ExploreRSA views

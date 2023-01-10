@@ -14,8 +14,8 @@ struct PrivateKeyView4: View {
     
     var body: some View {
         let M = String(rsa.productOfPrimes)
-        let E = String(rsa.realInvPublicKeyK)
-        let F = String(rsa.fakeInvPublicKeyK)
+        let DReal = String(rsa.realDecryptionKeyD)
+        let DFake = String(rsa.fakeDecryptionKeyD)
         
         Text("Real Private Key")
             .monospacedTitleText(textStyle: .title3)
@@ -24,7 +24,7 @@ struct PrivateKeyView4: View {
             .font(.system(.title2, weight: .semibold))
             .foregroundColor(Colors.outputColor) +
         Text("-") +
-        Text("\(E)")
+        Text("\(DReal)")
             .font(.system(.title2, weight: .semibold))
             .foregroundColor(Colors.outputColor)
         
@@ -45,7 +45,7 @@ struct PrivateKeyView4: View {
             .font(.system(.title2, weight: .semibold))
             .foregroundColor(Colors.lightRed) +
         Text("-") +
-        Text("\(F)")
+        Text("\(DFake)")
             .font(.system(.title2, weight: .semibold))
             .foregroundColor(Colors.lightRed)
                 
@@ -57,13 +57,13 @@ struct PrivateKeyView4: View {
 // added because otherwise the compiler was not
 // able to type-check the expression
 struct HelperEquationView: View {
-    let D: String
+    let E: String
     let phi: String
     
     var body: some View{
-        Text("\(D)").foregroundColor(Colors.inputColor) +
+        Text("\(E)").foregroundColor(Colors.inputColor) +
         Text(" x ") +
-        Text("E").foregroundColor(Colors.inputColor) +
+        Text("D").foregroundColor(Colors.inputColor) +
         Text(" - ") +
         Text("\(phi)").foregroundColor(Colors.inputColor) +
         Text(" x ") +
@@ -74,17 +74,15 @@ struct HelperEquationView: View {
 
 struct PrivateKeyView3: View {
     @EnvironmentObject var rsa: RSA
+    @Binding var currentView: Int
     
     var body: some View {
         let M = String(rsa.productOfPrimes)
-        let D = String(rsa.publicKeyK)
-        let E = String(rsa.realInvPublicKeyK)
+        let E = String(rsa.encryptionKeyE)
+        let D = String(rsa.realDecryptionKeyD)
         let phi = String(rsa.encodePhi)
         
-        Text("X = Y\(UnicodeCharacters.superscriptE) mod M")
-            .font(.system(.title))
-            .foregroundColor(Colors.outputColor)
-            .padding()
+        DecodeEquation().padding()
         
         Group {
             Text("M = ") + Text("\(M)").foregroundColor(Colors.outputColor)
@@ -92,15 +90,15 @@ struct PrivateKeyView3: View {
         .font(.system(.title2))
         .padding(.bottom)
 
-        Text("Now we solve this equation for E ")
+        Text("Now we solve this equation for D ")
             .padding(.bottom)
 
-        HelperEquationView(D: D, phi: phi)
+        HelperEquationView(E: E, phi: phi)
             .padding(.bottom)
         
         Text("We get").padding(.bottom, 3)
         Group {
-            Text("E = ") + Text("\(E)").foregroundColor(Colors.outputColor)
+            Text("D = ") + Text("\(D)").foregroundColor(Colors.outputColor)
         }
         .font(.system(.title2))
 
@@ -112,12 +110,13 @@ struct PrivateKeyView3: View {
                 .font(.system(.title2, weight: .semibold))
                 .foregroundColor(Colors.outputColor) +
             Text("-") +
-            Text("\(E)")
+            Text("\(D)")
                 .font(.system(.title2, weight: .semibold))
                 .foregroundColor(Colors.outputColor)
         }
                 
         Button("Next") {
+            currentView += 1
         }
         .buttonStyle(MenuButtonStyle())
         .padding()
@@ -127,19 +126,18 @@ struct PrivateKeyView3: View {
 
 struct PrivateKeyView2: View {
     @EnvironmentObject var rsa: RSA
+    @Binding var currentView: Int
     
     var body: some View {
         let prime1 = String(rsa.prime1)
         let prime2 = String(rsa.prime2)
         let M = String(rsa.productOfPrimes)
-        let D = String(rsa.publicKeyK)
-        let E = String(rsa.realInvPublicKeyK)
+        let E = String(rsa.encryptionKeyE)
+//        let E = String(rsa.realDecryptionKeyD)
         let phi = String(rsa.encodePhi)
         
         VStack {
-            Text("X = Y\(UnicodeCharacters.superscriptE) mod M")
-                .font(.system(.title))
-                .foregroundColor(Colors.outputColor)
+            DecodeEquation()
                 .padding()
             
             Text("M is taken from the public key, so:")
@@ -151,15 +149,15 @@ struct PrivateKeyView2: View {
             .font(.system(.title2))
             .padding(.bottom)
             
-            Text("E is calculated by solving the equation:").padding(.bottom)
+            Text("D is calculated by solving the equation:").padding(.bottom)
             Text("DE - ΦK = 1")
                 .font(.system(.title2))
                 .padding(.bottom)
             
             Group {
-                Text("D is taken from the public key, so:").padding(.bottom,3)
+                Text("E is taken from the public key, so:").padding(.bottom,3)
                 Group {
-                    Text("D = ") + Text("\(D)").foregroundColor(Colors.outputColor)
+                    Text("E = ") + Text("\(E)").foregroundColor(Colors.outputColor)
                 }
                 .font(.system(.title2))
                 .padding(.bottom)
@@ -184,6 +182,7 @@ struct PrivateKeyView2: View {
             }
             
             Button("Next") {
+                currentView += 1
             }
             .buttonStyle(MenuButtonStyle())
             .padding()
@@ -208,9 +207,13 @@ struct PrivateKeyView: View {
             
             VStack {
                 if currentView == 1 {
-                    Text("Just like how your public key was the two components D and M in the equation: ").padding()
+                    Text("Just like how your public key was the two components E and M in the equation: ").padding()
                     
-                    Text("Your private key is the two components E and M in the equation: ").padding()
+                    EncodeEquation()
+                    
+                    Text("Your private key is the two components D and M in the equation: ").padding()
+                    
+                    DecodeEquation()
                     
                     Text("Now we'll compute the private key using both the real primes you used to encode your message, and the fake ones that simulate what a hacker might try.").padding()
                     
@@ -220,10 +223,10 @@ struct PrivateKeyView: View {
                     .buttonStyle(MenuButtonStyle())
                 }
                 else if currentView == 2 {
-                    PrivateKeyView2()
+                    PrivateKeyView2(currentView: $currentView)
                 }
                 else if currentView == 3 {
-                    PrivateKeyView3()
+                    PrivateKeyView3(currentView: $currentView)
                 }
                 else {
                     PrivateKeyView4()

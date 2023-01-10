@@ -30,19 +30,13 @@ struct DecodingMathView: View {
                 Text("Remember the formula we used to encode the message, where our original message was X and our encoded message was Y?")
                     .padding([.leading, .trailing, .bottom])
                 
-                Text("Y = X\(UnicodeCharacters.superscriptD) mod M")
-                    .font(.system(.title))
-                    .foregroundColor(Colors.outputColor)
-                    .padding()
+                EncodeEquation().padding()
 
-                Text("To decode it, we use almost the exact same formula. The only difference is that we use a different exponent, E, instead of D. We calculate E by solving the equation: de - phi*y = 1").padding()
+                Text("To decode it, we use almost the exact same formula. The only difference is that we use a different exponent, D, instead of E. We calculate D by solving the equation: de - phi*y = 1").padding()
                 
                 Text("So given, an encoded message Y, we can get X back by solving: ")
                 
-                Text("X = Y\(UnicodeCharacters.superscriptE) mod M")
-                    .font(.system(.title))
-                    .foregroundColor(Colors.outputColor)
-                    .padding()
+                DecodeEquation().padding()
                 
                 MoreInfoButton(
                     showInfoPopover: $showInfoPopover,

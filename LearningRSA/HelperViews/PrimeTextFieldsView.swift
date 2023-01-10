@@ -10,19 +10,59 @@ import SwiftUI
 struct PrimeTextFieldsView: View {
     @Binding var prime1: String
     @Binding var prime2: String
+    @State var prime1Old: String = ""
+    @State var prime2Old: String = ""
     
     @Binding var primeImage1: String
     @Binding var primeImage2: String
     
-    var validSymbol: String = "checkmark"
-    var invalidSymbol: String = "multiply"
+    let validSymbol = GlobalVars.validSymbol
+    let invalidSymbol = GlobalVars.invalidSymbol
     
+    @Binding var errorMessage: ErrorMessages
     @Binding var allowEditPrimes: Bool
     var showUseDifferentPrimesCheckbox = true
     var showGenerateRandomPrimesButton = true
         
     var title = "Primes"
     var titleTextStyle = Font.TextStyle.title
+    
+    func inputValidation(newVal: String, newPrime: inout String, oldPrime: inout String) {
+        
+        // necessary to make sure function isn't called again after changing newPrime
+        if newPrime == oldPrime {
+            return
+        }
+        
+        if newVal == "" {
+            errorMessage = .noError
+            oldPrime = newVal
+            return
+        }
+        
+        // only allow numbers to be added
+        guard let validInt = Int(newVal) else {
+            errorMessage = .notNumber
+            newPrime = oldPrime
+            return
+        }
+
+        if validInt < 0 {
+            errorMessage = .notNumber
+            newPrime = oldPrime
+            return
+        }
+        
+        // primes must be under a certain length
+        if newVal.count > GlobalVars.maxDigitsInPrime {
+            errorMessage = .primesLimitReached
+            newPrime = oldPrime
+            return
+        }
+        
+        errorMessage = .noError
+        oldPrime = newVal
+    }
     
     var body: some View {
         Text(title)
@@ -44,14 +84,18 @@ struct PrimeTextFieldsView: View {
             GridRow {
                 TextField("Prime 1", text: $prime1)
                     .borderedTextField(disable: !allowEditPrimes)
-                    .onChange(of: prime1) { _ in
+                    .onChange(of: prime1) { newVal in
+                        inputValidation(newVal: newVal, newPrime: &prime1, oldPrime: &prime1Old)
+                        
                         let p1 = isPrime(p: prime1)
                         primeImage1 = p1 ? validSymbol : invalidSymbol
                     }
                 
                 TextField("Prime 2", text: $prime2)
                     .borderedTextField(disable: !allowEditPrimes)
-                    .onChange(of: prime2) { _ in
+                    .onChange(of: prime2) { newVal in
+                        inputValidation(newVal: newVal, newPrime: &prime2, oldPrime: &prime2Old)
+                        
                         let p2 = isPrime(p: prime2)
                         primeImage2 = p2 ? validSymbol : invalidSymbol
                     }
@@ -96,17 +140,22 @@ struct PreviewView: View {
     @State var prime2 = "5678"
     @State var primeImage1 = "multiply"
     @State var primeImage2 = "multiply"
+    @State var errorMessage = ErrorMessages.noError
+    
     
     var body: some View {
         ZStack {
             Colors.backgroundColor.ignoresSafeArea()
          
             VStack {
+                ErrorMessageBar(errorMessage: errorMessage).padding()
+                
                 PrimeTextFieldsView(
                     prime1: $prime1,
                     prime2: $prime2,
                     primeImage1: $primeImage1,
                     primeImage2: $primeImage2,
+                    errorMessage: $errorMessage,
                     allowEditPrimes: .constant(true),
                     showUseDifferentPrimesCheckbox: false
                 )

@@ -48,6 +48,7 @@ struct EncodeMessageViewPart2: View {
     @EnvironmentObject var rsa: RSA
     @Binding var animationFinished: Bool
     @Binding var hideText: Bool
+    @State var startAnimation = false
     
     var body: some View {
         
@@ -63,23 +64,38 @@ struct EncodeMessageViewPart2: View {
             
             Group {
                 Text("Public key:")
-                Text("\(String(rsa.publicKeyK))")
-                    .foregroundColor(Colors.expColor) +
+                Text("\(String(rsa.encryptionKeyE))")
+                    .foregroundColor(Colors.lightBlue) +
                 Text("-") +
                 Text("\(String(rsa.productOfPrimes))")
-                    .foregroundColor(Colors.modColor)
+                    .foregroundColor(Colors.lightBlue)
             }
             
-            Text("Encoding:").padding(.top)
+            if !startAnimation {
+                Button("Begin Encoding") {
+                    withAnimation(.easeIn) {
+                        startAnimation = true
+                    }
+                }
+                .buttonStyle(MenuButtonStyle())
+                .padding()
+            }
+            
+            if startAnimation {
+                Text("Encoding:").padding(.top)
+            }
         }
-        EncodedMessageOutputList(
-            inputs: rsa.inputMessageNumList,
-            outputs: rsa.encodedMessageNumList,
-            exponent: String(rsa.publicKeyK),
-            modulus: String(rsa.productOfPrimes),
-            animationFinished: $animationFinished,
-            hideText: $hideText
-        )
+
+        if startAnimation {
+            EncodedMessageOutputList(
+                inputs: rsa.inputMessageNumList,
+                outputs: rsa.encodedMessageNumList,
+                exponent: String(rsa.encryptionKeyE),
+                modulus: String(rsa.productOfPrimes),
+                animationFinished: $animationFinished,
+                hideText: $hideText
+            )
+        }
     }
 }
 
@@ -93,15 +109,13 @@ struct EncodeMessageViewPart1: View {
             Text("Now, we can finally encode your message. To do this, we use modular exponentiation.")
                 .padding()
             
-            Text("We take each of your input numbers, A, raise it to the power, D, and take the remainder with respect to M, where M and D are the two parts of the public key we computed earlier.")
+            Text("We take each of your input numbers, A, raise it to the power, E, and take the remainder with respect to M, where M and E are the two parts of the public key we computed earlier.")
                 .padding([.leading, .trailing, .bottom])
             
             Text("Mathematically, this equation is: ")
         }
         
-        Text("A\(UnicodeCharacters.superscriptD) mod M")
-            .font(.system(.title))
-            .foregroundColor(Colors.outputColor)
+        EncodeEquation()
             .padding()
         
     }

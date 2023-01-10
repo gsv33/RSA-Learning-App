@@ -11,15 +11,18 @@ import SwiftUI
 struct EncodedMessageOutputList: View {
     var inputs: [Number]
     var outputs: [Number]
-    var exponent: String = "d"
-    var modulus: String = "m"
+    var exponentSymbol: String = "E"
+    var modulusSymbol: String = "M"
+    
+    var exponent: String
+    var modulus: String
     
     @Binding var animationFinished: Bool
     @Binding var hideText: Bool
     
     @State private var currNum = 0
-    @State private var currInput = "X"
-    @State private var currOutput = "Y"
+    @State private var currInput = "A"
+    @State private var currOutput = "B"
 
     @State var showEncodedNums: [Bool] = []
     
@@ -30,11 +33,13 @@ struct EncodedMessageOutputList: View {
         let listCount = inputs.count
         
         if currNum < listCount {
-            currInput = String(inputs[currNum].value)
-            currOutput = String(outputs[currNum].value)
-            showEncodedNums[currNum] = true
-            
-            currNum += 1
+            withAnimation {
+                currInput = String(inputs[currNum].value)
+                currOutput = String(outputs[currNum].value)
+                showEncodedNums[currNum] = true
+                
+                currNum += 1
+            }
         }
         else {
             // Note: updating the binding here will cause the view to be reloaded
@@ -54,15 +59,17 @@ struct EncodedMessageOutputList: View {
                         .foregroundColor(Colors.inputColor)
                     Grid {
                         GridRow {
-                            Text(exponent)
-                                .foregroundColor(Colors.expColor)
+                            Text(currNum == 0 ? exponentSymbol : exponent)
+                                .foregroundColor(Colors.lightBlue)
                         }
                         GridRow {Text("")}
                         GridRow {Text("")}
                     }
                     
                     Group {
-                        Text("mod ") + Text("\(modulus)").foregroundColor(Colors.modColor)
+                        Text("mod ") +
+                        Text(currNum == 0 ? modulusSymbol : modulus)
+                            .foregroundColor(Colors.lightBlue)
                     }
                     .font(.system(size: 24))
                     .padding([.leading],10)
@@ -93,6 +100,7 @@ struct EncodedMessageOutputList: View {
         .onAppear {
             let encodedNumsCount = outputs.count
             showEncodedNums = Array(repeating: false, count: encodedNumsCount)
+//            updateEquation()
         }
         .onReceive(timer) { _ in
             updateEquation()
@@ -108,8 +116,8 @@ struct EncodedMessageOutputList_Previews: PreviewProvider {
         EncodedMessageOutputList(
             inputs: [Number(value: "A")],
             outputs: [Number(value: "B")],
-            exponent: "d",
-            modulus: "m",
+            exponent: "E",
+            modulus: "M",
             animationFinished: $animationFinished,
             hideText: .constant(false)
         )

@@ -89,7 +89,7 @@ struct GenerateKeysView: View {
                     
                         Text("\(String(rsa.encodePhi))").foregroundColor(Colors.inputColor) +
                         Text(" is relatively prime to ") +
-                        Text("\(String(rsa.publicKeyK))").foregroundColor(Colors.outputColor)
+                        Text("\(String(rsa.encryptionKeyE))").foregroundColor(Colors.outputColor)
                     }
                     .opacity(textOpacity4)
                     .animation(.easeIn(duration: 1.0), value: textOpacity4)
@@ -102,7 +102,7 @@ struct GenerateKeysView: View {
                             .font(.system(.title2, weight: .semibold))
                             .foregroundColor(Colors.outputColor) +
                         Text("-") +
-                        Text("\(String(rsa.publicKeyK))")
+                        Text("\(String(rsa.encryptionKeyE))")
                             .font(.system(.title2, weight: .semibold))
                             .foregroundColor(Colors.outputColor)
                         

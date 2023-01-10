@@ -50,53 +50,53 @@ class RSA: ObservableObject {
         return (fakeDecodePrime1 - 1) * (fakeDecodePrime2 - 1)
     }
     
-    var publicKeyK: Int = 2079
-    var realInvPublicKeyK: Int = 19000319
-    var fakeInvPublicKeyK: Int = 4440983
+    var encryptionKeyE: Int = 2079
+    var realDecryptionKeyD: Int = 19000319
+    var fakeDecryptionKeyD: Int = 4440983
     
     var productOfPrimes: Int = 31090771
+    var inputNumDigits: Int { // number of digits in each number before encoding
+        return String(productOfPrimes).count - 1
+    }
+    var encodedNumDigits: Int { // number of digits in each number after encoding
+        return String(productOfPrimes).count
+    }
     
     // number of integers relatively prime to the product of the primes
     var encodePhi: Int {
         return (prime1 - 1) * (prime2 - 1)
     }
     
-    // uses inputMessageNumList, publicKeyK, and productOfPrimes to
+    // uses inputMessageNumList, encryptionKeyE, and productOfPrimes to
     // encode the message by modular exponentiation
     func encodeMessage() {
         encodedMessageNumList = []
         encodedMessageNum = ""
         
         var numVal = 0
-        var leadingZerosAdjustment = ""
-        var encodedNum = 0
+        var encodedNum = ""
         
         for inputNum in inputMessageNumList {
-            let numAdjusted = adjustLeadingZeros(originalStr: inputNum.value) // e.g. "00123" -> "-2123"
-            numVal = Int(numAdjusted)! //TODO: Make sure this is really an integer
+            numVal = Int(inputNum.value)! //TODO: Make sure this is really an integer
             
-            if numVal < 0 {
-                leadingZerosAdjustment = String(String(numVal).prefix(2)) // e.g. -450 -> -4
-                numVal = Int(String(numVal).dropFirst(2))! // e.g. -450 -> 50
-                
-                encodedNum = modExponent(base: numVal, power: publicKeyK, modulo: productOfPrimes) // 50 -> 72
-                encodedNum = Int("\(leadingZerosAdjustment)\(encodedNum)")! // 72 -> -472
-            }
-            else {
-                encodedNum = modExponent(base: numVal, power: publicKeyK, modulo: productOfPrimes)
+            encodedNum = String(modExponent(base: numVal, power: encryptionKeyE, modulo: productOfPrimes))
+            
+            // pad encodedNum with leading zeros if necessary
+            if encodedNum.count < encodedNumDigits {
+                let numZeros = encodedNumDigits - encodedNum.count
+                encodedNum = String(repeating: "0", count: numZeros) + encodedNum
             }
             
-            encodedMessageNumList.append(Number(value: String(encodedNum)))
-            encodedMessageNum.append(String(encodedNum))
-            leadingZerosAdjustment = ""
+            encodedMessageNumList.append(Number(value: encodedNum))
+            encodedMessageNum.append(encodedNum)
         }        
     }
     
-    // calculate inverse of publicKeyK modulo phi
-    func computeInvPublicKeyK(phi: Int) -> Int {
+    // calculate inverse of encryptionKeyE modulo phi
+    func computeDecryptionKeyD(phi: Int) -> Int {
         do {
-            let (invK, invPhi, gcd) = try extendedEuclidean(a: publicKeyK, b: phi)
-            guard invK > 0 && invPhi < 0 else {
+            let (invKey, invPhi, gcd) = try extendedEuclidean(a: encryptionKeyE, b: phi)
+            guard invKey > 0 && invPhi < 0 else {
                 print("Error decoding the message")
                 return -1
             }
@@ -105,7 +105,7 @@ class RSA: ObservableObject {
                 print("Incorrect primes given. Value of phi is not correct.")
             }
             
-            return invK
+            return invKey
         }
         catch {
             print("Something went wrong! You need to enter two positive integers.")
@@ -113,13 +113,13 @@ class RSA: ObservableObject {
         }
     }
     
-    func computeInvPublicKeys() {
-        realInvPublicKeyK = computeInvPublicKeyK(phi: realDecodePhi)
-        fakeInvPublicKeyK = computeInvPublicKeyK(phi: fakeDecodePhi)
+    func computeDecryptionKeys() {
+        realDecryptionKeyD = computeDecryptionKeyD(phi: realDecodePhi)
+        fakeDecryptionKeyD = computeDecryptionKeyD(phi: fakeDecodePhi)
     }
     
     // TODO: Combine with encode message function?
-    func decodeMessage(invPublicKeyK: Int, decodedMessageList: inout [Number], decodedMessageNum: inout String) {
+    func decodeMessage(decryptionKeyD: Int, decodedMessageList: inout [Number], decodedMessageNum: inout String) {
         decodedMessageList = []
         decodedMessageNum = ""
         
@@ -129,19 +129,14 @@ class RSA: ObservableObject {
         for encodedNum in encodedMessageNumList {
             numVal = Int(encodedNum.value)!
 
-            if numVal < 0 {
-                let numZeros = Int(String(numVal).prefix(2).dropFirst())! // e.g. "-450" -> 4
-                let leadingZeros = String(repeating: "0", count: numZeros)
-                
-                numVal = Int(String(numVal).dropFirst(2))! // e.g. -450 -> 50
-                decodedNum = String(modExponent(base: numVal, power: invPublicKeyK, modulo: productOfPrimes)) // e.g. 50 -> 72
-
-                decodedNum = "\(leadingZeros)\(decodedNum)"
+            decodedNum = String(modExponent(base: numVal, power: decryptionKeyD, modulo: productOfPrimes))
+            
+            // pad decodedNum with leading zeros if necessary
+            if decodedNum.count < inputNumDigits {
+                let numZeros = inputNumDigits - decodedNum.count
+                decodedNum = String(repeating: "0", count: numZeros) + decodedNum
             }
-            else {
-                decodedNum = String(modExponent(base: numVal, power: invPublicKeyK, modulo: productOfPrimes))
-            }
-                        
+                                   
             decodedMessageList.append(Number(value: decodedNum))
             decodedMessageNum += decodedNum
         }
@@ -149,13 +144,13 @@ class RSA: ObservableObject {
     
     func decodeRealAndFakeMessages() {
         decodeMessage(
-            invPublicKeyK: realInvPublicKeyK,
+            decryptionKeyD: realDecryptionKeyD,
             decodedMessageList: &realDecodedMessageNumList,
             decodedMessageNum: &realDecodedMessageNum
         )
 
         decodeMessage(
-            invPublicKeyK: fakeInvPublicKeyK,
+            decryptionKeyD: fakeDecryptionKeyD,
             decodedMessageList: &fakeDecodedMessageNumList,
             decodedMessageNum: &fakeDecodedMessageNum
         )
@@ -165,26 +160,26 @@ class RSA: ObservableObject {
         productOfPrimes = prime1 * prime2
     }
     
-    // an integer relatively prime to phi that completes the public key
-    func computePublicKeyK() throws {
+    // an integer relatively prime to phi that completes the encryption key
+    func computeEncryptionKeyE() throws {
 
         let numDigitsPrime1 = Int(log10(Double(prime1)) + 1)
         let numDigitsPrime2 = Int(log10(Double(prime2)) + 1)
-        let numDigitsK = (numDigitsPrime1 + numDigitsPrime2) / 2
+        let numDigitsE = (numDigitsPrime1 + numDigitsPrime2) / 2
         
-        let randomRangeStart = Int(pow(10.0, Double(numDigitsK - 1)))
-        let randomRangeEnd = Int(pow(10.0, Double(numDigitsK)))
+        let randomRangeStart = Int(pow(10.0, Double(numDigitsE - 1)))
+        let randomRangeEnd = Int(pow(10.0, Double(numDigitsE)))
 
-        var gcd = 0 // gcd(phi, publicKeyK)
-        var tempK = 0
+        var gcd = 0 // gcd(phi, encryptionKeyE)
+        var tempE = 0
         
-        // calculate publicKeyK by generating random numbers and checking if gcd = 1
+        // calculate encryptionKeyE by generating random numbers and checking if gcd = 1
         while gcd != 1 {
-            tempK = Int.random(in: randomRangeStart ..< randomRangeEnd)
-            (_, _, gcd) = try extendedEuclidean(a: tempK, b: encodePhi)
+            tempE = Int.random(in: randomRangeStart ..< randomRangeEnd)
+            (_, _, gcd) = try extendedEuclidean(a: tempE, b: encodePhi)
         }
         
-        publicKeyK = tempK
+        encryptionKeyE = tempE
     }
     
     // converts inputMessageEng to inputMessageNum using charToNumEncoding
@@ -229,9 +224,8 @@ class RSA: ObservableObject {
     // each number has fewer digits than the product of the primes
     func splitInputNumberByDigits() {
         inputMessageNumList = []
-        let maxDigits = String(productOfPrimes).count
         
-        guard maxDigits > 0 else {
+        guard inputNumDigits > 0 else {
             print("Error splitting the input number into separate numbers")
             return
         }
@@ -241,7 +235,7 @@ class RSA: ObservableObject {
         for num in inputMessageNum {
             substring.append(num)
             
-            if substring.count == maxDigits - 1 {
+            if substring.count == inputNumDigits {
                 guard let _ = Int(substring) else { //TODO: Need to handle this error
                     print("Error. Invalid int entered")
                     return
@@ -252,15 +246,15 @@ class RSA: ObservableObject {
             }
         }
         
-        // Add remaining substring to array, regardless of length
+        // Pad the remaining characters with 0s to get a message of desired size
         if substring != "" {
             guard let _ = Int(substring) else { //TODO: Need to handle this error
                 print("Error. Invalid int entered")
                 return
             }
 
-            inputMessageNumList.append(Number(value: substring))
-            substring = ""
+            let paddedStr = substring.padding(toLength: inputNumDigits, withPad: "0", startingAt: 0)
+            inputMessageNumList.append(Number(value: paddedStr))
         }
     }
     

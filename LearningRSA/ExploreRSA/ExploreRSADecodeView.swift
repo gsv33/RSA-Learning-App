@@ -12,22 +12,29 @@ struct ExploreRSADecodeView: View {
     @EnvironmentObject var vc: ViewCoordinator
     
     @State var encodedMessage = "123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345"
-    @State var errorMessage: ErrorMessages = .noError
+    @State var errorMessage: ErrorMessages = .maxMessageLength
 
     @State var prime1 = "1061"
     @State var prime2 = "1531"
 
     @State var primeImage1 = "checkmark"
     @State var primeImage2 = "checkmark"
-    let validSymbol = "checkmark"
-    let invalidSymbol = "multiply"
 
     @State var useDifferentPrimes = false
     @State var decodedMessage = "This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!"
     @State var showDecodedMessage = false
+    @State var showNextView = false
+    
+    // resets primes back to the values used with the encoding
+    func resetPrimes() {
+        prime1 = String(rsa.prime1)
+        prime2 = String(rsa.prime2)
+        
+        useDifferentPrimes = false
+    }
     
     func decodeMessage() {
-        rsa.computeInvPublicKeys()
+        rsa.computeDecryptionKeys()
         rsa.decodeRealAndFakeMessages()
         rsa.convertDecodedMessagesToEnglish()
     }
@@ -47,84 +54,80 @@ struct ExploreRSADecodeView: View {
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
+                .toolbar { ExploreRSAToolbar(titleText: "Decode Message",
+                                             clearInputs: {},
+                                             showDecodeButton: .constant(false),
+                                             showNextView: $showNextView,
+                                             encodeView: false)
+                }
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarBackButtonHidden()
+
             
-            VStack {
-                HStack {
-                    Button("Menu") {vc.currentView = .welcomeView}
-                        .buttonStyle(MenuButtonStyle())
-                    
-                    Spacer()
-                }.padding([.leading])
-                                
-                ErrorMessageBar(errorMessage: errorMessage)
+            
+            VStack {                                
+                ErrorMessageBar(errorMessage: errorMessage).padding(10)
                 
-                Text("Decode your message")
-                    .font(.system(.title, design: .monospaced))
-                
-                TextInScrollView(message: encodedMessage)
-                
-                Group {
-                    PrimeTextFieldsView(
-                        prime1: $prime1, prime2: $prime2,
-                        primeImage1: $primeImage1, primeImage2: $primeImage2,
-                        validSymbol: validSymbol, invalidSymbol: invalidSymbol,
-                        allowEditPrimes: $useDifferentPrimes
-                    )
+                Text("Your encoded message")
+                    .monospacedTitleText(textStyle: .headline)
 
-                    Button("Decode Message") {
-                        decodeMessagePressed()
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.red)
-                    .font(.system(.title3, design: .monospaced))
+                ScrollView() {
+                    Text(encodedMessage)
+                        .font(.system(.title3, design: .monospaced))
+                        .padding()
                 }
-
-                Group {
-                    DecodedMessageTextView(message: decodedMessage)
-                        .opacity(showDecodedMessage ? 1.0 : 0.10)
-                }
-
-                Group {
-                    HStack {
-                        Button("Back to Encode") {
-                            vc.currentView = .exploreRSAView
-                        }
-                            .buttonStyle(MenuButtonStyle())
-
-                        Spacer()
-
-                    }.padding([.leading, .trailing])
-                }
-            }.foregroundColor(.white)
-        }
-    }
-}
-
-struct DecodedMessageTextView: View {
-    let message: String
-    
-    var body: some View {
-        ScrollView() {
-            Text(message)
-                .foregroundColor(.black)
-                .padding([.top, .bottom], 8)
-                .padding([.leading, .trailing], 12)
+                .frame(maxWidth: .infinity, maxHeight: 150)
                 .background(
-                    RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(.white, lineWidth: 3)
+                ).padding([.leading, .trailing,.bottom])
+
+                PrimeTextFieldsView(
+                    prime1: $prime1, prime2: $prime2,
+                    primeImage1: $primeImage1, primeImage2: $primeImage2,
+                    errorMessage: $errorMessage,
+                    allowEditPrimes: $useDifferentPrimes,
+                    title: "Keep or change prime numbers", titleTextStyle: .headline
+                )
+
+                Button("Decode Message") {
+                    decodeMessagePressed()
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.red)
+                .font(.system(.title3, design: .monospaced))
+            
+//                DecodedMessageTextView(message: decodedMessage)
+
+                ScrollView() {
+                    Text(decodedMessage)
+                        .foregroundColor(.black)
+                        .padding()
+                        .font(.system(.title3, design: .monospaced))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
                         .fill(.white)
                 )
-                .font(.system(.title2, design: .monospaced, weight: .medium))
+                .padding()
+                .opacity(showDecodedMessage ? 1.0 : 0.10)
+                .animation(.default, value: showDecodedMessage)                
+            }.monospacedBodyText()
         }
     }
 }
+
 
 struct ExploreRSADecodeView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
     @StateObject static var vc = ViewCoordinator()
     
     static var previews: some View {
-        ExploreRSADecodeView()
-            .environmentObject(rsa)
-            .environmentObject(vc)
+        NavigationView {
+            ExploreRSADecodeView()
+                .environmentObject(rsa)
+                .environmentObject(vc)
+        }
     }
 }

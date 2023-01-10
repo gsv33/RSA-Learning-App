@@ -18,7 +18,7 @@ struct DecodeMessageView2: View {
         let fakePrime1 = String(rsa.fakeDecodePrime1)
         let fakePrime2 = String(rsa.fakeDecodePrime2)
         let M = String(rsa.productOfPrimes)
-        let F = String(rsa.fakeInvPublicKeyK)
+        let DFake = String(rsa.fakeDecryptionKeyD)
         
         VStack {
             Text("Here's your decoded message:").padding()
@@ -37,7 +37,7 @@ struct DecodeMessageView2: View {
                 Text("\(M)")
                     .foregroundColor(Colors.lightRed) +
                 Text("-") +
-                Text("\(F)")
+                Text("\(DFake)")
                     .foregroundColor(Colors.lightRed)
                 
                 Text("Fake Decoded Message:").padding(.top)
@@ -65,7 +65,7 @@ struct DecodeMessageView1: View {
     @State private var animationFinished = false
     
     var body: some View {
-        let E = String(rsa.realInvPublicKeyK)
+        let D = String(rsa.realDecryptionKeyD)
         let M = String(rsa.productOfPrimes)
 
         VStack {
@@ -74,15 +74,8 @@ struct DecodeMessageView1: View {
                 Text("Now we are ready to decode the message. Remember the equation we use to take an encoded message, Y, and get back the original decoded message, X.").padding()
             }
             
-            Group {
-                Text("X = Y") +
-                Text("\(UnicodeCharacters.superscriptE)") +
-                Text(" mod ") +
-                Text("M")
-            }
-            .font(.system(.title))
-            .foregroundColor(Colors.outputColor)
-            .padding(.bottom)
+            DecodeEquation()
+                .padding(.bottom)
 
             if !hideText {
                 
@@ -93,19 +86,13 @@ struct DecodeMessageView1: View {
                     }
                 }.padding(.bottom)
                 
-                Text("Your private key:").padding(.bottom, 3)
+                Text("Your private key:")
                 Group {
-                    Text("\(E)")
-                        .foregroundColor(Colors.expColor) +
+                    Text("\(D)")
+                        .foregroundColor(Colors.lightBlue) +
                     Text("-") +
                     Text("\(M)")
-                        .foregroundColor(Colors.modColor)
-                }
-                .font(.system(.title2))
-                
-                Group {
-                    Text("E = ") + Text("\(E)").foregroundColor(Colors.expColor)
-                    Text("M = ") + Text("\(M)").foregroundColor(Colors.modColor)
+                        .foregroundColor(Colors.lightBlue)
                 }
                 
                 Text("Decoding:").padding(.top)
@@ -114,7 +101,7 @@ struct DecodeMessageView1: View {
             EncodedMessageOutputList(
                 inputs: rsa.encodedMessageNumList,
                 outputs: rsa.realDecodedMessageNumList,
-                exponent: E,
+                exponent: D,
                 modulus: M,
                 animationFinished: $animationFinished,
                 hideText: $hideText

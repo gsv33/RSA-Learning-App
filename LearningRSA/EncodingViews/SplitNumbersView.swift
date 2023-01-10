@@ -58,14 +58,14 @@ struct SplitNumbersView: View {
                     Text("Your public key:\n ") +
                     Text("\(String(rsa.encodePhi))").foregroundColor(Colors.outputColor) +
                     Text("-") +
-                    Text("\(String(rsa.publicKeyK))").foregroundColor(Colors.outputColor)
+                    Text("\(String(rsa.encryptionKeyE))").foregroundColor(Colors.outputColor)
                 }
                 .onAppear { textOpacity1 = 1.0 }
                 .opacity(textOpacity1)
                 .animation(.easeIn(duration: 1.0), value: textOpacity1)
 
                 Group {
-                    Text("Before we can convert your message, we need to split it up into pieces smaller than the first part of your public key. This lets us properly apply the mathematical transformation the secures the message.").padding()
+                    Text("Before we can convert your message, we need to split it up into pieces smaller than the product of your two primes. This lets us properly apply the mathematical transformation to secures the message.").padding()
                 }
                 .opacity(textOpacity2)
                 .animation(.easeIn(duration: 1.0), value: textOpacity2)

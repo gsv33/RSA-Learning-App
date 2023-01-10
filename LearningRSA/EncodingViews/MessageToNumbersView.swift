@@ -11,74 +11,85 @@ struct MessageToNumbersView: View {
     @EnvironmentObject var rsa: RSA
     @EnvironmentObject var vc: ViewCoordinator
     
-    let titleText = "Message Encoding"
+    let titleText = "Number Conversion"
     
     @State var showMappingPopover = false
     @State var showInfoPopover = false
+    @State var showNextView = false
+    @State var showMessages = false
     
     var body: some View {
         ZStack {
             Colors.backgroundColor.ignoresSafeArea()
             
+            NavigationLink(destination: EnterEncodePrimesView(), isActive: $showNextView) {}
+            .toolbar { NavigationToolbar(titleText: titleText) }
+            .navigationBarBackButtonHidden()
+            .navigationBarTitleDisplayMode(.inline) // needed to remove the space reserved for the nav title
+            
             VStack{
-                Text("First, we encode the message by converting each letter to a different number.")
+                Text("First, we convert each character in the message to a different number.")
                     .padding(.bottom)
 
-                Button("See how each letter is converted to a number") {
+                
+                Button("Show number to letter mapping") {
                     showMappingPopover = true
                 }
                 .popover(isPresented: $showMappingPopover) { MappingView() }
-                .buttonStyle(MenuButtonStyle())
+                .foregroundColor(Colors.outputColor)
                 .padding(.bottom)
+                
+                if !showMessages {
+                    Button("Show message conversion") {
+                        withAnimation {
+                            showMessages = true
+                        }
+                    }
+                    .buttonStyle(MenuButtonStyle())
+                    .padding()
+                }
+                
+                if showMessages {
+                    Divider()
+                        .frame(height: 1)
+                        .overlay(.white)
+                        .padding([.bottom])
+                    
+                    Text("Input Message:")
+                    ScrollView {
+                        Text(rsa.inputMessageEng)
+                            .foregroundColor(.black)
+                            .font(.system(.headline, design: .monospaced, weight: .semibold))
+                            .padding()
+                            .background(.white)
+                            .cornerRadius(10)
+                    }
+                    .frame(maxHeight: 100)
+                    
+                    Text("Encoded Message:")
+                    ScrollView {
+                        Text(rsa.inputMessageNum)
+                            .foregroundColor(.black)
+                            .font(.system(.headline, design: .monospaced, weight: .semibold))
+                            .padding()
+                            .background(.white)
+                            .cornerRadius(10)
+                    }
+                    .frame(maxHeight: 100)
+                    
+                    MoreInfoButton(showInfoPopover: $showInfoPopover, InfoView: MessageEncodingInfoView())
+                        .padding(.bottom)
 
-                Button(action: {
-                    showInfoPopover = true
-                }) {
-                    Label("More Info", systemImage: "info.square")
+                    Text("Next, we'll move on to choosing prime numbers that will be used to secure your message.")
+                        .padding(.bottom)
+                                        
+                    Button("Choose Prime Numbers") {
+                        showNextView = true
+                    }
+                    .buttonStyle(MenuButtonStyle())
                 }
-                .popover(isPresented: $showInfoPopover) { MessageEncodingInfoView() }
-                .monospacedBodyText()
-                                
-                Divider()
-                    .frame(height: 1)
-                    .overlay(.white)
-                    .padding([.top, .bottom])
-                
-                Text("Input Message:")
-                ScrollView {
-                    Text(rsa.inputMessageEng)
-                        .foregroundColor(.black)
-                        .font(.system(.headline, design: .monospaced, weight: .semibold))
-                        .padding()
-                        .background(.white)
-                        .cornerRadius(10)
-                }
-                .frame(maxHeight: 100)
-                                
-                Text("Encoded Message:")
-                ScrollView {
-                    Text(rsa.inputMessageNum)
-                        .foregroundColor(.black)
-                        .font(.system(.headline, design: .monospaced, weight: .semibold))
-                        .padding()
-                        .background(.white)
-                        .cornerRadius(10)
-                }
-                .frame(maxHeight: 100)
-                
-                
-                Text("Next, create your secret key.")
-                    .padding(.bottom)
-
-                NavigationLink(destination: EnterEncodePrimesView()) {
-                    Text("Create secret key")
-                }
-                .buttonStyle(MenuButtonStyle())
-                .toolbar { NavigationToolbar(titleText: titleText) }
-                .navigationBarBackButtonHidden()
-                .navigationBarTitleDisplayMode(.inline) // needed to remove the space reserved for the nav title
             }
-            .monospacedInfoText()
+            .monospacedBodyText()
             .padding()
         }
     }
