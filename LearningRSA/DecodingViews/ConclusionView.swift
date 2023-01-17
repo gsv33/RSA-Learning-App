@@ -29,7 +29,7 @@ struct ConclusionView: View {
 
                 Button("Explore RSA") {}
                     .buttonStyle(MenuButtonStyle())
-                                              
+                                                              
                 Spacer()
             }
             .monospacedTitleText()

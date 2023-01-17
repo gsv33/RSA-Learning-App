@@ -11,7 +11,7 @@ struct DecodeMessageView2: View {
     @EnvironmentObject var rsa: RSA
 
     @State private var showPhiEquation = true
-    @State private var showInfoPopover = false
+    @State private var showInfoSheet = false
     @Binding var showNextView: Bool
     
     var body: some View {
@@ -21,7 +21,7 @@ struct DecodeMessageView2: View {
         let DFake = String(rsa.fakeDecryptionKeyD)
         
         VStack {
-            Text("Here's your decoded message:").padding()
+            Text("Here's your decoded message:").padding(.top)
             
             Text(rsa.realDecodedMessageNum).foregroundColor(Colors.outputColor)
                 .padding([.leading, .trailing, .bottom])
@@ -44,7 +44,7 @@ struct DecodeMessageView2: View {
                 Text(rsa.fakeDecodedMessageNum).foregroundColor(Colors.lightRed)
             }
             
-            MoreInfoButton(showInfoPopover: $showInfoPopover, InfoView: DecodedMessageInfoView()).padding()
+            MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: DecodedMessageInfoView()).padding()
             
             Button("Next") {
                 rsa.convertDecodedMessagesToEnglish()
@@ -59,10 +59,10 @@ struct DecodeMessageView1: View {
     @EnvironmentObject var rsa: RSA
     
     @State private var showPhiEquation = true
-    @State private var showInfoPopover = false
     
     @Binding var hideText: Bool
     @State private var animationFinished = false
+    @State private var startAnimation = false
     
     var body: some View {
         let D = String(rsa.realDecryptionKeyD)
@@ -95,28 +95,43 @@ struct DecodeMessageView1: View {
                         .foregroundColor(Colors.lightBlue)
                 }
                 
-                Text("Decoding:").padding(.top)
+                
+                if !startAnimation {
+                    Button("Begin Decoding") {
+                        withAnimation(.easeIn) {
+                            startAnimation = true
+                        }
+                    }
+                    .buttonStyle(MenuButtonStyle())
+                    .padding()
+                }
+                
+                if startAnimation {
+                    Text("Decoding:").padding(.top)
+                }
             }
             
-            EncodedMessageOutputList(
-                inputs: rsa.encodedMessageNumList,
-                outputs: rsa.realDecodedMessageNumList,
-                exponent: D,
-                modulus: M,
-                animationFinished: $animationFinished,
-                hideText: $hideText
-            )
-
-            if !hideText {
-                Button("Next") {
-                    withAnimation(.easeIn(duration: 0.50)) {
-                        hideText = true
+            if startAnimation {
+                EncodedMessageOutputList(
+                    inputs: rsa.encodedMessageNumList,
+                    outputs: rsa.realDecodedMessageNumList,
+                    exponent: D,
+                    modulus: M,
+                    animationFinished: $animationFinished,
+                    hideText: $hideText
+                )
+                
+                if !hideText {
+                    Button("Next") {
+                        withAnimation(.easeIn(duration: 0.50)) {
+                            hideText = true
+                        }
                     }
+                    .buttonStyle(MenuButtonStyle())
+                    .opacity(animationFinished ? 1.0 : 0.0)
+                    .animation(.default, value: animationFinished)
+                    .padding()
                 }
-                .buttonStyle(MenuButtonStyle())
-                .opacity(animationFinished ? 1.0 : 0.0)
-                .animation(.default, value: animationFinished)
-                .padding()
             }
         }
     }
@@ -136,6 +151,7 @@ struct DecodedMessageView: View {
             Colors.backgroundColor.ignoresSafeArea()
             
             NavigationLink(destination: NumbersToTextView(), isActive: $showNextView) {}
+                .isDetailLink(false)
                 .toolbar { NavigationToolbar(titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
@@ -156,13 +172,11 @@ struct DecodedMessageView: View {
 
 struct DecodedMessageView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
 
     static var previews: some View {
         NavigationView {
             DecodedMessageView()
                 .environmentObject(rsa)
-                .environmentObject(vc)
         }
     }
 }

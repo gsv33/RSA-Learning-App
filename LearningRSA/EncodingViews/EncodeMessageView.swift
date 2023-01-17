@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EncodeMessageViewPart3: View {
     @EnvironmentObject var rsa: RSA
-    @State private var showInfoPopover = false
+    @State private var showInfoSheet = false
     @Binding var showNextView: Bool
     
     var body: some View {
@@ -30,7 +30,7 @@ struct EncodeMessageViewPart3: View {
             .padding([.leading, .trailing, .bottom])
 
         MoreInfoButton(
-            showInfoPopover: $showInfoPopover,
+            showInfoSheet: $showInfoSheet,
             InfoView: EncodeMessageInfoView()
         )
         
@@ -109,7 +109,7 @@ struct EncodeMessageViewPart1: View {
             Text("Now, we can finally encode your message. To do this, we use modular exponentiation.")
                 .padding()
             
-            Text("We take each of your input numbers, A, raise it to the power, E, and take the remainder with respect to M, where M and E are the two parts of the public key we computed earlier.")
+            Text("We take each of your input numbers, X, raise it to the power, E, and take the remainder with respect to M, where M and E are the two parts of the public key we computed earlier.")
                 .padding([.leading, .trailing, .bottom])
             
             Text("Mathematically, this equation is: ")
@@ -123,7 +123,6 @@ struct EncodeMessageViewPart1: View {
 
 struct EncodeMessageView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
     
     @State private var animationFinished = false    
     @State private var showNextView = false
@@ -138,6 +137,7 @@ struct EncodeMessageView: View {
             Colors.backgroundColor.ignoresSafeArea()
             
             NavigationLink(destination: EnterDecodePrimesView(), isActive: $showNextView) {}
+                .isDetailLink(false)
                 .toolbar { NavigationToolbar(titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
@@ -182,13 +182,11 @@ struct EncodeMessageView: View {
 
 struct EncodeMessageView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
 
     static var previews: some View {
         NavigationView {
             EncodeMessageView()
                 .environmentObject(rsa)
-                .environmentObject(vc)
         }
     }
 }

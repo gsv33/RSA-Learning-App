@@ -21,8 +21,8 @@ struct EncodedMessageOutputList: View {
     @Binding var hideText: Bool
     
     @State private var currNum = 0
-    @State private var currInput = "A"
-    @State private var currOutput = "B"
+    @State private var currInput = "X"
+    @State private var currOutput = "Y"
 
     @State var showEncodedNums: [Bool] = []
     

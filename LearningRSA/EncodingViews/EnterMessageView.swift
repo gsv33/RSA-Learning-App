@@ -94,11 +94,19 @@ struct EnterMessageView: View {
         return true
     }
     
+    // ask user to try again if something goes wrong
+    func resetView() {
+        textFieldMessage = ""
+        inputMessage = ""
+        errorMessage = .miscError
+    }
+    
     var body: some View {
         ZStack {
             Colors.backgroundColor.ignoresSafeArea()
             
             NavigationLink(destination: MessageToNumbersView(), isActive: $showNextView) {}
+                .isDetailLink(false)
                 .toolbar { NavigationToolbar(titleText: "Enter Message") }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
@@ -119,12 +127,12 @@ struct EnterMessageView: View {
                 Button("Convert message to numbers") {
                     if finalValidateText() {
                         rsa.inputMessageEng = inputMessage
-                        rsa.stringToNumberConversion()
-                        showNextView = true
-                        
-                    }
-                    else {
-                        //TODO: Reload view if something goes wrong
+                        if rsa.stringToNumberConversion() {
+                            showNextView = true
+                        }
+                        else {
+                            resetView()
+                        }
                     }
                 }.buttonStyle(MenuButtonStyle())
                 

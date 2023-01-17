@@ -11,14 +11,17 @@ struct DecodingMathView: View {
     @EnvironmentObject var rsa: RSA
     
     let titleText = "Decoding Process"
-    @State var showInfoPopover = false
+    @State var showInfoSheet = false
     @State var showNextView = false
+    
+    @State var viewOpacity = 0.0
     
     var body: some View{
         ZStack {
             Colors.backgroundColor.ignoresSafeArea()
             
             NavigationLink(destination: PrivateKeyView(), isActive: $showNextView) {}
+                .isDetailLink(false)
                 .toolbar { NavigationToolbar(titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
@@ -32,20 +35,23 @@ struct DecodingMathView: View {
                 
                 EncodeEquation().padding()
 
-                Text("To decode it, we use almost the exact same formula. The only difference is that we use a different exponent, D, instead of E. We calculate D by solving the equation: de - phi*y = 1").padding()
+                Text("To decode it, we use almost the exact same formula. The only difference is that we use a different exponent, D, instead of E. We calculate D by solving the equation: DE - ΦK = 1").padding()
                 
                 Text("So given, an encoded message Y, we can get X back by solving: ")
                 
                 DecodeEquation().padding()
                 
                 MoreInfoButton(
-                    showInfoPopover: $showInfoPopover,
+                    showInfoSheet: $showInfoSheet,
                     InfoView: DecodingMathInfoView())
                 
                 Button("Next") {
                     showNextView = true
                 }.buttonStyle(MenuButtonStyle())
             }
+            .onAppear {viewOpacity = 1.0 }
+            .opacity(viewOpacity)
+            .animation(.easeIn(duration: 1.0), value: viewOpacity)
             .monospacedBodyText()
         }
     }

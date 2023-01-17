@@ -63,7 +63,6 @@ struct ExploreRSAToolbar: ToolbarContent {
 
 struct ExploreRSAView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
     
     @State var textFieldMessage = "This is a test of the vertical axis. This is a test of the vertical axis. This is a test of the vertical axis."
     @State var inputMessage = "TEST"
@@ -123,6 +122,7 @@ struct ExploreRSAView: View {
             Color.black.ignoresSafeArea()
             
             NavigationLink(destination: ExploreRSADecodeView(), isActive: $showNextView) {}
+                .isDetailLink(false)
                 .toolbar { ExploreRSAToolbar(titleText: "Encode Message",
                                              clearInputs: clearInputs,
                                              showDecodeButton: $showEncodedMessage,
@@ -191,13 +191,11 @@ struct ExploreRSAView: View {
 
 struct ExploreRSAView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
 
     static var previews: some View {
         NavigationView {
             ExploreRSAView()
                 .environmentObject(rsa)
-                .environmentObject(vc)
         }
     }
 }

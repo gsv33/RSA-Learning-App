@@ -183,16 +183,21 @@ class RSA: ObservableObject {
     }
     
     // converts inputMessageEng to inputMessageNum using charToNumEncoding
-    func stringToNumberConversion() {
+    func stringToNumberConversion() -> Bool {
         inputMessageNum = ""
         guard inputMessageEng != "" else {
-            return
+            return false
         }
 
         for char in inputMessageEng {
-            let num = charToNumEncoding[char]!
+            guard let num = charToNumEncoding[char] else {
+                return false
+            }
+            
             inputMessageNum += num
         }
+        
+        return true
     }
     
     // converts decodedMessageNum to decodedMessageStr using the inverse of charToNumEncoding
@@ -236,11 +241,6 @@ class RSA: ObservableObject {
             substring.append(num)
             
             if substring.count == inputNumDigits {
-                guard let _ = Int(substring) else { //TODO: Need to handle this error
-                    print("Error. Invalid int entered")
-                    return
-                }
-                
                 inputMessageNumList.append(Number(value: substring))
                 substring = ""
             }
@@ -248,51 +248,8 @@ class RSA: ObservableObject {
         
         // Pad the remaining characters with 0s to get a message of desired size
         if substring != "" {
-            guard let _ = Int(substring) else { //TODO: Need to handle this error
-                print("Error. Invalid int entered")
-                return
-            }
-
             let paddedStr = substring.padding(toLength: inputNumDigits, withPad: "0", startingAt: 0)
             inputMessageNumList.append(Number(value: paddedStr))
         }
-    }
-    
-    // NOTE: special handling for leading 0s in a number
-    // Change 0 to -1 and multiply by number of leading 0s
-    // (e.g. "00123" --> "-2123")
-    // originalStr must contain only numbers "0-9"
-    func adjustLeadingZeros(originalStr: String) -> String {
-        guard let originalInt = Int(originalStr) else {
-            return "Error. Invalid String entered."
-        }
-        guard originalInt >= 0 else {
-            return "Error. Negative Number entered"
-        }
-        
-        if originalInt == 0 {
-            return "0"
-        }
-        
-        var adjustedStr = ""
-        var leadingZeros = 0
-        
-        for c in originalStr {
-            if c == "0" {
-                leadingZeros -= 1
-            }
-            else {
-                break
-            }
-        }
-        
-        if leadingZeros < 0 {
-            adjustedStr = String(leadingZeros) + String(originalInt)
-        }
-        else {
-            adjustedStr = originalStr
-        }
-        
-        return adjustedStr
     }
 }

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ExploreRSADecodeView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
     
     @State var encodedMessage = "123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345"
     @State var errorMessage: ErrorMessages = .maxMessageLength
@@ -121,13 +120,11 @@ struct ExploreRSADecodeView: View {
 
 struct ExploreRSADecodeView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
     
     static var previews: some View {
         NavigationView {
             ExploreRSADecodeView()
                 .environmentObject(rsa)
-                .environmentObject(vc)
         }
     }
 }

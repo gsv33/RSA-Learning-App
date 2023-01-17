@@ -9,12 +9,11 @@ import SwiftUI
 
 struct MessageToNumbersView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
     
     let titleText = "Number Conversion"
     
-    @State var showMappingPopover = false
-    @State var showInfoPopover = false
+    @State var showMappingSheet = false
+    @State var showInfoSheet = false
     @State var showNextView = false
     @State var showMessages = false
     
@@ -23,9 +22,10 @@ struct MessageToNumbersView: View {
             Colors.backgroundColor.ignoresSafeArea()
             
             NavigationLink(destination: EnterEncodePrimesView(), isActive: $showNextView) {}
-            .toolbar { NavigationToolbar(titleText: titleText) }
-            .navigationBarBackButtonHidden()
-            .navigationBarTitleDisplayMode(.inline) // needed to remove the space reserved for the nav title
+                .isDetailLink(false)
+                .toolbar { NavigationToolbar(titleText: titleText) }
+                .navigationBarBackButtonHidden()
+                .navigationBarTitleDisplayMode(.inline) // needed to remove the space reserved for the nav title
             
             VStack{
                 Text("First, we convert each character in the message to a different number.")
@@ -33,9 +33,9 @@ struct MessageToNumbersView: View {
 
                 
                 Button("Show number to letter mapping") {
-                    showMappingPopover = true
+                    showMappingSheet = true
                 }
-                .popover(isPresented: $showMappingPopover) { MappingView() }
+                .sheet(isPresented: $showMappingSheet) { MappingView() }
                 .foregroundColor(Colors.outputColor)
                 .padding(.bottom)
                 
@@ -77,7 +77,7 @@ struct MessageToNumbersView: View {
                     }
                     .frame(maxHeight: 100)
                     
-                    MoreInfoButton(showInfoPopover: $showInfoPopover, InfoView: MessageEncodingInfoView())
+                    MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: MessageEncodingInfoView())
                         .padding(.bottom)
 
                     Text("Next, we'll move on to choosing prime numbers that will be used to secure your message.")
@@ -97,14 +97,11 @@ struct MessageToNumbersView: View {
 
 struct MessageToNumbersView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
 
     static var previews: some View {
         NavigationView {
             MessageToNumbersView()
-                .environmentObject(rsa)
-                .environmentObject(vc)
-            
+                .environmentObject(rsa)            
         }
     }
 }

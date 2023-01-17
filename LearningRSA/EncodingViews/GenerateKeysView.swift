@@ -9,11 +9,10 @@ import SwiftUI
 
 struct GenerateKeysView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
     
     let titleText = "Create Public Key"
     
-    @State var showInfoPopover = false
+    @State var showInfoSheet = false
     @State var showNextView = false
     
     @State var elapsedTime = 0
@@ -44,6 +43,7 @@ struct GenerateKeysView: View {
             
             VStack {
                 NavigationLink(destination: SplitNumbersView(), isActive: $showNextView) {}
+                    .isDetailLink(false)
                     .toolbar { NavigationToolbar(titleText: titleText) }
                     .navigationBarBackButtonHidden()
                     .navigationBarTitleDisplayMode(.inline)
@@ -107,7 +107,7 @@ struct GenerateKeysView: View {
                             .foregroundColor(Colors.outputColor)
                         
                         MoreInfoButton(
-                            showInfoPopover: $showInfoPopover,
+                            showInfoSheet: $showInfoSheet,
                             InfoView: GeneratePublicKeyInfoView()
                         ).padding()
                         
@@ -128,13 +128,11 @@ struct GenerateKeysView: View {
 
 struct GenerateKeysView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
 
     static var previews: some View {
         NavigationView {
             GenerateKeysView()
                 .environmentObject(rsa)
-                .environmentObject(vc)
         }
     }
 }

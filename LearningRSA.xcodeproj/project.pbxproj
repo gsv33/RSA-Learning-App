@@ -18,7 +18,9 @@
 		47759471293AA2C300A5ADAC /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47759470293AA2C300A5ADAC /* TestView.swift */; };
 		47759473293AB2FB00A5ADAC /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47759472293AB2FB00A5ADAC /* Styles.swift */; };
 		477F3FFB29119335006C6B2E /* GenerateKeysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477F3FFA29119335006C6B2E /* GenerateKeysView.swift */; };
+		478510A329720B24004ADD29 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478510A229720B24004ADD29 /* MenuView.swift */; };
 		4785B8F4291C4BED00FB2A6E /* CharacterConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4785B8F3291C4BED00FB2A6E /* CharacterConverter.swift */; };
+		478878E629771EF400104FF3 /* LearningRSATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478878E529771EF400104FF3 /* LearningRSATests.swift */; };
 		478900CD2950D98B00159AFB /* Explanations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478900CC2950D98B00159AFB /* Explanations.swift */; };
 		478900CF2950EFCB00159AFB /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 478900CE2950EFCB00159AFB /* ToDo.txt */; };
 		4792B883290F0BD100ECDDBE /* EnterMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4792B882290F0BD100ECDDBE /* EnterMessageView.swift */; };
@@ -29,6 +31,7 @@
 		47A7D8712929B46300B68A13 /* TestAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A7D8702929B46300B68A13 /* TestAnimations.swift */; };
 		47AA8187293417570009849C /* ExploreRSAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AA8186293417570009849C /* ExploreRSAView.swift */; };
 		47B368572959332300BF7B7D /* HelperViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B368562959332300BF7B7D /* HelperViews.swift */; };
+		47B8E967297325C100BCD091 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B8E966297325C100BCD091 /* Navigation.swift */; };
 		47DFF68A2911D2D20000D74A /* RSA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFF6892911D2D20000D74A /* RSA.swift */; };
 		47DFF68C2911D3E00000D74A /* EncodeMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFF68B2911D3E00000D74A /* EncodeMessageView.swift */; };
 		47ED30BD296247FD00E34A24 /* PrivateKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47ED30BC296247FD00E34A24 /* PrivateKeyView.swift */; };
@@ -39,6 +42,16 @@
 		47FE13FC29131E6700DE6886 /* NumbersToTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FE13FB29131E6700DE6886 /* NumbersToTextView.swift */; };
 		47FE3C52295F85C70093FEFC /* PrimeTextFieldsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FE3C51295F85C70093FEFC /* PrimeTextFieldsView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		478878E729771EF400104FF3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 47636E5C290B4384006C3124 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 47636E63290B4384006C3124;
+			remoteInfo = LearningRSA;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		47190B3A2938333C00286341 /* ExploreRSADecodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreRSADecodeView.swift; sourceTree = "<group>"; };
@@ -53,7 +66,10 @@
 		47759470293AA2C300A5ADAC /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		47759472293AB2FB00A5ADAC /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		477F3FFA29119335006C6B2E /* GenerateKeysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateKeysView.swift; sourceTree = "<group>"; };
+		478510A229720B24004ADD29 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		4785B8F3291C4BED00FB2A6E /* CharacterConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterConverter.swift; sourceTree = "<group>"; };
+		478878E329771EF400104FF3 /* LearningRSATests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearningRSATests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		478878E529771EF400104FF3 /* LearningRSATests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningRSATests.swift; sourceTree = "<group>"; };
 		478900CC2950D98B00159AFB /* Explanations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explanations.swift; sourceTree = "<group>"; };
 		478900CE2950EFCB00159AFB /* ToDo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
 		4792B882290F0BD100ECDDBE /* EnterMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterMessageView.swift; sourceTree = "<group>"; };
@@ -64,6 +80,7 @@
 		47A7D8702929B46300B68A13 /* TestAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAnimations.swift; sourceTree = "<group>"; };
 		47AA8186293417570009849C /* ExploreRSAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreRSAView.swift; sourceTree = "<group>"; };
 		47B368562959332300BF7B7D /* HelperViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperViews.swift; sourceTree = "<group>"; };
+		47B8E966297325C100BCD091 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		47DFF6892911D2D20000D74A /* RSA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSA.swift; sourceTree = "<group>"; };
 		47DFF68B2911D3E00000D74A /* EncodeMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodeMessageView.swift; sourceTree = "<group>"; };
 		47ED30BC296247FD00E34A24 /* PrivateKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeyView.swift; sourceTree = "<group>"; };
@@ -83,13 +100,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		478878E029771EF400104FF3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		47523C1B2975C5B70005C165 /* Testing */ = {
+			isa = PBXGroup;
+			children = (
+				47A7D8702929B46300B68A13 /* TestAnimations.swift */,
+				47759470293AA2C300A5ADAC /* TestView.swift */,
+			);
+			path = Testing;
+			sourceTree = "<group>";
+		};
 		47636E5B290B4384006C3124 = {
 			isa = PBXGroup;
 			children = (
 				47636E66290B4384006C3124 /* LearningRSA */,
+				478878E429771EF400104FF3 /* LearningRSATests */,
 				47636E65290B4384006C3124 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				47636E64290B4384006C3124 /* LearningRSA.app */,
+				478878E329771EF400104FF3 /* LearningRSATests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,6 +148,7 @@
 				4785B8F2291C4A7E00FB2A6E /* DecodingViews */,
 				4785B8F1291C4A7800FB2A6E /* EncodingViews */,
 				4785B8F0291C4A7200FB2A6E /* Model */,
+				47523C1B2975C5B70005C165 /* Testing */,
 				47636E6B290B4385006C3124 /* Assets.xcassets */,
 				47636E6D290B4385006C3124 /* Preview Content */,
 			);
@@ -136,6 +172,7 @@
 				472934AC2939652B00BF85A8 /* ErrorMessages.swift */,
 				47759472293AB2FB00A5ADAC /* Styles.swift */,
 				478900CC2950D98B00159AFB /* Explanations.swift */,
+				47B8E966297325C100BCD091 /* Navigation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -168,6 +205,14 @@
 			path = DecodingViews;
 			sourceTree = "<group>";
 		};
+		478878E429771EF400104FF3 /* LearningRSATests */ = {
+			isa = PBXGroup;
+			children = (
+				478878E529771EF400104FF3 /* LearningRSATests.swift */,
+			);
+			path = LearningRSATests;
+			sourceTree = "<group>";
+		};
 		47AA8185293416B20009849C /* ExploreRSA */ = {
 			isa = PBXGroup;
 			children = (
@@ -180,10 +225,9 @@
 		47B36855295932F500BF7B7D /* HelperViews */ = {
 			isa = PBXGroup;
 			children = (
-				47A7D8702929B46300B68A13 /* TestAnimations.swift */,
-				47759470293AA2C300A5ADAC /* TestView.swift */,
 				47B368562959332300BF7B7D /* HelperViews.swift */,
 				47FE3C51295F85C70093FEFC /* PrimeTextFieldsView.swift */,
+				478510A229720B24004ADD29 /* MenuView.swift */,
 			);
 			path = HelperViews;
 			sourceTree = "<group>";
@@ -208,6 +252,24 @@
 			productReference = 47636E64290B4384006C3124 /* LearningRSA.app */;
 			productType = "com.apple.product-type.application";
 		};
+		478878E229771EF400104FF3 /* LearningRSATests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 478878EB29771EF400104FF3 /* Build configuration list for PBXNativeTarget "LearningRSATests" */;
+			buildPhases = (
+				478878DF29771EF400104FF3 /* Sources */,
+				478878E029771EF400104FF3 /* Frameworks */,
+				478878E129771EF400104FF3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				478878E829771EF400104FF3 /* PBXTargetDependency */,
+			);
+			name = LearningRSATests;
+			productName = LearningRSATests;
+			productReference = 478878E329771EF400104FF3 /* LearningRSATests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -215,11 +277,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1400;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					47636E63290B4384006C3124 = {
 						CreatedOnToolsVersion = 14.0.1;
+					};
+					478878E229771EF400104FF3 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 47636E63290B4384006C3124;
 					};
 				};
 			};
@@ -237,6 +303,7 @@
 			projectRoot = "";
 			targets = (
 				47636E63290B4384006C3124 /* LearningRSA */,
+				478878E229771EF400104FF3 /* LearningRSATests */,
 			);
 		};
 /* End PBXProject section */
@@ -249,6 +316,13 @@
 				47636E6F290B4385006C3124 /* Preview Assets.xcassets in Resources */,
 				47636E6C290B4385006C3124 /* Assets.xcassets in Resources */,
 				478900CF2950EFCB00159AFB /* ToDo.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		478878E129771EF400104FF3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +350,7 @@
 				47636E68290B4384006C3124 /* LearningRSAApp.swift in Sources */,
 				4785B8F4291C4BED00FB2A6E /* CharacterConverter.swift in Sources */,
 				4792B887290F1FD000ECDDBE /* EnterEncodePrimesView.swift in Sources */,
+				478510A329720B24004ADD29 /* MenuView.swift in Sources */,
 				47636E76290B4C51006C3124 /* Math.swift in Sources */,
 				47190B3B2938333C00286341 /* ExploreRSADecodeView.swift in Sources */,
 				4796FE32291ACD9E000C33F2 /* WelcomeView.swift in Sources */,
@@ -285,12 +360,29 @@
 				474F9035292B11B500F5E858 /* EncodedMessageOutputList.swift in Sources */,
 				47759471293AA2C300A5ADAC /* TestView.swift in Sources */,
 				47DFF68A2911D2D20000D74A /* RSA.swift in Sources */,
+				47B8E967297325C100BCD091 /* Navigation.swift in Sources */,
 				47FE13F82913043C00DE6886 /* DecodingMathView.swift in Sources */,
 				47FB542D2966107600CE5C4E /* ConclusionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		478878DF29771EF400104FF3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				478878E629771EF400104FF3 /* LearningRSATests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		478878E829771EF400104FF3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 47636E63290B4384006C3124 /* LearningRSA */;
+			targetProxy = 478878E729771EF400104FF3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		47636E70290B4385006C3124 /* Debug */ = {
@@ -463,6 +555,42 @@
 			};
 			name = Release;
 		};
+		478878E929771EF400104FF3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.govinvatsan.LearningRSATests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LearningRSA.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LearningRSA";
+			};
+			name = Debug;
+		};
+		478878EA29771EF400104FF3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.govinvatsan.LearningRSATests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LearningRSA.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LearningRSA";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -480,6 +608,15 @@
 			buildConfigurations = (
 				47636E73290B4385006C3124 /* Debug */,
 				47636E74290B4385006C3124 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		478878EB29771EF400104FF3 /* Build configuration list for PBXNativeTarget "LearningRSATests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				478878E929771EF400104FF3 /* Debug */,
+				478878EA29771EF400104FF3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

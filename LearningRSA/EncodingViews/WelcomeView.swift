@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @EnvironmentObject var vc: ViewCoordinator
-        
+    @EnvironmentObject var navigationController: NavigationController
+    
     var body: some View {
         ZStack {
             Colors.backgroundColor.ignoresSafeArea()
@@ -28,15 +28,21 @@ struct WelcomeView: View {
                     .padding()
                     .padding(.bottom, 20)
                 
-                NavigationLink(destination: EnterMessageView()) {
+                NavigationLink(
+                    destination: EnterMessageView(),
+                    isActive: $navigationController.rootNavLinkIsActive
+                ) {
                     Text("Step-by-Step Walkthrough")
                 }
+                .isDetailLink(false)
                 .buttonStyle(MenuButtonStyle(textStyle: Font.TextStyle.title2))
                 .padding(.bottom, 20)
                 
                 NavigationLink(destination: ExploreRSAView()) {
                     Text("Explore RSA")
-                }.buttonStyle(MenuButtonStyle(textStyle: Font.TextStyle.title2))
+                }
+                .isDetailLink(false)
+                .buttonStyle(MenuButtonStyle(textStyle: Font.TextStyle.title2))
                 
             }
             .bold()
@@ -46,13 +52,13 @@ struct WelcomeView: View {
 
 struct WelcomeView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
+    @StateObject static var navigationController = NavigationController()
     
     static var previews: some View {
         NavigationView {
             WelcomeView()
-                .environmentObject(rsa)
-                .environmentObject(vc)
         }
+        .environmentObject(rsa)
+        .environmentObject(navigationController)
     }
 }

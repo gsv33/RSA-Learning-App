@@ -11,6 +11,8 @@ import SwiftUI
 // app's views
 struct NavigationToolbar: ToolbarContent {
     @Environment(\.dismiss) var dismiss
+    @State private var showMenuSheet = false
+    
     var titleText: String
     
     var body: some ToolbarContent {
@@ -23,8 +25,9 @@ struct NavigationToolbar: ToolbarContent {
         
         ToolbarItem(placement: .navigationBarTrailing) {
             Button("Menu") {
-                // TODO: disimss all views and go back to the Menu
+                showMenuSheet = true
             }
+            .sheet(isPresented: $showMenuSheet) { MenuView() }
             .buttonStyle(BackButtonStyle())
         }
         
@@ -39,21 +42,21 @@ struct NavigationToolbar: ToolbarContent {
 // This is the "More Info" button that provides more detailed
 // explanations across the app's views
 struct MoreInfoButton<Content: View>: View {
-    @Binding var showInfoPopover: Bool
+    @Binding var showInfoSheet: Bool
     var InfoView: Content // the info view to be displayed
     
     var body: some View {
         Button(action: {
-            showInfoPopover = true
+            showInfoSheet = true
         }) {
             Label("More Info", systemImage: "info.square")
         }
-        .popover(isPresented: $showInfoPopover) { InfoView }
+        .sheet(isPresented: $showInfoSheet) { InfoView }
         .monospacedInfoText()
     }
 }
 
-// Shows the entire character to number mapping used as a popover
+// Shows the entire character to number mapping used as a sheet
 struct MappingView: View {
     @Environment(\.dismiss) var dismiss
     

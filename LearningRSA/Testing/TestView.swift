@@ -295,10 +295,56 @@ struct GroupTest: View {
 //
             // Looks good so far!
 
+class ObjTest: ObservableObject {
+    @Published var popToRoot = false
+}
+
+struct PopToRootView1: View {
+    @EnvironmentObject var menuControl: ObjTest
+
+    var body: some View {
+        NavigationView {
+            NavigationLink(
+                destination: PopToRootView2(),
+                isActive: $menuControl.popToRoot
+            ) {
+                Text("Hello, World!")
+            }
+            .isDetailLink(false)
+            .navigationBarTitle("Root")
+        }
+    }
+}
+
+struct PopToRootView2: View {
+
+    var body: some View {
+        NavigationLink(destination: PopToRootView3()) {
+            Text("Hello, World #2!")
+        }
+        .isDetailLink(false)
+        .navigationBarTitle("Two")
+    }
+}
+
+struct PopToRootView3: View {
+    @EnvironmentObject var menuControl: ObjTest
+
+    var body: some View {
+        VStack {
+            Text("Hello, World #3!")
+            Button("Pop to Root") {
+                menuControl.popToRoot = false
+            }
+        }.navigationBarTitle("Three")
+    }
+}
+
 
 struct TestView_Previews: PreviewProvider {
-    
+    @StateObject static var menuControl = ObjTest()
+
     static var previews: some View {
-        GroupTest()
+        PopToRootView1().environmentObject(menuControl)
     }
 }

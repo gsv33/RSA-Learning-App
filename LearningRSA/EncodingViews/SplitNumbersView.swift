@@ -9,11 +9,10 @@ import SwiftUI
 
 struct SplitNumbersView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
     
     let titleText = "Split Numbers"
     
-    @State var showInfoPopover = false
+    @State var showInfoSheet = false
     @State var showNextView = false
 
     @State var elapsedTime = 0
@@ -41,6 +40,7 @@ struct SplitNumbersView: View {
                 }
             
             NavigationLink(destination: EncodeMessageView(), isActive: $showNextView) {}
+                .isDetailLink(false)
                 .toolbar { NavigationToolbar(titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
@@ -65,7 +65,7 @@ struct SplitNumbersView: View {
                 .animation(.easeIn(duration: 1.0), value: textOpacity1)
 
                 Group {
-                    Text("Before we can convert your message, we need to split it up into pieces smaller than the product of your two primes. This lets us properly apply the mathematical transformation to secures the message.").padding()
+                    Text("Before we can convert your message, we need to split it up into pieces smaller than the product of your two primes. This lets us properly apply the mathematical transformation to secure the message.").padding()
                 }
                 .opacity(textOpacity2)
                 .animation(.easeIn(duration: 1.0), value: textOpacity2)
@@ -90,7 +90,7 @@ struct SplitNumbersView: View {
                            
                 Group {
                     MoreInfoButton(
-                        showInfoPopover: $showInfoPopover,
+                        showInfoSheet: $showInfoSheet,
                         InfoView: SplitNumbersInfoView()
                     )
                     
@@ -111,14 +111,11 @@ struct SplitNumbersView: View {
 
 struct SplitNumbersView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
 
     static var previews: some View {
         NavigationView {
             SplitNumbersView()
                 .environmentObject(rsa)
-                .environmentObject(vc)
         }
-
     }
 }

@@ -29,11 +29,10 @@ struct OutputTextView: View {
 
 struct NumbersToTextView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
     
     @State private var showNextView = false
-    @State private var showInfoPopover = false
-    @State private var showMappingPopover = false
+    @State private var showInfoSheet = false
+    @State private var showMappingSheet = false
 
     @State private var revealRealMessage = false
     @State private var revealFakeMessage = false
@@ -46,6 +45,7 @@ struct NumbersToTextView: View {
             Colors.backgroundColor.ignoresSafeArea()
             
             NavigationLink(destination: ConclusionView(), isActive: $showNextView) {}
+                .isDetailLink(false)
                 .toolbar { NavigationToolbar(titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
@@ -56,9 +56,9 @@ struct NumbersToTextView: View {
                 }
                 
                 Button("Show number to letter mapping") {
-                    showMappingPopover = true
+                    showMappingSheet = true
                 }
-                .popover(isPresented: $showMappingPopover) { MappingView() }
+                .sheet(isPresented: $showMappingSheet) { MappingView() }
                 .foregroundColor(Colors.outputColor)
                 .padding()
                 
@@ -118,7 +118,7 @@ struct NumbersToTextView: View {
                     .animation(.default, value: revealFakeMessage)
 
                     Group {
-                        MoreInfoButton(showInfoPopover: $showInfoPopover, InfoView: NumbersToTextInfoView())
+                        MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: NumbersToTextInfoView())
                             .padding()
                         
                         Button("Next") {
@@ -138,13 +138,11 @@ struct NumbersToTextView: View {
 
 struct NumbersToTextView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
 
     static var previews: some View {
         NavigationView {
             NumbersToTextView()
                 .environmentObject(rsa)
-                .environmentObject(vc)
         }
     }
 }

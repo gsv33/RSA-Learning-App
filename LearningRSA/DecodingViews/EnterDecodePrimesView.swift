@@ -13,7 +13,7 @@ import SwiftUI
 struct EnterFakePrimesView: View {
     @EnvironmentObject var rsa: RSA
     
-    @State var showInfoPopover = false
+    @State var showInfoSheet = false
     @Binding var showNextView: Bool
     
     @State var prime1 = ""
@@ -54,7 +54,7 @@ struct EnterFakePrimesView: View {
             )
             
             MoreInfoButton(
-                showInfoPopover: $showInfoPopover,
+                showInfoSheet: $showInfoSheet,
                 InfoView: EnterDecodePrimesInfoView()
             )
             
@@ -105,11 +105,8 @@ struct EnterRealPrimesView: View {
 
 struct EnterDecodePrimesView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
     
-    @State var showFakePrimesView = false
-    
-    @State var showInfoPopover = false
+    @State var showFakePrimesView = false    
     @State var showNextView = false
 
     let titleText = "Decoding Primes"
@@ -120,6 +117,7 @@ struct EnterDecodePrimesView: View {
             Colors.backgroundColor.ignoresSafeArea()
             
             NavigationLink(destination: DecodingMathView(), isActive: $showNextView) {}
+                .isDetailLink(false)
                 .toolbar { NavigationToolbar(titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
@@ -148,27 +146,12 @@ struct EnterDecodePrimesView: View {
 
 struct EnterDecodePrimesView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
 
     static var previews: some View {
         
         NavigationView {
             EnterDecodePrimesView()
                 .environmentObject(rsa)
-                .environmentObject(vc)
         }
     }
 }
-
-
-// FOR TESTING PURPOSES, DOES ALL ENCODING PREPWORK
-//                Button("Enter", action: {
-//                    rsa.stringToNumberConversion()
-//                    rsa.computeProductOfPrimes()
-//                    rsa.splitInputNumberByDigits()
-//                    try! rsa.computeEncryptionKeyE()
-//                    rsa.encodeMessage()
-//                    rsa.computeDecryptionKeyD()
-//                    rsa.decodeMessage()
-//                    rsa.numberToStringConversion()
-//                })

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct EnterEncodePrimesView: View {
     @EnvironmentObject var rsa: RSA
-    @EnvironmentObject var vc: ViewCoordinator
     
     @State var prime1 = "4241" // TODO: Need to remove/replace these default primes
     @State var prime2 = "7331"
@@ -19,7 +18,7 @@ struct EnterEncodePrimesView: View {
         
     let titleText = "Prime Numbers"
     
-    @State var showInfoPopover = false
+    @State var showInfoSheet = false
     @State var showNextView = false
         
     // updates RSA with the entered primes
@@ -47,6 +46,7 @@ struct EnterEncodePrimesView: View {
             Colors.backgroundColor.ignoresSafeArea()
             
             NavigationLink(destination: GenerateKeysView(), isActive: $showNextView) {}
+                .isDetailLink(false)
                 .toolbar { NavigationToolbar(titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
@@ -60,7 +60,7 @@ struct EnterEncodePrimesView: View {
                 Text("These two numbers are used to secure your private key. Anyone who knows them will be able to decipher your message.")
                     .padding()
                 
-                MoreInfoButton(showInfoPopover: $showInfoPopover, InfoView: EnterPrimesInfoView())
+                MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: EnterPrimesInfoView())
                     .padding()
                 
                 PrimeTextFieldsView(
@@ -99,13 +99,11 @@ struct EnterEncodePrimesView: View {
 
 struct EnterEncodePrimesView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
-    @StateObject static var vc = ViewCoordinator()
 
     static var previews: some View {
         NavigationView {
             EnterEncodePrimesView()
                 .environmentObject(rsa)
-                .environmentObject(vc)
         }
     }
 }
