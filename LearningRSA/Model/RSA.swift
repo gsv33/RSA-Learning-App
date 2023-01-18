@@ -19,7 +19,6 @@ class RSA: ObservableObject {
     let DIGITS_PER_CHAR = 2
     let charToNumEncoding = CharacterConverter.charToNumEncoding
     
-    //TODO: Replace placeholder numbers
     var inputMessageEng: String = "THIS IS A TEST"
     var inputMessageNum: String = "3018192937192937113730152930"
     var inputMessageNumList: [Number] = [Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930")]
@@ -54,7 +53,9 @@ class RSA: ObservableObject {
     var realDecryptionKeyD: Int = 19000319
     var fakeDecryptionKeyD: Int = 4440983
     
-    var productOfPrimes: Int = 31090771
+    var productOfPrimes: Int {
+        return prime1 * prime2
+    }
     var inputNumDigits: Int { // number of digits in each number before encoding
         return String(productOfPrimes).count - 1
     }
@@ -94,23 +95,9 @@ class RSA: ObservableObject {
     
     // calculate inverse of encryptionKeyE modulo phi
     func computeDecryptionKeyD(phi: Int) -> Int {
-        do {
-            let (invKey, invPhi, gcd) = try extendedEuclidean(a: encryptionKeyE, b: phi)
-            guard invKey > 0 && invPhi < 0 else {
-                print("Error decoding the message")
-                return -1
-            }
-            
-            if gcd != 1 {
-                print("Incorrect primes given. Value of phi is not correct.")
-            }
-            
-            return invKey
-        }
-        catch {
-            print("Something went wrong! You need to enter two positive integers.")
-            return -1
-        }
+        let (invKey, invPhi, gcd) = extendedEuclidean(a: encryptionKeyE, b: phi)
+                
+        return invKey
     }
     
     func computeDecryptionKeys() {
@@ -118,7 +105,6 @@ class RSA: ObservableObject {
         fakeDecryptionKeyD = computeDecryptionKeyD(phi: fakeDecodePhi)
     }
     
-    // TODO: Combine with encode message function?
     func decodeMessage(decryptionKeyD: Int, decodedMessageList: inout [Number], decodedMessageNum: inout String) {
         decodedMessageList = []
         decodedMessageNum = ""
@@ -155,13 +141,10 @@ class RSA: ObservableObject {
             decodedMessageNum: &fakeDecodedMessageNum
         )
     }
-    
-    func computeProductOfPrimes() {
-        productOfPrimes = prime1 * prime2
-    }
-    
+        
     // an integer relatively prime to phi that completes the encryption key
-    func computeEncryptionKeyE() throws {
+    // TODO: Need to add time-out feature here
+    func computeEncryptionKeyE() -> Bool {
 
         let numDigitsPrime1 = Int(log10(Double(prime1)) + 1)
         let numDigitsPrime2 = Int(log10(Double(prime2)) + 1)
@@ -176,10 +159,11 @@ class RSA: ObservableObject {
         // calculate encryptionKeyE by generating random numbers and checking if gcd = 1
         while gcd != 1 {
             tempE = Int.random(in: randomRangeStart ..< randomRangeEnd)
-            (_, _, gcd) = try extendedEuclidean(a: tempE, b: encodePhi)
+            (_, _, gcd) = extendedEuclidean(a: tempE, b: encodePhi) // TODO: Under what conditions should this return false?
         }
         
         encryptionKeyE = tempE
+        return true
     }
     
     // converts inputMessageEng to inputMessageNum using charToNumEncoding
@@ -202,6 +186,8 @@ class RSA: ObservableObject {
     
     // converts decodedMessageNum to decodedMessageStr using the inverse of charToNumEncoding
     func numberToStringConversion(decodedMessageNum: String, decodedMessageStr: inout String) {
+        decodedMessageStr = ""
+        
         var numToCharEncoding: [String: Character] = [:]
         for (char, num) in charToNumEncoding {
             numToCharEncoding.updateValue(char, forKey: num)

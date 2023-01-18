@@ -20,6 +20,7 @@ enum ErrorMessages: String {
     case primesMatch = "Prime numbers must be different"
     case primesLimitReached = "Please keep your primes to 4 digits or less"
     case notNumber = "Please enter a number"
+    case productUnder2Digits = "Product of your primes must be at least 2 digits"
 }
 
 // Text displaying the current error message across the app's views

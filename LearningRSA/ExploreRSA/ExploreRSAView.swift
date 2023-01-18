@@ -90,12 +90,12 @@ struct ExploreRSAView: View {
     
     func encodeMessage() {
         rsa.inputMessageEng = inputMessage
+        
         rsa.stringToNumberConversion()
-        rsa.computeProductOfPrimes()
         rsa.splitInputNumberByDigits()
-        try! rsa.computeEncryptionKeyE()
-        k = String(rsa.encryptionKeyE)
+        rsa.computeEncryptionKeyE()
         rsa.encodeMessage()
+        
         encodedMessage = rsa.encodedMessageNum
     }
         

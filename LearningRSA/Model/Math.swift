@@ -33,14 +33,12 @@ func modExponent(base: Int, power: Int, modulo: Int) -> Int {
 
 // Extended Euclidean Algorithm
 // Algorithm taken from "A Friendly Introduction to Number Theory", 4th edition
-
-enum EuclideanAlgorithmError: Error {
-    case inputsAreNotPositiveInts
-}
-
-func extendedEuclidean(a: Int, b: Int) throws -> (Int, Int, Int) {
+// Inputs: (a, b) ints
+// Outputs: ints (x, y, g) where ax + by = g = gcd(a,b)
+func extendedEuclidean(a: Int, b: Int) -> (Int, Int, Int) {
     guard a > 0 && b > 0 else {
-        throw EuclideanAlgorithmError.inputsAreNotPositiveInts
+        print("Invalid inputs entered into the extendedEuclidean() method. Inputs must be two positive integers")
+        return (0, 0, 0)
     }
     
     var x = 1, g = a, v = 0, w = b
@@ -66,6 +64,12 @@ func extendedEuclidean(a: Int, b: Int) throws -> (Int, Int, Int) {
         y -= c*a
     }
         
+    
+    guard g > 0 else {
+        print("Error in the extendedEuclidean() method. Non-positive GCD found.")
+        return (0, 0, 0)
+    }
+    
     return (x,y,g)
 }
 
@@ -92,7 +96,7 @@ func isPrime(n: Int) -> Bool {
 // Uses the isPrime function to generate a random prime number
 // Optional int parameter: number of digits the prime should be
 // TODO: Add timeout in case something goes wrong
-func generatePrimeNumber(numDigits: Int = 4) -> Int {
+func generatePrimeNumber(numDigits: Int = 3) -> Int {
     var p = 0
     
     let n = Double(numDigits)
@@ -144,17 +148,26 @@ func isPrime(p: String) -> Bool {
 // 1 (failure) - both primes match
 // 0 (success) - two different primes
 // -1 (failure) - both aren't primes
+// 2 (failure) - product of primes is less than 2 digits
 func checkInputsAreUniquePrimes(prime1: String, prime2: String) -> Int {
     let p1 = isPrime(p: prime1)
     let p2 = isPrime(p: prime2)
     
-    if p1 && p2 && prime1 == prime2 { // primes cannot be the same
-        return 1
+    if p1 && p2 {
+        let p1xp2 = Int(prime1)! * Int(prime2)!
+        
+        if p1xp2 < 10 {
+            return 2 // product of primes is < 2 digits
+        }
+        else if prime1 == prime2 { // primes are the same
+            return 1
+        }
+        else {
+            return 0 // success
+        }
     }
-    else if p1 && p2 {
-        return 0
-    } else {
-        return -1
+    else {
+        return -1 // both numbers aren't prime
     }
 }
 
@@ -175,6 +188,9 @@ func validateInputs(prime1: String, prime2: String,
         primeImage2 = GlobalVars.invalidSymbol
         
         errorMessage = .primesMatch
+    }
+    else if inputsValid == 2 { // product of primes must be at least 2 digits long
+        errorMessage = .productUnder2Digits
     }
     else { // inputsValid == -1, both aren't prime numbers
         errorMessage = .notPrimes

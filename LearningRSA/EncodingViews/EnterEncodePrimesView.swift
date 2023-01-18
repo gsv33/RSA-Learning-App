@@ -27,18 +27,10 @@ struct EnterEncodePrimesView: View {
         rsa.prime1 = Int(prime1)!
         rsa.prime2 = Int(prime2)!
         
-        rsa.computeProductOfPrimes()
         rsa.splitInputNumberByDigits()
+        let success = rsa.computeEncryptionKeyE()
         
-        do {
-            try rsa.computeEncryptionKeyE()
-            return true
-        }
-        catch {
-            print("Error computing the public key.")
-        }
-        
-        return false
+        return success
     }
     
     var body: some View {
