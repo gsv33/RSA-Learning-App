@@ -46,24 +46,21 @@ struct EncodeMessageViewPart3: View {
 
 struct EncodeMessageViewPart2: View {
     @EnvironmentObject var rsa: RSA
-    @Binding var animationFinished: Bool
     @Binding var hideText: Bool
-    @State var startAnimation = false
+    @State var showEncodingDetailView = false
+    @State var visitedEncodingDetailView = false
     
     var body: some View {
         
-        if hideText == false {
+        if !hideText {
             Text("Now let's actually do the encoding").padding()
             
             Text("Input numbers: ")
-            HStack {
-                ForEach(rsa.inputMessageNumList) { number in
-                    Text(number.value).foregroundColor(Colors.inputColor)
-                }
-            }.padding(.bottom)
+            AlternateTextInScrollView(message: rsa.inputMessageNumSplit)
+                .padding(.bottom)
             
             Group {
-                Text("Public key:")
+                Text("Your encryption key:")
                 Text("\(String(rsa.encryptionKeyE))")
                     .foregroundColor(Colors.lightBlue) +
                 Text("-") +
@@ -71,30 +68,35 @@ struct EncodeMessageViewPart2: View {
                     .foregroundColor(Colors.lightBlue)
             }
             
-            if !startAnimation {
-                Button("Begin Encoding") {
-                    withAnimation(.easeIn) {
-                        startAnimation = true
+            Button("Show Encoding Steps") {
+                showEncodingDetailView = true
+            }
+            .sheet(isPresented: $showEncodingDetailView,
+                   onDismiss: { visitedEncodingDetailView = true }) {
+                EncodingDetailView(title: "Encoding Math",
+                                   exp: rsa.encryptionKeyE,
+                                   mod: rsa.productOfPrimes,
+                                   inputs: rsa.inputMessageNumList,
+                                   outputs: rsa.encodedMessageNumList)
+                }
+           .buttonStyle(MenuButtonStyle())
+           .padding()
+            
+            Group {
+                Text("Encoded Numbers:")
+                
+                AlternateTextInScrollView(message: rsa.encodedMessageNumSplit, textColor: Colors.outputColor)
+             
+                Button("Next") {
+                    withAnimation(.easeIn(duration: 0.50)) {
+                        hideText = true
                     }
                 }
                 .buttonStyle(MenuButtonStyle())
                 .padding()
             }
-            
-            if startAnimation {
-                Text("Encoding:").padding(.top)
-            }
-        }
-
-        if startAnimation {
-            EncodedMessageOutputList(
-                inputs: rsa.inputMessageNumList,
-                outputs: rsa.encodedMessageNumList,
-                exponent: String(rsa.encryptionKeyE),
-                modulus: String(rsa.productOfPrimes),
-                animationFinished: $animationFinished,
-                hideText: $hideText
-            )
+            .opacity(visitedEncodingDetailView ? 1.0 : 0.0)
+            .animation(.easeInOut(duration: 0.5), value: visitedEncodingDetailView)
         }
     }
 }
@@ -115,9 +117,7 @@ struct EncodeMessageViewPart1: View {
             Text("Mathematically, this equation is: ")
         }
         
-        EncodeEquation()
-            .padding()
-        
+        EncodeEquation().padding()
     }
 }
 
@@ -138,13 +138,15 @@ struct EncodeMessageView: View {
             
             NavigationLink(destination: EnterDecodePrimesView(), isActive: $showNextView) {}
                 .isDetailLink(false)
-                .toolbar { NavigationToolbar(titleText: titleText) }
+                .toolbar { NavigationToolbar(currentView: .encodeMessageView, titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
             VStack{
 
-                EncodeMessageViewPart1(hideText: $hideView1)
+                if !hideView2 {
+                    EncodeMessageViewPart1(hideText: $hideView1)
+                }
                 
                 if !hideView1 {
                     Button("Next") {
@@ -156,22 +158,10 @@ struct EncodeMessageView: View {
                     .padding()
                 } else {
                     EncodeMessageViewPart2(
-                        animationFinished: $animationFinished,
                         hideText: $hideView2
                     )
                     
-                    if !hideView2 {
-                        Button("Next") {
-                            withAnimation(.easeIn(duration: 0.50)) {
-                                hideView2 = true
-                            }
-                        }
-                        .buttonStyle(MenuButtonStyle())
-                        .opacity(animationFinished ? 1.0 : 0.0)
-                        .padding()
-                        .animation(.default, value: animationFinished)
-                        
-                    } else {
+                    if hideView2 {
                         EncodeMessageViewPart3(showNextView: $showNextView)
                     }
                 }
@@ -180,10 +170,83 @@ struct EncodeMessageView: View {
     }
 }
 
+struct EncodingDetailView: View {
+    @Environment(\.dismiss) var dismiss
+    
+    let title: String
+    let exp: Int
+    let mod: Int
+    let inputs: [Number]
+    let outputs: [Number]
+    
+    var body: some View {
+        ZStack {
+            Colors.backgroundColor.ignoresSafeArea()
+            
+            VStack {
+                ScrollView {
+                    Text(title)
+                        .monospacedTitleText()
+                        .padding(.bottom, 5)
+                    
+                    Text("Encryption Key:")
+                    EncryptionKey(exponent: exp, product: mod, textStyle: .headline)
+                        .padding(.bottom, 5)
+                    
+                    ScrollView(.horizontal) {
+                        Grid(alignment: .leading, horizontalSpacing: 0) {
+                            GridRow{
+                                Text("Inputs")
+                                Text("")
+                                Text("")
+                                Text("")
+                                Text("")
+                                Text("Outputs")
+                            }
+                            
+                            ForEach(0 ..< inputs.count) { i in
+                                let inputNum = inputs[i].value
+                                let outputNum = outputs[i].value
+                                
+                                GridRow{
+                                    Text(inputNum).foregroundColor(Colors.inputColor)
+                                    Grid {
+                                        GridRow {
+                                            Text(String(exp))
+                                                .font(.system(.caption, design: .monospaced, weight: .semibold))
+                                                .foregroundColor(Colors.lightBlue)
+                                        }
+                                        GridRow {Text("")}
+                                        GridRow {Text("")}
+                                    }
+                                    
+                                    Text(" mod ")
+                                    Text(String(mod)).foregroundColor(Colors.lightBlue)
+                                    Text(" = ")
+                                    Text(outputNum).foregroundColor(Colors.outputColor)
+                                }
+                            }
+                        }
+                    }
+                    .frame().padding([.leading, .trailing])
+                }
+                
+                Button("Dismiss") { dismiss() }
+                    .buttonStyle(MenuButtonStyle())
+                    .padding()
+            }
+            .monospacedBodyText()
+        }
+    }
+}
+
 struct EncodeMessageView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
 
     static var previews: some View {
+//        EncodingDetailView()
+//            .environmentObject(rsa)
+        
         NavigationView {
             EncodeMessageView()
                 .environmentObject(rsa)

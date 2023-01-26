@@ -46,7 +46,7 @@ struct NumbersToTextView: View {
             
             NavigationLink(destination: ConclusionView(), isActive: $showNextView) {}
                 .isDetailLink(false)
-                .toolbar { NavigationToolbar(titleText: titleText) }
+                .toolbar { NavigationToolbar(currentView: .numbersToTextView, titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             

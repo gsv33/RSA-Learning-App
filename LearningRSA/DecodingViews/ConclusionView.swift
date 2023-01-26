@@ -14,7 +14,7 @@ struct ConclusionView: View {
     var body: some View {
         ZStack {
             Colors.backgroundColor.ignoresSafeArea()
-                .toolbar { NavigationToolbar(titleText: titleText) }
+                .toolbar { NavigationToolbar(currentView: .conclusionView, titleText: titleText) }
                 .navigationBarBackButtonHidden()
             // TODO: Hide Menu button!
             

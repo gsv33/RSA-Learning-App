@@ -190,6 +190,17 @@ struct UnicodeCharacters {
     
     static let superscriptD = "\u{1D30}"
     static let superscriptE = "\u{1D31}"
+    
+    static let superscriptNums = [0: "\u{2070}",
+                                  1: "\u{00B9}",
+                                  2: "\u{00B2}",
+                                  3: "\u{00B3}",
+                                  4: "\u{2074}",
+                                  5: "\u{2075}",
+                                  6: "\u{2076}",
+                                  7: "\u{2077}",
+                                  8: "\u{2078}",
+                                  9: "\u{2079}"]
 }
 
 // contains colors used in the app's views
@@ -221,11 +232,6 @@ struct GlobalVars {
 
     
 }
-
-// title text style
-//struct TextStyle
-
-// body text style
 
 
 // GeneratePrimesButtonStyle

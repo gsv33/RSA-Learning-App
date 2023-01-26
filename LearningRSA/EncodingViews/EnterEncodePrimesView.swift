@@ -10,8 +10,8 @@ import SwiftUI
 struct EnterEncodePrimesView: View {
     @EnvironmentObject var rsa: RSA
     
-    @State var prime1 = "4241" // TODO: Need to remove/replace these default primes
-    @State var prime2 = "7331"
+    @State var prime1 = ""
+    @State var prime2 = ""
     @State var primeImage1 = "checkmark"
     @State var primeImage2 = "checkmark"
     @State var errorMessage: ErrorMessages = .noError
@@ -39,7 +39,7 @@ struct EnterEncodePrimesView: View {
             
             NavigationLink(destination: GenerateKeysView(), isActive: $showNextView) {}
                 .isDetailLink(false)
-                .toolbar { NavigationToolbar(titleText: titleText) }
+                .toolbar { NavigationToolbar(currentView: .enterEncodePrimesView, titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             

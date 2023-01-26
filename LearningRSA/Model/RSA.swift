@@ -19,20 +19,43 @@ class RSA: ObservableObject {
     let DIGITS_PER_CHAR = 2
     let charToNumEncoding = CharacterConverter.charToNumEncoding
     
-    var inputMessageEng: String = "THIS IS A TEST"
-    var inputMessageNum: String = "3018192937192937113730152930"
-    var inputMessageNumList: [Number] = [Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930")]
-    
-    var encodedMessageNumList: [Number] = [Number(value: "4647069"), Number(value: "28956032"), Number(value: "10898488"), Number(value: "-129495095")]
-    var encodedMessageNum: String = "46470692895603210898488-120812819"
-    
-    var realDecodedMessageNumList: [Number] = [Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930")]
-    var realDecodedMessageNum: String = "3018192937192937113730152930"
-    var realDecodedMessageEng: String = "THIS IS A TEST"
+    // Input Messages
+    var inputMessageEng: String = "This is a test of a really, really long message to see if the layout works properly."
+    var inputMessageNum: String = "301819293719293711373015293030181929371929371137301529303018192937192937113730152930301819293719293711373015293030181929371929371137301529303018192937192937113730152930"
+    var inputMessageNumSplit: String = "3018192 9371929 3711373 0152930 3018192 937192 9371137 3015293 030181 929371 92937 1137301 529303 0181929 3719293 711373 015293 030181 929371 92937 11373 01529 30301 8192 9371 9293 711 373 015 29 30 25 35 15 15 99 42 48 25 253 534 488 123 432 432"
+    var inputMessageNumList: [Number] = [Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930"),
+                                         Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930"),
+                                         Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930"),
+                                         Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930")]
 
-    var fakeDecodedMessageNumList: [Number] = [Number(value: "26007518"), Number(value: "19201995"), Number(value: "6333876"), Number(value: "020616234")]
+    // Encoded Messages
+    var encodedMessageNum: String = "464706928956032108984880120812819"
+    var encodedMessageNumSplit: String = "4647069 289560 321089 848801 20812819 937192 9371137 3015293 030181 929371 92937 1137301 529303 0181929 3719293 711373 015293 030181 929371 92937 11373 01529 30301 8192 9371 9293 711 373 015 29 30 25 35 15 15 99 42 48 25 253 534 488 123 432 432"
+    var encodedMessageNumList: [Number] = [Number(value: "4647069"), Number(value: "28956032"), Number(value: "10898488"), Number(value: "129495095"),
+                                           Number(value: "4647069"), Number(value: "28956032"), Number(value: "10898488"), Number(value: "129495095"),
+                                           Number(value: "4647069"), Number(value: "28956032"), Number(value: "10898488"), Number(value: "129495095"),
+                                           Number(value: "4647069"), Number(value: "28956032"), Number(value: "10898488"), Number(value: "129495095")]
+    
+    // Real Decoded Messages
+    var realDecodedMessageEng: String = "THIS IS A TEST"
+    var realDecodedMessageNum: String = "3018192937192937113730152930"
+    var realDecodedMessageNumSplit: String = "5787069 123456 0001234 848801 20812819 937192 9371137 3015293 030181 929371 92937 1137301 529303 0181929 3719293 711373 015293 030181 929371 92937 11373 01529 30301 8192 9371 9293 711 373 015 29 30 25 35 15 15 99 42 48 25 253 534 488 123 432 432"
+    var realDecodedMessageNumList: [Number] = [Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930"),
+                                               Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930"),
+                                               Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930"),
+                                               Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930")]
+
+    
+    // Fake Decoded Messages
+    var fakeDecodedMessageEng: String = "MXXWKXXXE XXXXXX"
     var fakeDecodedMessageNum: String = "26007518192019956333876020616234"
-    var fakeDecodedMessageEng: String = "MXXWKXXXE XXXXXX" // TODO: Need to change encoding scheme used (ascii?)
+    var fakeDecodedMessageNumSplit: String = "0001234 123456 0001234 848801 20812819 937192 9371137 3015293 030181 929371 92937 1137301 529303 0181929 3719293 711373 015293 030181 929371 92937 11373 01529 30301 8192 9371 9293 711 373 015 29 30 25 35 15 15 99 42 48 25 253 534 488 123 432 432"
+    var fakeDecodedMessageNumList: [Number] = [Number(value: "26007518"), Number(value: "19201995"), Number(value: "6333876"), Number(value: "020616234"),
+                                               Number(value: "26007518"), Number(value: "19201995"), Number(value: "6333876"), Number(value: "020616234"),
+                                               Number(value: "26007518"), Number(value: "19201995"), Number(value: "6333876"), Number(value: "020616234"),
+                                               Number(value: "26007518"), Number(value: "19201995"), Number(value: "6333876"), Number(value: "020616234")]
+    
+
 
     var prime1: Int = 4241
     var prime2: Int = 7331
@@ -73,6 +96,7 @@ class RSA: ObservableObject {
     func encodeMessage() {
         encodedMessageNumList = []
         encodedMessageNum = ""
+        encodedMessageNumSplit = ""
         
         var numVal = 0
         var encodedNum = ""
@@ -90,6 +114,7 @@ class RSA: ObservableObject {
             
             encodedMessageNumList.append(Number(value: encodedNum))
             encodedMessageNum.append(encodedNum)
+            encodedMessageNumSplit += encodedNum + " "
         }        
     }
     
@@ -187,6 +212,7 @@ class RSA: ObservableObject {
     // converts decodedMessageNum to decodedMessageStr using the inverse of charToNumEncoding
     func numberToStringConversion(decodedMessageNum: String, decodedMessageStr: inout String) {
         decodedMessageStr = ""
+        let padding = String(repeating: "0", count: DIGITS_PER_CHAR)
         
         var numToCharEncoding: [String: Character] = [:]
         for (char, num) in charToNumEncoding {
@@ -196,7 +222,7 @@ class RSA: ObservableObject {
         var tempDigits = ""
         for decodedNum in decodedMessageNum {
             tempDigits.append(decodedNum)
-            if tempDigits.count == DIGITS_PER_CHAR {
+            if tempDigits.count == DIGITS_PER_CHAR && tempDigits != padding {
                 let currNum = tempDigits
                 let currChar = numToCharEncoding[currNum]
                 
@@ -215,6 +241,7 @@ class RSA: ObservableObject {
     // each number has fewer digits than the product of the primes
     func splitInputNumberByDigits() {
         inputMessageNumList = []
+        inputMessageNumSplit = ""
         
         guard inputNumDigits > 0 else {
             print("Error splitting the input number into separate numbers")
@@ -228,6 +255,7 @@ class RSA: ObservableObject {
             
             if substring.count == inputNumDigits {
                 inputMessageNumList.append(Number(value: substring))
+                inputMessageNumSplit += substring + " "
                 substring = ""
             }
         }
@@ -236,6 +264,7 @@ class RSA: ObservableObject {
         if substring != "" {
             let paddedStr = substring.padding(toLength: inputNumDigits, withPad: "0", startingAt: 0)
             inputMessageNumList.append(Number(value: paddedStr))
+            inputMessageNumSplit += paddedStr + " "
         }
     }
 }

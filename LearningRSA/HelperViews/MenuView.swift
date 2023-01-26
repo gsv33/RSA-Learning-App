@@ -9,10 +9,10 @@ import SwiftUI
 
 struct MenuView: View {
     let title = "RSA Walkthrough"
-    let currentView = ViewNames.conclusionView
+    let currentView: ViewNames
     
     let encodingViews: [ViewNames] = [.enterMessageView, .messageToNumbersView, .enterEncodePrimesView,
-                                  .generateKeysView, .splitNumbersView, .encodeMessageView]
+                                      .generateKeysView, .splitNumbersView, .encodeMessageView]
     
     let decodingViews: [ViewNames] = [.enterDecodePrimesView, .decodingMathView, .privateKeyView,
                                       .decodedMessageView, .numbersToTextView, .conclusionView]
@@ -56,7 +56,6 @@ struct MenuView: View {
 
                 Button("Back to Welcome Screen") {
                     navigationController.rootNavLinkIsActive = false
-//                    dismiss()
                 }
                 .buttonStyle(MenuButtonStyle())
                 .padding()
@@ -73,7 +72,7 @@ struct MenuView_Previews: PreviewProvider {
     @StateObject static var navigationController = NavigationController()
     
     static var previews: some View {
-        MenuView()
+        MenuView(currentView: .enterMessageView)
             .environmentObject(navigationController)
     }
 }

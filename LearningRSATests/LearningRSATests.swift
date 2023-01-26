@@ -54,7 +54,7 @@ final class LearningRSATests: XCTestCase {
     func testRSARandomStrings() {
         var rsa = RSA()
                 
-        for _ in 0 ..< 10 {
+        for _ in 0 ..< 10000 {
             
             // generate random message
             rsa.inputMessageEng = generateRandomString(strLen: Int.random(in: 1 ... GlobalVars.maxCharsInMessage))

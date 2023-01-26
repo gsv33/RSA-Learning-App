@@ -118,7 +118,7 @@ struct EnterDecodePrimesView: View {
             
             NavigationLink(destination: DecodingMathView(), isActive: $showNextView) {}
                 .isDetailLink(false)
-                .toolbar { NavigationToolbar(titleText: titleText) }
+                .toolbar { NavigationToolbar(currentView: .enterDecodePrimesView, titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             

@@ -2,8 +2,13 @@ To Do List
 - Additional bugs in the wrong error message showing up
 - sync color scheme across views
 - Test on multiple devices (fix any bugs)
-- Remove 00 from Character Encoding
-- Test specific bug where padding at the end of the split encoded msg is an issue
+- Test character to number mapping title size on SE
+- Fill in More Info sections
+- Reorder public key
+- How do we handle long animation times? (Show next button before animation is finished?)
+    - Alternative page for encoding
+* Input/Output bug in Encode Message section
+- Right Align encoding/decoding math inputs in grid
 
 Completed
 x ** Primes must be distinct! Otherwise the math doesn't work**
@@ -13,6 +18,9 @@ x Combine checkInputsAreValid functions
 x Fix animation bug in mod exponentiation
 x Test RSA encryption/decryption with random messages
 x Product of primes must have more than 1 digit
+x Remove 00 from Character Encoding
+x Test specific bug where padding at the end of the split encoded msg is an issue
+x Add "What is RSA?" first page
 
 Later
 - add generate random message button

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WelcomeView: View {
     @EnvironmentObject var navigationController: NavigationController
+    @State private var showRSAOverview = false
     
     var body: some View {
         ZStack {
@@ -43,7 +44,15 @@ struct WelcomeView: View {
                 }
                 .isDetailLink(false)
                 .buttonStyle(MenuButtonStyle(textStyle: Font.TextStyle.title2))
+                .padding(.bottom)
                 
+                Button("What is RSA?") {
+                    showRSAOverview = true
+                }
+                .sheet(isPresented: $showRSAOverview) { RSAOverviewView() }
+                .foregroundColor(Colors.outputColor)
+                .font(.system(.title3, design: .monospaced))
+                .padding()
             }
             .bold()
         }.foregroundColor(Colors.textColor)

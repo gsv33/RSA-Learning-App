@@ -125,7 +125,7 @@ struct NavMenuViewTest: View {
             VStack {
                 Text("This is a test")
             }.toolbar {
-                NavigationToolbar(titleText: "Test Title")
+                NavigationToolbar(currentView: .conclusionView, titleText: "Test Title")
             }.navigationBarBackButtonHidden()
         }
     }
@@ -341,10 +341,45 @@ struct PopToRootView3: View {
 }
 
 
+struct ViewThatFitsTest: View {
+    let terms = String(repeating: "abcde ", count: 100)
+
+    var body: some View {
+        ViewThatFits {
+            Text(terms)
+
+            ScrollView {
+                Text(terms)
+            }
+        }
+    }
+}
+
+struct ViewThatFitsTest2: View {
+
+    var body: some View {
+        ViewThatFits {
+            HStack {
+                Text("The")
+                Text("in ")
+                Text("falls mainly")
+                Text("on the Spaniards")
+            }
+
+//            VStack {
+//                Text("The rain")
+//                Text("in Spain")
+//                Text("falls mainly")
+//                Text("on the Spaniards")
+//            }
+        }
+        .font(.title)
+    }
+}
+
 struct TestView_Previews: PreviewProvider {
-    @StateObject static var menuControl = ObjTest()
 
     static var previews: some View {
-        PopToRootView1().environmentObject(menuControl)
+        ViewThatFitsTest2()
     }
 }

@@ -13,6 +13,7 @@ struct NavigationToolbar: ToolbarContent {
     @Environment(\.dismiss) var dismiss
     @State private var showMenuSheet = false
     
+    var currentView: ViewNames
     var titleText: String
     
     var body: some ToolbarContent {
@@ -27,13 +28,18 @@ struct NavigationToolbar: ToolbarContent {
             Button("Menu") {
                 showMenuSheet = true
             }
-            .sheet(isPresented: $showMenuSheet) { MenuView() }
+            .sheet(isPresented: $showMenuSheet) { MenuView(currentView: currentView) }
             .buttonStyle(BackButtonStyle())
         }
         
         ToolbarItem(placement: .principal) {
-            Text(titleText)
-                .monospacedTitleText()
+            ViewThatFits {
+                Text(titleText)
+                    .monospacedTitleText(textStyle: .title3)
+ 
+                Text(titleText)
+                    .monospacedTitleText(textStyle: .headline)
+            }
         }
     }
 }
@@ -108,21 +114,47 @@ struct MappingView: View {
 // around it
 struct TextInScrollView: View {
     var message: String
+    var textSize = Font.TextStyle.headline
+    var maxHeight: CGFloat = 100
     
     var body: some View {
         ScrollView() {
-            Text("\(message)")
-                .font(.system(.title))
-                .padding([.top, .bottom], 10)
-                .padding([.leading, .trailing], 5)
+            Text(message)
+                .foregroundColor(.black)
+                .padding()
+                .font(.system(textSize, design: .monospaced))
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: maxHeight)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(.white)
+        )
+    }
+}
+
+// Text in scroll view with a black background
+struct AlternateTextInScrollView: View {
+    var message: String
+    var textSize = Font.TextStyle.headline
+    var textColor = Colors.inputColor
+    var maxHeight: CGFloat = 100
+    
+    var body: some View {
+        ScrollView() {
+            Text(message)
+                .foregroundColor(textColor)
+                .font(.system(textSize, design: .monospaced))
+                .padding()
+        }
+        .frame(maxWidth: .infinity, maxHeight: maxHeight)
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.white, lineWidth: 3)
         )
     }
 }
+
+
 
 struct EncodeEquation: View {
     var body: some View {
@@ -137,6 +169,31 @@ struct DecodeEquation: View {
         Text("Y\(UnicodeCharacters.superscriptD) mod M")
             .font(.system(.title))
             .foregroundColor(Colors.outputColor)
+    }
+}
+
+struct EncryptionKey: View {
+    var exponent: Int
+    var product: Int
+    var textStyle = Font.TextStyle.title2
+
+    var body: some View {
+        Text(String(exponent))
+            .font(.system(textStyle, design: .monospaced, weight: .semibold))
+            .foregroundColor(Colors.outputColor) +
+        Text("-")
+            .font(.system(textStyle, design: .monospaced, weight: .semibold))
+            .foregroundColor(.white) +
+        Text(String(product))
+            .font(.system(textStyle, design: .monospaced, weight: .semibold))
+            .foregroundColor(Colors.outputColor)
+    }
+}
+
+struct DecryptionKey: View {
+    
+    var body: some View {
+        Text("TBD")
     }
 }
 

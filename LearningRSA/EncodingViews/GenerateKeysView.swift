@@ -44,7 +44,7 @@ struct GenerateKeysView: View {
             VStack {
                 NavigationLink(destination: SplitNumbersView(), isActive: $showNextView) {}
                     .isDetailLink(false)
-                    .toolbar { NavigationToolbar(titleText: titleText) }
+                    .toolbar { NavigationToolbar(currentView: .generateKeysView, titleText: titleText) }
                     .navigationBarBackButtonHidden()
                     .navigationBarTitleDisplayMode(.inline)
 
@@ -97,14 +97,8 @@ struct GenerateKeysView: View {
                     Group {
                         Text("").padding(.top)
                         
-                        Text("Your public key is")
-                        Text("\(String(rsa.productOfPrimes))")
-                            .font(.system(.title2, weight: .semibold))
-                            .foregroundColor(Colors.outputColor) +
-                        Text("-") +
-                        Text("\(String(rsa.encryptionKeyE))")
-                            .font(.system(.title2, weight: .semibold))
-                            .foregroundColor(Colors.outputColor)
+                        Text("Your encryption key is")
+                        EncryptionKey(exponent: rsa.encryptionKeyE, product: rsa.productOfPrimes)
                         
                         MoreInfoButton(
                             showInfoSheet: $showInfoSheet,

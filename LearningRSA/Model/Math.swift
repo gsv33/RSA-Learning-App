@@ -199,3 +199,14 @@ func validateInputs(prime1: String, prime2: String,
     return false
 }
 
+func convertNumberToSuperscript(num: Int) -> String {
+    let str = String(num)
+    var output = ""
+    
+    for c in str {
+        let i = c.wholeNumberValue!
+        output += UnicodeCharacters.superscriptNums[i]!
+    }
+    
+    return output
+}

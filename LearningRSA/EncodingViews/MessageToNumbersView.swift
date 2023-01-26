@@ -23,7 +23,7 @@ struct MessageToNumbersView: View {
             
             NavigationLink(destination: EnterEncodePrimesView(), isActive: $showNextView) {}
                 .isDetailLink(false)
-                .toolbar { NavigationToolbar(titleText: titleText) }
+                .toolbar { NavigationToolbar(currentView: .messageToNumbersView, titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline) // needed to remove the space reserved for the nav title
             

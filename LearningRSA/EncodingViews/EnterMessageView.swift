@@ -65,9 +65,9 @@ struct MessageFieldView: View {
 struct EnterMessageView: View {
     @EnvironmentObject var rsa: RSA
 
-    @State var textFieldMessage = "THIS"
+    @State var textFieldMessage = ""
     @State var errorMessage: ErrorMessages = .noError
-    @State var inputMessage = "THIS"
+    @State var inputMessage = ""
     
     @State var showNextView = false
         
@@ -107,7 +107,9 @@ struct EnterMessageView: View {
             
             NavigationLink(destination: MessageToNumbersView(), isActive: $showNextView) {}
                 .isDetailLink(false)
-                .toolbar { NavigationToolbar(titleText: "Enter Message") }
+                .toolbar {
+                    NavigationToolbar(currentView: .enterMessageView, titleText: "Enter Message")
+                }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             

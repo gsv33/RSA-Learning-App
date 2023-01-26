@@ -95,8 +95,6 @@ struct ExploreRSADecodeView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(.red)
                 .font(.system(.title3, design: .monospaced))
-            
-//                DecodedMessageTextView(message: decodedMessage)
 
                 ScrollView() {
                     Text(decodedMessage)

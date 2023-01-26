@@ -21,7 +21,7 @@ struct DecodeMessageView2: View {
         let DFake = String(rsa.fakeDecryptionKeyD)
         
         VStack {
-            Text("Here's your decoded message:").padding(.top)
+            Text("Putting it all together, here's your decoded message:").padding()
             
             Text(rsa.realDecodedMessageNum).foregroundColor(Colors.outputColor)
                 .padding([.leading, .trailing, .bottom])
@@ -61,8 +61,8 @@ struct DecodeMessageView1: View {
     @State private var showPhiEquation = true
     
     @Binding var hideText: Bool
-    @State private var animationFinished = false
-    @State private var startAnimation = false
+    @State var showDecodingDetailView = false
+    @State var visitedDecodingDetailView = false
     
     var body: some View {
         let D = String(rsa.realDecryptionKeyD)
@@ -71,7 +71,7 @@ struct DecodeMessageView1: View {
         VStack {
             
             if !hideText {
-                Text("Now we are ready to decode the message. Remember the equation we use to take an encoded message, Y, and get back the original decoded message, X.").padding()
+                Text("Now we are ready to decode the message.").padding()
             }
             
             DecodeEquation()
@@ -79,14 +79,11 @@ struct DecodeMessageView1: View {
 
             if !hideText {
                 
-                Text("Encoded Message: ")
-                HStack {
-                    ForEach(rsa.inputMessageNumList) { number in
-                        Text(number.value).foregroundColor(Colors.inputColor)
-                    }
-                }.padding(.bottom)
+                Text("Encoded Message:")
+                AlternateTextInScrollView(message: rsa.encodedMessageNumSplit)
+                    .padding(.bottom)
                 
-                Text("Your private key:")
+                Text("Your decryption key:")
                 Group {
                     Text("\(D)")
                         .foregroundColor(Colors.lightBlue) +
@@ -95,43 +92,35 @@ struct DecodeMessageView1: View {
                         .foregroundColor(Colors.lightBlue)
                 }
                 
-                
-                if !startAnimation {
-                    Button("Begin Decoding") {
-                        withAnimation(.easeIn) {
-                            startAnimation = true
-                        }
+                Button("Show Decoding Steps") {
+                    showDecodingDetailView = true
+                }
+                .sheet(isPresented: $showDecodingDetailView,
+                       onDismiss: { visitedDecodingDetailView = true }) {
+                    EncodingDetailView(title: "Decoding Math",
+                                       exp: rsa.realDecryptionKeyD,
+                                       mod: rsa.productOfPrimes,
+                                       inputs: rsa.encodedMessageNumList,
+                                       outputs: rsa.realDecodedMessageNumList)
                     }
-                    .buttonStyle(MenuButtonStyle())
-                    .padding()
-                }
-                
-                if startAnimation {
-                    Text("Decoding:").padding(.top)
-                }
-            }
-            
-            if startAnimation {
-                EncodedMessageOutputList(
-                    inputs: rsa.encodedMessageNumList,
-                    outputs: rsa.realDecodedMessageNumList,
-                    exponent: D,
-                    modulus: M,
-                    animationFinished: $animationFinished,
-                    hideText: $hideText
-                )
-                
-                if !hideText {
+               .buttonStyle(MenuButtonStyle())
+               .padding()
+
+                Group {
+                    Text("Decooded Numbers:")
+                    
+                    AlternateTextInScrollView(message: rsa.realDecodedMessageNumSplit, textColor: Colors.outputColor)
+                 
                     Button("Next") {
                         withAnimation(.easeIn(duration: 0.50)) {
                             hideText = true
                         }
                     }
                     .buttonStyle(MenuButtonStyle())
-                    .opacity(animationFinished ? 1.0 : 0.0)
-                    .animation(.default, value: animationFinished)
                     .padding()
                 }
+                .opacity(visitedDecodingDetailView ? 1.0 : 0.0)
+                .animation(.easeInOut(duration: 0.5), value: visitedDecodingDetailView)
             }
         }
     }
@@ -152,7 +141,7 @@ struct DecodedMessageView: View {
             
             NavigationLink(destination: NumbersToTextView(), isActive: $showNextView) {}
                 .isDetailLink(false)
-                .toolbar { NavigationToolbar(titleText: titleText) }
+                .toolbar { NavigationToolbar(currentView: .decodedMessageView, titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
