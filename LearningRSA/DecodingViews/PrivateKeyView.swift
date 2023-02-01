@@ -32,8 +32,8 @@ struct PrivateKeyView4: View {
     }
     
     var body: some View {
-        let M = String(rsa.productOfPrimes)
-        let DFake = String(rsa.fakeDecryptionKeyD)
+        let M = rsa.productOfPrimes
+        let DFake = rsa.fakeDecryptionKeyD
         
         Group {
             Divider()
@@ -56,13 +56,7 @@ struct PrivateKeyView4: View {
             Text("Fake Decryption Key")
                 .monospacedTitleText(textStyle: .title3)
             
-            Text("\(M)")
-                .font(.system(.title2, weight: .semibold))
-                .foregroundColor(Colors.lightRed) +
-            Text("-") +
-            Text("\(DFake)")
-                .font(.system(.title2, weight: .semibold))
-                .foregroundColor(Colors.lightRed)
+            DisplayKeyView(exponent: DFake, product: M, textColor: Colors.lightRed)
             
             MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: PrivateKeyInfoView())
                 .padding()
@@ -159,15 +153,10 @@ struct PrivateKeyView3: View {
                 Text("Real Decryption Key")
                     .monospacedTitleText(textStyle: .title3)
                     .transition(.opacity)
+                    .padding(.top)
             }
             
-            Text("\(M)")
-                .font(.system(.title2, weight: .semibold))
-                .foregroundColor(Colors.outputColor) +
-            Text("-") +
-            Text("\(D)")
-                .font(.system(.title2, weight: .semibold))
-                .foregroundColor(Colors.outputColor)
+            DisplayKeyView(exponent: rsa.realDecryptionKeyD, product: rsa.productOfPrimes)
             
             if viewSet < 2 {
                 Button("Next") {
@@ -222,13 +211,13 @@ struct PrivateKeyView2: View {
                 Group {
                     if viewSet == 0 {
                         Text("M is taken from the encryption key, so:")
-                            .padding()
+                            .padding(.top)
                     }
                     
                     Group {
                         Text("M = ") + Text("\(M)").foregroundColor(Colors.outputColor)
                     }
-                    .padding(.bottom)
+                    .padding([.top, .bottom])
                 }
                 .onAppear { textOpacity1 = 1.0 }
                 .opacity(textOpacity1)
@@ -261,8 +250,8 @@ struct PrivateKeyView2: View {
                 Group {
                     if viewSet == 0 {
                         Group{
-                            Text("Given your two prime numbers, p and q, Φ is computed the same as before, ") +
-                            Text("Φ = (p - 1) x (q - 1)")
+                            Text("Given your two prime numbers, P and Q, Φ is computed the same as before, ") +
+                            Text("Φ = (P - 1) x (Q - 1)")
                         }
                         .padding([.trailing, .leading, .bottom])
                     }
@@ -315,42 +304,49 @@ struct PrivateKeyView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
-            VStack {
-                if viewSet1 == 1 {
-                    Text("Just like how your encryption key was the two components E and M in the equation: ").padding()
-                    
-                    EncodeEquation()
-                    
-                    Text("Your decryption key is the two components D and M in the equation: ").padding()
-                }
-                
-                if viewSet2 == 0 {
-                    DecodeEquation()
-                }
-                 
-                if viewSet1 == 1 {
-                    Text("Now we'll compute the decryption key using both the real primes you used to encode your message, and the fake ones that simulate what a hacker might try.").padding()
-                    
-                    Button("Compute Real Decryption Key") {
-                        withAnimation(.easeIn(duration: 0.5)) {
-                            viewSet1 = 2
+            GeometryReader {geometry in
+                ScrollView {
+                    VStack {
+                        if viewSet1 == 1 {
+                            Text("Just like how your encryption key was the two components E and M in the equation: ").padding()
+                            
+                            EncodeEquation()
+                            
+                            Text("Your decryption key is the two components D and M in the equation: ").padding()
                         }
-                    }
-                    .buttonStyle(MenuButtonStyle())
-                }
-                
-                if viewSet1 == 2 {
-                    PrivateKeyView2(viewSet: $viewSet2)
-                    
-                    if viewSet2 >= 1 {
-                        PrivateKeyView3(viewSet: $viewSet2)
                         
-                        if viewSet2 == 2 {
-                            PrivateKeyView4(showNextView: $showNextView)
+                        if viewSet2 == 0 {
+                            DecodeEquation().padding(.top)
+                        }
+                        
+                        if viewSet1 == 1 {
+                            Text("Now we'll calculate the decryption key using both the real primes you used to encode your message, and the fake ones that simulate what a hacker might try.").padding()
+                            
+                            Button("Compute Real Decryption Key") {
+                                withAnimation(.easeIn(duration: 0.5)) {
+                                    viewSet1 = 2
+                                }
+                            }
+                            .buttonStyle(MenuButtonStyle())
+                            .padding()
+                        }
+                        
+                        if viewSet1 == 2 {
+                            PrivateKeyView2(viewSet: $viewSet2)
+                            
+                            if viewSet2 >= 1 {
+                                PrivateKeyView3(viewSet: $viewSet2)
+                                
+                                if viewSet2 == 2 {
+                                    PrivateKeyView4(showNextView: $showNextView)
+                                }
+                            }
                         }
                     }
+                    .frame(minHeight: geometry.size.height)
+                    .monospacedBodyText()
                 }
-            }.monospacedBodyText()
+            }
         }
     }
 }

@@ -116,15 +116,16 @@ struct TextInScrollView: View {
     var message: String
     var textSize = Font.TextStyle.headline
     var maxHeight: CGFloat = 100
+    var minHeight: CGFloat = 75
     
     var body: some View {
         ScrollView() {
             Text(message)
                 .foregroundColor(.black)
                 .padding()
-                .font(.system(textSize, design: .monospaced))
+                .font(.system(textSize, design: .monospaced, weight: .semibold))
         }
-        .frame(maxWidth: .infinity, maxHeight: maxHeight)
+        .frame(maxWidth: .infinity, minHeight: minHeight, maxHeight: maxHeight)
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .fill(.white)
@@ -172,33 +173,80 @@ struct DecodeEquation: View {
     }
 }
 
-struct EncryptionKey: View {
+// displays the encryption or decryption key
+struct DisplayKeyView: View {
     var exponent: Int
     var product: Int
     var textStyle = Font.TextStyle.title2
+    var textColor = Colors.outputColor
 
     var body: some View {
-        Text(String(exponent))
-            .font(.system(textStyle, design: .monospaced, weight: .semibold))
-            .foregroundColor(Colors.outputColor) +
+        (Text(String(exponent)) +
         Text("-")
-            .font(.system(textStyle, design: .monospaced, weight: .semibold))
             .foregroundColor(.white) +
-        Text(String(product))
+        Text(String(product)))
             .font(.system(textStyle, design: .monospaced, weight: .semibold))
-            .foregroundColor(Colors.outputColor)
+            .foregroundColor(textColor)
     }
 }
 
-struct DecryptionKey: View {
+struct ExploreRSAHelpView: View {
+    
+    let title = "Explore RSA"
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var navigationController: NavigationController
     
     var body: some View {
-        Text("TBD")
+        ZStack {
+            Colors.backgroundColor.ignoresSafeArea()
+            
+            GeometryReader {geometry in
+                ScrollView {
+                    VStack {
+                        Text(title)
+                            .monospacedTitleText()
+                            .padding()
+                        
+                        Text("In this section, you can experiment with encoding and decoding a message using the RSA algorithm.").padding()
+                        
+                        Text("On the encode screen, enter a message, choose two prime numbers to secure your message, and click the \"Encode Message\" button to see your encoded message and correspondng encryption key.")
+                            .padding()
+                        
+                        Text("On the decode screen, you can decode the message that you just encoded. Use the same prime numbers you used for the encoding to get your original input message back, or enter new prime numbers to see how that affects your decoded message.")
+                            .padding()
+                        
+                        Button("Back to Welcome Screen") {
+                            
+                            // can be accessed from either the Tutorial NavigationLink or
+                            // the Explore NavigationLink, so need to check which is active
+                            if navigationController.tutorialNavLinkIsActive {
+                                navigationController.tutorialNavLinkIsActive = false
+                            }
+
+                            if navigationController.exploreNavLinkIsActive {
+                                navigationController.exploreNavLinkIsActive = false
+                            }
+                        }
+                        .buttonStyle(MenuButtonStyle())
+                        .padding()
+                        
+                        Button("Dismiss") {dismiss()}
+                            .buttonStyle(MenuButtonStyle())
+                        
+                    }
+                    .monospacedBodyText()
+                    .frame(minHeight: geometry.size.height)
+                }
+            }
+        }
     }
 }
 
 struct HelperViews_Previews: PreviewProvider {
+    @StateObject static var navigationController = NavigationController()
+    
     static var previews: some View {
-        MappingView()
+        ExploreRSAHelpView()
+            .environmentObject(navigationController)
     }
 }

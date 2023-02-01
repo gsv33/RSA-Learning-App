@@ -50,87 +50,104 @@ struct NumbersToTextView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
-            VStack{
-                if currSection == 0 {
-                    Text("The last step is to convert your decoded message back into English. We use the same mapping as we did last time.").padding()
-                }
-                
-                Button("Show number to letter mapping") {
-                    showMappingSheet = true
-                }
-                .sheet(isPresented: $showMappingSheet) { MappingView() }
-                .foregroundColor(Colors.outputColor)
-                .padding()
-                
-                Group {
-                    if currSection == 0 {
-                        Text("Decoded Message:")
-                        OutputTextView(text: rsa.realDecodedMessageNum)
-                    }
+            GeometryReader { geometry in
+                ScrollView {
                     
-                    Text("Output Message:")
-                    OutputTextView(text: rsa.realDecodedMessageEng)
-                    
-                }
-                .opacity(revealRealMessage ? 1.0 : 0.1)
-                .animation(.default, value: revealRealMessage)
-
-                if currSection == 0 {
-                    Button("Reveal Message") {
-                        revealRealMessage = true
-                    }
-                    .buttonStyle(MenuButtonStyle())
-                    .opacity(revealRealMessage ? 0.4 : 1.0)
-                    .animation(.default, value: revealRealMessage)
-                    
-                    Button("Next") {
-                        withAnimation(.easeIn) {
-                            currSection = 1
+                    VStack{
+                        if currSection == 0 {
+                            Text("The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding()
                         }
-                    }
-                    .buttonStyle(MenuButtonStyle())
-                    .opacity(revealRealMessage ? 1.0 : 0.0)
-                    .animation(.default, value: revealRealMessage)
-                    .padding()
-                    
-                }
-
-                
-                if currSection == 1 {
-                    Text("Now we'll see what a hacker might have gotten using the wrong primes and wrong decoded message.").padding([.leading, .trailing, .bottom])
-                    
-                    Group {
-                        Text("Decoded Message:")
-                        OutputTextView(text: rsa.fakeDecodedMessageNum)
-
-                        Text("Output Message:")
-                        OutputTextView(text: rsa.fakeDecodedMessageEng)
-
-                    }
-                    .opacity(revealFakeMessage ? 1.0 : 0.1)
-                    .animation(.default, value: revealFakeMessage)
-
-                    Button("Reveal Message") {
-                        revealFakeMessage = true
-                    }
-                    .buttonStyle(MenuButtonStyle())
-                    .opacity(revealFakeMessage ? 0.4 : 1.0)
-                    .animation(.default, value: revealFakeMessage)
-
-                    Group {
-                        MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: NumbersToTextInfoView())
-                            .padding()
                         
-                        Button("Next") {
-                            showNextView = true
+                        Button("Show number to letter mapping") {
+                            showMappingSheet = true
                         }
-                        .buttonStyle(MenuButtonStyle())
+                        .sheet(isPresented: $showMappingSheet) { MappingView() }
+                        .foregroundColor(Colors.outputColor)
+                        .padding()
+                        
+                        Group {
+                            if currSection == 0 {
+                                Text("Decoded Message:")
+                                TextInScrollView(message: rsa.realDecodedMessageNum)
+                                    .padding([.leading, .trailing, .bottom])
+                                
+                                Text("Output Message:")
+                                TextInScrollView(message: rsa.realDecodedMessageEng)
+                                    .padding([.leading, .trailing])
+                            }
+                        }
+                        .opacity(revealRealMessage ? 1.0 : 0.1)
+                        .animation(.default, value: revealRealMessage)
+                        
+                        if currSection == 0 {
+                            Button("Reveal Message") {
+                                revealRealMessage = true
+                            }
+                            .buttonStyle(MenuButtonStyle())
+                            .opacity(revealRealMessage ? 0.4 : 1.0)
+                            .animation(.default, value: revealRealMessage)
+                            .padding()
+                            
+                            Button("Next") {
+                                withAnimation(.easeIn) {
+                                    currSection = 1
+                                }
+                            }
+                            .buttonStyle(MenuButtonStyle())
+                            .opacity(revealRealMessage ? 1.0 : 0.0)
+                            .animation(.default, value: revealRealMessage)
+                            .padding(.bottom)
+                        }
+                        
+                        
+                        if currSection == 1 {
+                            Text("Now here's what a hacker might have gotten using the wrong primes and wrong decoded message.")
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding([.leading, .trailing, .bottom])
+                            
+                            Group {
+                                Text("Decoded Message:")
+                                TextInScrollView(message: rsa.fakeDecodedMessageNum)
+                                    .padding([.leading, .trailing])
+                                
+                                Text("Output Message:")
+                                    .padding(.top)
+                                TextInScrollView(message: rsa.fakeDecodedMessageEng)
+                                    .padding([.leading, .trailing])
+                                
+                            }
+                            .opacity(revealFakeMessage ? 1.0 : 0.1)
+                            .animation(.default, value: revealFakeMessage)
+                            
+                            Button("Reveal Message") {
+                                revealFakeMessage = true
+                            }
+                            .buttonStyle(MenuButtonStyle())
+                            .opacity(revealFakeMessage ? 0.4 : 1.0)
+                            .animation(.default, value: revealFakeMessage)
+                            .padding(.top)
+                            
+                            Group {
+                                MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: NumbersToTextInfoView())
+                                    .padding()
+                                
+                                Button("Next") {
+                                    showNextView = true
+                                }
+                                .buttonStyle(MenuButtonStyle())
+                                .padding(.bottom)
+                            }
+                            .opacity(revealFakeMessage ? 1.0 : 0.0)
+                            .animation(.default, value: revealFakeMessage)
+                        }
                     }
-                    .opacity(revealFakeMessage ? 1.0 : 0.0)
-                    .animation(.default, value: revealFakeMessage)
+                    .frame(minHeight: geometry.size.height)
+//                    .frame(width: geometry.size.width)
+                    .monospacedBodyText()
                 }
             }
-            .monospacedBodyText()
         }
     }
 }

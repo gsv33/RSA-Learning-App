@@ -13,6 +13,7 @@ struct ExploreRSAToolbar: ToolbarContent {
     var clearInputs: () -> Void
     @Binding var showDecodeButton: Bool
     @Binding var showNextView: Bool
+    @State private var showHelpSheet: Bool = false
     
     var encodeView = true // checks if the current view is for encoding or decoding
     
@@ -26,8 +27,9 @@ struct ExploreRSAToolbar: ToolbarContent {
         
         ToolbarItem(placement: .navigationBarTrailing) {
             Button("Help") {
-                // TODO: disimss all views and go back to the Menu
+                showHelpSheet = true
             }
+            .sheet(isPresented: $showHelpSheet) { ExploreRSAHelpView() }
             .buttonStyle(BackButtonStyle())
         }
         
@@ -141,10 +143,9 @@ struct ExploreRSAView: View {
                     textFieldMessage: $textFieldMessage,
                     inputMessage: $inputMessage,
                     errorMessage: $errorMessage,
-                    textStyle: .title3
+                    textStyle: .headline,
+                    maxHeight: 150
                 )
-                .frame(maxHeight: 200)
-                .foregroundColor(.black)
                                 
                 PrimeTextFieldsView(
                     prime1: $prime1, prime2: $prime2,
@@ -164,17 +165,8 @@ struct ExploreRSAView: View {
                 .padding(.bottom)
                 
                 Group {
-                    ScrollView() {
-                        Text(encodedMessage)
-                            .font(.system(.title3, design: .monospaced))
-                            .padding()
-                    }
-                    .frame(maxWidth: .infinity)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(.white, lineWidth: 3)
-                    )
-                    
+                    AlternateTextInScrollView(message: encodedMessage, textColor: .white)
+                                        
                     ScrollView(.horizontal) {
                         Text("Public Key: \(k) \(m)")
                     }

@@ -53,7 +53,7 @@ struct SplitNumbersView: View {
                             .padding([.leading, .trailing, .bottom])
 
                         Text("Your encryption key:")
-                        EncryptionKey(exponent: rsa.encryptionKeyE, product: rsa.productOfPrimes, textStyle: .headline)
+                        DisplayKeyView(exponent: rsa.encryptionKeyE, product: rsa.productOfPrimes, textStyle: .headline)
                     }
                     .onAppear { textOpacity1 = 1.0 }
                     .opacity(textOpacity1)
@@ -72,6 +72,7 @@ struct SplitNumbersView: View {
                     
 
                     TextInScrollView(message: rsa.inputMessageNumSplit)
+                        .padding([.leading, .trailing])
                         .opacity(textOpacity3)
                         .animation(.easeIn(duration: 1.0).delay(1), value: textOpacity3)
                     

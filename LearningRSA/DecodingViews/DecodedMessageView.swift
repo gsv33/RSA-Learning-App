@@ -23,7 +23,7 @@ struct DecodeMessageView2: View {
         VStack {
             Text("Putting it all together, here's your decoded message:").padding()
             
-            Text(rsa.realDecodedMessageNum).foregroundColor(Colors.outputColor)
+            AlternateTextInScrollView(message: rsa.realDecodedMessageNum, textColor: Colors.outputColor)
                 .padding([.leading, .trailing, .bottom])
 
             Group {
@@ -41,7 +41,8 @@ struct DecodeMessageView2: View {
                     .foregroundColor(Colors.lightRed)
                 
                 Text("Fake Decoded Message:").padding(.top)
-                Text(rsa.fakeDecodedMessageNum).foregroundColor(Colors.lightRed)
+                AlternateTextInScrollView(message: rsa.fakeDecodedMessageNum, textColor: Colors.lightRed)
+                    .padding([.leading, .trailing])
             }
             
             MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: DecodedMessageInfoView()).padding()
@@ -65,39 +66,33 @@ struct DecodeMessageView1: View {
     @State var visitedDecodingDetailView = false
     
     var body: some View {
-        let D = String(rsa.realDecryptionKeyD)
-        let M = String(rsa.productOfPrimes)
-
         VStack {
             
             if !hideText {
-                Text("Now we are ready to decode the message.").padding()
+                Text("Now we are ready to decode the message.").padding(.top)
             }
             
             DecodeEquation()
-                .padding(.bottom)
+                .padding([.top, .bottom])
 
             if !hideText {
                 
                 Text("Encoded Message:")
                 AlternateTextInScrollView(message: rsa.encodedMessageNumSplit)
-                    .padding(.bottom)
+                    .padding([.leading, .trailing, .bottom])
                 
                 Text("Your decryption key:")
-                Group {
-                    Text("\(D)")
-                        .foregroundColor(Colors.lightBlue) +
-                    Text("-") +
-                    Text("\(M)")
-                        .foregroundColor(Colors.lightBlue)
-                }
+                DisplayKeyView(exponent: rsa.realDecryptionKeyD,
+                               product: rsa.productOfPrimes,
+                               textStyle: .headline)
                 
-                Button("Show Decoding Steps") {
+                Button("Show Decoding Math") {
                     showDecodingDetailView = true
                 }
                 .sheet(isPresented: $showDecodingDetailView,
                        onDismiss: { visitedDecodingDetailView = true }) {
                     EncodingDetailView(title: "Decoding Math",
+                                       subtitle: "Decryption Key",
                                        exp: rsa.realDecryptionKeyD,
                                        mod: rsa.productOfPrimes,
                                        inputs: rsa.encodedMessageNumList,
@@ -110,6 +105,7 @@ struct DecodeMessageView1: View {
                     Text("Decooded Numbers:")
                     
                     AlternateTextInScrollView(message: rsa.realDecodedMessageNumSplit, textColor: Colors.outputColor)
+                        .padding([.leading, .trailing])
                  
                     Button("Next") {
                         withAnimation(.easeIn(duration: 0.50)) {
@@ -131,7 +127,7 @@ struct DecodedMessageView: View {
     @EnvironmentObject var rsa: RSA
     
     @State var showNextView = false
-    var titleText = "Decoded Message"
+    var titleText = "Message Decoding"
     
     @State private var hideText = false
     
@@ -145,14 +141,16 @@ struct DecodedMessageView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
-            VStack {
-                DecodeMessageView1(hideText: $hideText)
-                
-                if hideText {
-                    DecodeMessageView2(showNextView: $showNextView)
+            ScrollView {
+                VStack {
+                    DecodeMessageView1(hideText: $hideText)
+                    
+                    if hideText {
+                        DecodeMessageView2(showNextView: $showNextView)
+                    }
                 }
+                .monospacedBodyText()
             }
-            .monospacedBodyText()
             
         }
     }

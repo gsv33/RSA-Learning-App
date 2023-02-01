@@ -15,6 +15,7 @@ struct ContentView: View {
         NavigationView {
             WelcomeView()
         }
+        .navigationViewStyle(.stack)
         .environmentObject(rsa) // must go outside navigation view
         .environmentObject(navigationController)
     }

@@ -68,14 +68,6 @@ struct MessageEncodingInfoView: View {
                     Text("This doesn't need to be secure. The only thing that matters here is that the sender and receiver both know how the letters are converted into numbers").padding()
                     
                     Text("In this app, we just use a simple conversion scheme that covers the most commonly used English letters and punctuation (called the ASCII set). In real implementations, this would scale up to create encodings for other languages, symbols, emojis, etc (known as the Unicode set).").padding()
-                    
-                    Text("A → 00, B → 01, C → 02, ...")
-                    Text("0 → 85, 1 → 86, 2 → 87, ...").padding(.bottom)
-                    
-                    Button("See the full mapping") {
-                        //TODO:
-                    }.foregroundColor(Colors.outputColor)
-                    
                 }
                 
                 Button("Dismiss") { dismiss() }
@@ -204,7 +196,7 @@ struct SplitNumbersInfoView: View {
                     Text("The encoding process uses the same type of math, except instead of the number \"12\", we use the number m, where m is the product of the prime numbers you chose earlier. For this to work properly, all the numbers we encode have to be less than m. So all we're doing here is splitting the numbers into smaller pieces that are all less than m.").padding()
                     
                     
-                    Text("For example, if your message is 1234567890, and m = 103, you would split up your numbers into: 12, 34, 56, 78, and 90. Note that each of the new numbers is now less than 103.").padding()
+                    Text("One last thing, you might notice that the very last number has extra 0s on the very end. This is called padding, and is used to make sure that all the numbers are the same size. For example, if your message is 12345, and M = 103, you would split up your numbers into: 12, 34, and 50. Note that each of the new numbers is now less than 103 and has 2 digits.").padding()
                 }
                             
                 Button("Dismiss") { dismiss() }

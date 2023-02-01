@@ -229,7 +229,8 @@ struct GlobalVars {
     static let validSymbol = "checkmark"
     static let maxDigitsInPrime = 4
     static let maxCharsInMessage = 50
-
+    static let phi = "Φ"
+    
     
 }
 

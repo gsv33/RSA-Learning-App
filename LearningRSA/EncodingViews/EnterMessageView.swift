@@ -15,6 +15,7 @@ struct MessageFieldView: View {
     @Binding var errorMessage: ErrorMessages
     let maxCharsInMessage = GlobalVars.maxCharsInMessage
     var textStyle = Font.TextStyle.title2
+    var maxHeight: CGFloat = 200
     
     // TODO: Need to test and refactor this function
     func validateText(newValue: String) {
@@ -58,7 +59,7 @@ struct MessageFieldView: View {
             .autocorrectionDisabled()
             .keyboardType(.asciiCapable)
             .foregroundColor(.black)
-            .frame(maxWidth: .infinity, maxHeight: 200)
+            .frame(maxWidth: .infinity, maxHeight: maxHeight)
     }
 }
 
@@ -69,6 +70,7 @@ struct EnterMessageView: View {
     @State var errorMessage: ErrorMessages = .noError
     @State var inputMessage = ""
     
+    @State var showInfoSheet = false
     @State var showNextView = false
         
     func finalValidateText() -> Bool {
@@ -124,8 +126,12 @@ struct EnterMessageView: View {
                     textFieldMessage: $textFieldMessage,
                     inputMessage: $inputMessage,
                     errorMessage: $errorMessage)
-                .padding(.bottom, 10)
-                                
+                                                
+                Text("You'll have to keep your message under 50 characters so that it's easy to understand what's going on.").padding()
+                
+                MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: EnterMessageInfoView())
+                    .padding(.bottom)
+                
                 Button("Convert message to numbers") {
                     if finalValidateText() {
                         rsa.inputMessageEng = inputMessage
@@ -137,8 +143,7 @@ struct EnterMessageView: View {
                         }
                     }
                 }.buttonStyle(MenuButtonStyle())
-                
-                Text("You'll have to keep your message under 50 characters so that it's easy to understand what's going on.").padding()
+                    .padding()
             }
         }.monospacedBodyText()
     }

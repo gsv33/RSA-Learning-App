@@ -16,17 +16,17 @@ import SwiftUI
 enum ViewNames: String, CaseIterable {
     case welcomeView
     case enterMessageView = "Enter Message"
-    case messageToNumbersView = "Convert Message to Numbers"
-    case enterEncodePrimesView = "Enter Encoding Primes"
-    case generateKeysView = "Create Encryption Key"
+    case messageToNumbersView = "Number Conversion"
+    case enterEncodePrimesView = "Prime Numbers"
+    case generateKeysView = "Encryption Key"
     case splitNumbersView = "Split Numbers"
-    case encodeMessageView = "Encode Message"
-    case enterDecodePrimesView = "Enter Decoding Primes"
-    case decodingMathView = "Decoding Overview"
-    case privateKeyView = "Create Decryption Key"
-    case decodedMessageView = "Decode Message"
-    case numbersToTextView = "Convert Numbers to Text"
-    case conclusionView = "Conclusion"
+    case encodeMessageView = "Message Encoding"
+    case enterDecodePrimesView = "Decoding Primes"
+    case decodingMathView = "Decoding Equation"
+    case privateKeyView = "Decryption Key"
+    case decodedMessageView = "Message Decoding"
+    case numbersToTextView = "Numbers to Text"
+    case conclusionView = "Next Steps"
     case exploreRSAView
     case exploreRSADecodeView
 }
@@ -35,7 +35,8 @@ class NavigationController: ObservableObject {
     
     // This will be set to true when the first nav link is pressed
     // Then, setting this to false will pop all the views off the stack
-    @Published var rootNavLinkIsActive = false
+    @Published var tutorialNavLinkIsActive = false
+    @Published var exploreNavLinkIsActive = false
 }
 
 

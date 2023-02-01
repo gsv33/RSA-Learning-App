@@ -8,29 +8,32 @@
 import SwiftUI
 
 struct ConclusionView: View {
-    let titleText = ""
-    @State private var showNextView = false
+    let titleText = "Next Steps"
+    @State private var showExploreRSAView = false
     
     var body: some View {
         ZStack {
             Colors.backgroundColor.ignoresSafeArea()
+
+            NavigationLink(destination: ExploreRSAView(), isActive: $showExploreRSAView) {}
+                .isDetailLink(false)
                 .toolbar { NavigationToolbar(currentView: .conclusionView, titleText: titleText) }
                 .navigationBarBackButtonHidden()
-            // TODO: Hide Menu button!
+                .navigationBarTitleDisplayMode(.inline)
             
             VStack {
                 Text("Well done! That's the end of the tutorial. Hopefully you've gotten a sense of what makes RSA work and why it's secure.")
                     .padding()
-                                
-                Text("").padding()
                 
                 Text("If you want, you can explore encoding and decoding messages with RSA.")
                     .padding()
 
-                Button("Explore RSA") {}
-                    .buttonStyle(MenuButtonStyle())
+                Button("Explore RSA") {
+                    showExploreRSAView = true
+                }
+                .buttonStyle(MenuButtonStyle())
+                .padding()
                                                               
-                Spacer()
             }
             .monospacedTitleText()
         }

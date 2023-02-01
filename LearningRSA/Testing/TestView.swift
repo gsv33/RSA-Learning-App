@@ -297,6 +297,7 @@ struct GroupTest: View {
 
 class ObjTest: ObservableObject {
     @Published var popToRoot = false
+    @Published var popToRoot2 = false
 }
 
 struct PopToRootView1: View {
@@ -304,26 +305,44 @@ struct PopToRootView1: View {
 
     var body: some View {
         NavigationView {
-            NavigationLink(
-                destination: PopToRootView2(),
-                isActive: $menuControl.popToRoot
-            ) {
-                Text("Hello, World!")
+            VStack {
+                NavigationLink(
+                    destination: PopToRootView2(),
+                    isActive: $menuControl.popToRoot
+                ) {
+                    Text("Hello, World!")
+                }
+                .isDetailLink(false)
+                .navigationBarTitle("Root")
+                .padding()
+                
+                NavigationLink(
+                    destination: Text(menuControl.popToRoot ? "True" : "False"),
+                    isActive: $menuControl.popToRoot2
+                ) {
+                    Text("Button 2")
+                }
+                .isDetailLink(false)
+                .navigationBarTitle("Root")
+                
             }
-            .isDetailLink(false)
-            .navigationBarTitle("Root")
         }
     }
 }
 
 struct PopToRootView2: View {
-
+    @EnvironmentObject var menuControl: ObjTest
+    
     var body: some View {
-        NavigationLink(destination: PopToRootView3()) {
-            Text("Hello, World #2!")
+        VStack {
+            NavigationLink(destination: PopToRootView3()) {
+                Text("Hello, World #2!")
+            }
+            .isDetailLink(false)
+            .navigationBarTitle("Two")
+            
+            Text(menuControl.popToRoot ? "True" : "False")
         }
-        .isDetailLink(false)
-        .navigationBarTitle("Two")
     }
 }
 
@@ -377,9 +396,77 @@ struct ViewThatFitsTest2: View {
     }
 }
 
-struct TestView_Previews: PreviewProvider {
+struct NestedScrollViewTest: View {
+    var body: some View {
+        ScrollView {
+            VStack {
+                Text("Top view")
 
+                DropdownSelector()
+
+                Text("Bottom view")
+            }
+        }
+    }
+}
+
+struct DropdownSelector: View {
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach(0 ..< 10) { i in
+                    Text("Item: \(i)")
+                }
+            }
+        }.frame(height: 100)
+    }
+}
+
+struct ScrollViewGeometryTest: View {
+    
+    var body: some View {
+        ZStack {
+            Colors.backgroundColor.ignoresSafeArea()
+            
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack {
+                        Text("VStack Start").padding()
+                        
+                        Group {
+                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
+                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
+                            
+                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
+                            
+                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
+                            
+                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
+                            
+                            
+                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
+                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
+                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
+                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
+                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
+                        }
+                        
+                        Text("VStack End").padding()
+                    }
+                    .monospacedBodyText()
+                    .frame(minHeight: geometry.size.height)
+                    .frame(width: geometry.size.width)
+                }
+            }
+        }
+    }
+}
+
+struct TestView_Previews: PreviewProvider {
+    @StateObject static var objTest = ObjTest()
+    
     static var previews: some View {
-        ViewThatFitsTest2()
+        PopToRootView1()
+            .environmentObject(objTest)
     }
 }

@@ -41,7 +41,7 @@ struct EnterFakePrimesView: View {
         
     var body: some View {
         VStack {
-            Text("Now enter two incorrect prime numbers, just to see what kind of message you'll get!").padding()
+            Text("Now enter two incorrect prime numbers, just to see how it will affect the decoded message.").padding()
 
             PrimeTextFieldsView(
                 prime1: $prime1, prime2: $prime2,
@@ -56,7 +56,7 @@ struct EnterFakePrimesView: View {
             MoreInfoButton(
                 showInfoSheet: $showInfoSheet,
                 InfoView: EnterDecodePrimesInfoView()
-            )
+            ).padding(.top)
             
             Button("Next!") {
                 let validInputs = validateInputs(prime1: prime1, prime2: prime2,
@@ -69,6 +69,7 @@ struct EnterFakePrimesView: View {
                 }
             }
             .buttonStyle(MenuButtonStyle())
+            .padding()
         }
     }
 }
@@ -138,6 +139,8 @@ struct EnterDecodePrimesView: View {
                 } else {
                     EnterFakePrimesView(showNextView: $showNextView, errorMessage: $errorMessage)
                 }
+                
+                Spacer()
                 
             }.monospacedBodyText()
         }

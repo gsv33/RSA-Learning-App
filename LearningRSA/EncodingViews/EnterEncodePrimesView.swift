@@ -43,48 +43,51 @@ struct EnterEncodePrimesView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
-            VStack {
-                ErrorMessageBar(errorMessage: errorMessage)
-                
-                Text("This is where we start to encrypt your message. Enter two prime numbers below.")
-                    .padding()
-                
-                Text("These two numbers are used to secure your private key. Anyone who knows them will be able to decipher your message.")
-                    .padding()
-                
-                MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: EnterPrimesInfoView())
-                    .padding()
-                
-                PrimeTextFieldsView(
-                    prime1: $prime1, prime2: $prime2,
-                    primeImage1: $primeImage1, primeImage2: $primeImage2,
-                    errorMessage: $errorMessage,
-                    allowEditPrimes: .constant(true),
-                    showUseDifferentPrimesCheckbox: false
-                )
-                                
-                Text("Next, create your public key. This will let anyone communicate with you.")
-                    .padding()
-                
-                Button("Create public key") {
-                    let validInputs = validateInputs(prime1: prime1, prime2: prime2,
-                                                     primeImage1: &primeImage1, primeImage2: &primeImage2,
-                                                     errorMessage: &errorMessage)
+            ScrollView {
+                VStack {
+                    ErrorMessageBar(errorMessage: errorMessage).padding([.top, .bottom], 5)
                     
-                    if validInputs {
-                        let successfulUpdate = updateRSA()
-                
-                        if successfulUpdate {
-                            showNextView = true
-                        }
-                        else {
-                            // TODO: What should we do if there's an error?
+                    Text("This is where we start to encrypt your message. Enter two prime numbers below.")
+                        .padding([.leading, .trailing])
+                    
+                    Text("These two numbers are used to secure your message. Anyone who knows them will be able to decipher your message.")
+                        .padding([.top, .leading, .trailing])
+                    
+                    MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: EnterPrimesInfoView())
+                        .padding([.top, .bottom])
+                    
+                    PrimeTextFieldsView(
+                        prime1: $prime1, prime2: $prime2,
+                        primeImage1: $primeImage1, primeImage2: $primeImage2,
+                        errorMessage: $errorMessage,
+                        allowEditPrimes: .constant(true),
+                        showUseDifferentPrimesCheckbox: false
+                    )
+                    
+                    Text("Next, create your encryption key. This is publicly available and will let anyone encode a message and send it to you.")
+                        .padding()
+                    
+                    Button("Create Encryption Key") {
+                        let validInputs = validateInputs(prime1: prime1, prime2: prime2,
+                                                         primeImage1: &primeImage1, primeImage2: &primeImage2,
+                                                         errorMessage: &errorMessage)
+                        
+                        if validInputs {
+                            let successfulUpdate = updateRSA()
+                            
+                            if successfulUpdate {
+                                showNextView = true
+                            }
+                            else {
+                                // TODO: What should we do if there's an error?
+                            }
                         }
                     }
+                    .buttonStyle(MenuButtonStyle())
+                    .padding(.bottom)
                 }
-                .buttonStyle(MenuButtonStyle())
+                .monospacedBodyText()
             }
-            .monospacedBodyText()
         }
     }
 }

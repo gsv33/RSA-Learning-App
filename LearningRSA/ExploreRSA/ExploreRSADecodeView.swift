@@ -62,25 +62,15 @@ struct ExploreRSADecodeView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden()
 
-            
-            
             VStack {                                
                 ErrorMessageBar(errorMessage: errorMessage).padding(10)
                 
                 Text("Your encoded message")
                     .monospacedTitleText(textStyle: .headline)
 
-                ScrollView() {
-                    Text(encodedMessage)
-                        .font(.system(.title3, design: .monospaced))
-                        .padding()
-                }
-                .frame(maxWidth: .infinity, maxHeight: 150)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(.white, lineWidth: 3)
-                ).padding([.leading, .trailing,.bottom])
-
+                AlternateTextInScrollView(message: encodedMessage, maxHeight: 150)
+                    .padding([.leading, .trailing, .bottom])
+                
                 PrimeTextFieldsView(
                     prime1: $prime1, prime2: $prime2,
                     primeImage1: $primeImage1, primeImage2: $primeImage2,
@@ -92,24 +82,15 @@ struct ExploreRSADecodeView: View {
                 Button("Decode Message") {
                     decodeMessagePressed()
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(.red)
-                .font(.system(.title3, design: .monospaced))
+                    .buttonStyle(.borderedProminent)
+                    .tint(.red)
+                    .font(.system(.title3, design: .monospaced))
 
-                ScrollView() {
-                    Text(decodedMessage)
-                        .foregroundColor(.black)
-                        .padding()
-                        .font(.system(.title3, design: .monospaced))
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.white)
-                )
-                .padding()
-                .opacity(showDecodedMessage ? 1.0 : 0.10)
-                .animation(.default, value: showDecodedMessage)                
+                TextInScrollView(message: decodedMessage, maxHeight: 150)
+                    .padding()
+                    .opacity(showDecodedMessage ? 1.0 : 0.10)
+                    .animation(.default, value: showDecodedMessage)
+                
             }.monospacedBodyText()
         }
     }

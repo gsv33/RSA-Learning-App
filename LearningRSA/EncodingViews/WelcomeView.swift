@@ -31,7 +31,7 @@ struct WelcomeView: View {
                 
                 NavigationLink(
                     destination: EnterMessageView(),
-                    isActive: $navigationController.rootNavLinkIsActive
+                    isActive: $navigationController.tutorialNavLinkIsActive
                 ) {
                     Text("Step-by-Step Walkthrough")
                 }
@@ -39,7 +39,8 @@ struct WelcomeView: View {
                 .buttonStyle(MenuButtonStyle(textStyle: Font.TextStyle.title2))
                 .padding(.bottom, 20)
                 
-                NavigationLink(destination: ExploreRSAView()) {
+                NavigationLink(destination: ExploreRSAView(),
+                               isActive: $navigationController.exploreNavLinkIsActive) {
                     Text("Explore RSA")
                 }
                 .isDetailLink(false)

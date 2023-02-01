@@ -127,7 +127,6 @@ struct PrimeTextFieldsView: View {
             }
             .buttonStyle(GenerateRandomPrimesButtonStyle())
             .disabled(!allowEditPrimes)
-            .padding([.bottom], 10)
         }
 
 
@@ -157,7 +156,7 @@ struct PreviewView: View {
                     primeImage2: $primeImage2,
                     errorMessage: $errorMessage,
                     allowEditPrimes: .constant(true),
-                    showUseDifferentPrimesCheckbox: false
+                    showUseDifferentPrimesCheckbox: true
                 )
             }
             .foregroundColor(.white)

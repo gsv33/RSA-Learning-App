@@ -10,7 +10,7 @@ import SwiftUI
 struct GenerateKeysView: View {
     @EnvironmentObject var rsa: RSA
     
-    let titleText = "Create Public Key"
+    let titleText = "Encryption Key"
     
     @State var showInfoSheet = false
     @State var showNextView = false
@@ -50,7 +50,7 @@ struct GenerateKeysView: View {
 
                 ScrollView {
                     Group {
-                        Text("Your public key is what other people use to send you encrypted messages. It's used to \"lock\" a message before sending it to you.")
+                        Text("Your encryption key is what other people use to send you encrypted messages. It's used to \"lock\" a message before sending it to you.")
                             .padding([.top,.leading,.trailing])
                         
                         Text("It's made up of two parts.").padding([.top,.leading,.trailing])
@@ -60,7 +60,7 @@ struct GenerateKeysView: View {
                     .animation(.easeIn(duration: 1.0), value: textOpacity1)
                     
                     Group {
-                        Text("The first part is the product of your two prime numbers, p and q.").padding()
+                        Text("The first part is the product of your two prime numbers, P and Q.").padding()
                         
                         Text("\(String(rsa.prime1))").foregroundColor(Colors.inputColor) +
                         Text(" x ") +
@@ -72,7 +72,7 @@ struct GenerateKeysView: View {
                     .animation(.easeIn(duration: 1.0), value: textOpacity2)
                     
                     Group {
-                        Text("The second part is a number relatively prime to \n(p - 1) x (q - 1). This means the two numbers have no common factors.")
+                        Text("The second part is a number relatively prime to \n(P - 1) x (Q - 1). This means the two numbers have no common factors.")
                             .padding()
                     }
                     .opacity(textOpacity3)
@@ -85,20 +85,18 @@ struct GenerateKeysView: View {
                         Text(" = ") +
                         Text("\(String(rsa.encodePhi))").foregroundColor(Colors.outputColor)
                         
-                        Text("")
-                    
-                        Text("\(String(rsa.encodePhi))").foregroundColor(Colors.inputColor) +
+                        (Text("\(String(rsa.encodePhi))").foregroundColor(Colors.inputColor) +
                         Text(" is relatively prime to ") +
-                        Text("\(String(rsa.encryptionKeyE))").foregroundColor(Colors.outputColor)
+                        Text("\(String(rsa.encryptionKeyE))").foregroundColor(Colors.outputColor))
+                        .padding(.top)
                     }
                     .opacity(textOpacity4)
                     .animation(.easeIn(duration: 1.0), value: textOpacity4)
 
                     Group {
-                        Text("").padding(.top)
                         
-                        Text("Your encryption key is")
-                        EncryptionKey(exponent: rsa.encryptionKeyE, product: rsa.productOfPrimes)
+                        Text("Your encryption key is").padding(.top)
+                        DisplayKeyView(exponent: rsa.encryptionKeyE, product: rsa.productOfPrimes)
                         
                         MoreInfoButton(
                             showInfoSheet: $showInfoSheet,
@@ -109,6 +107,7 @@ struct GenerateKeysView: View {
                             showNextView = true
                         }
                         .buttonStyle(MenuButtonStyle())
+                        .padding(.bottom)
                     }
                     .opacity(textOpacity5)
                     .animation(.easeIn(duration: 1.0), value: textOpacity5)
