@@ -55,7 +55,7 @@ struct MenuView: View {
                     }
                     
                     Button("Back to Welcome Screen") {
-                        navigationController.tutorialNavLinkIsActive = false
+                        navigationController.popToRootFromTutorial()
                     }
                     .buttonStyle(MenuButtonStyle())
                     .padding()

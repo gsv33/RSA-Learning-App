@@ -37,6 +37,18 @@ class NavigationController: ObservableObject {
     // Then, setting this to false will pop all the views off the stack
     @Published var tutorialNavLinkIsActive = false
     @Published var exploreNavLinkIsActive = false
+    
+    func popToRootFromTutorial() {
+        if tutorialNavLinkIsActive {
+            tutorialNavLinkIsActive = false
+        }
+    }
+    
+    func popToRootFromExploreRSA() {
+        if exploreNavLinkIsActive {
+            exploreNavLinkIsActive = false
+        }
+    }
 }
 
 

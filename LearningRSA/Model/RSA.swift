@@ -12,6 +12,9 @@ struct Number: Identifiable {
     let value: String
 }
 
+// This class is only needed to create a second environmentObject for the explore RSA views.
+class RSAExplore: RSA {}
+
 // Note: This is NOT a secure implementation of RSA. It is just a tool for learning
 // about the algorithm.
 class RSA: ObservableObject {
@@ -20,61 +23,46 @@ class RSA: ObservableObject {
     let charToNumEncoding = CharacterConverter.charToNumEncoding
     
     // Input Messages
-    var inputMessageEng: String = "This is a test of a really, really long message to see if the layout works properly."
-    var inputMessageNum: String = "301819293719293711373015293030181929371929371137301529303018192937192937113730152930301819293719293711373015293030181929371929371137301529303018192937192937113730152930"
-    var inputMessageNumSplit: String = "3018192 9371929 3711373 0152930 3018192 937192 9371137 3015293 030181 929371 92937 1137301 529303 0181929 3719293 711373 015293 030181 929371 92937 11373 01529 30301 8192 9371 9293 711 373 015 29 30 25 35 15 15 99 42 48 25 253 534 488 123 432 432"
-    var inputMessageNumList: [Number] = [Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930"),
-                                         Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930"),
-                                         Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930"),
-                                         Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930")]
+    var inputMessageEng: String = ""
+    var inputMessageNum: String = ""
+    var inputMessageNumSplit: String = ""
+    var inputMessageNumList: [Number] = []
 
     // Encoded Messages
-    var encodedMessageNum: String = "464706928956032108984880120812819"
-    var encodedMessageNumSplit: String = "4647069 289560 321089 848801 20812819 937192 9371137 3015293 030181 929371 92937 1137301 529303 0181929 3719293 711373 015293 030181 929371 92937 11373 01529 30301 8192 9371 9293 711 373 015 29 30 25 35 15 15 99 42 48 25 253 534 488 123 432 432"
-    var encodedMessageNumList: [Number] = [Number(value: "4647069"), Number(value: "28956032"), Number(value: "10898488"), Number(value: "129495095"),
-                                           Number(value: "4647069"), Number(value: "28956032"), Number(value: "10898488"), Number(value: "129495095"),
-                                           Number(value: "4647069"), Number(value: "28956032"), Number(value: "10898488"), Number(value: "129495095"),
-                                           Number(value: "4647069"), Number(value: "28956032"), Number(value: "10898488"), Number(value: "129495095")]
+    var encodedMessageNum: String = ""
+    var encodedMessageNumSplit: String = ""
+    var encodedMessageNumList: [Number] = []
     
     // Real Decoded Messages
-    var realDecodedMessageEng: String = "THIS IS A TEST"
-    var realDecodedMessageNum: String = "3018192937192937113730152930"
-    var realDecodedMessageNumSplit: String = "5787069 123456 0001234 848801 20812819 937192 9371137 3015293 030181 929371 92937 1137301 529303 0181929 3719293 711373 015293 030181 929371 92937 11373 01529 30301 8192 9371 9293 711 373 015 29 30 25 35 15 15 99 42 48 25 253 534 488 123 432 432"
-    var realDecodedMessageNumList: [Number] = [Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930"),
-                                               Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930"),
-                                               Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930"),
-                                               Number(value: "3018192"), Number(value: "9371929"), Number(value: "3711373"), Number(value: "0152930")]
+    var realDecodedMessageEng: String = ""
+    var realDecodedMessageNum: String = ""
+    var realDecodedMessageNumSplit: String = ""
+    var realDecodedMessageNumList: [Number] = []
 
-    
     // Fake Decoded Messages
-    var fakeDecodedMessageEng: String = "MXXWKXXXE XXXXXX"
-    var fakeDecodedMessageNum: String = "26007518192019956333876020616234"
-    var fakeDecodedMessageNumSplit: String = "0001234 123456 0001234 848801 20812819 937192 9371137 3015293 030181 929371 92937 1137301 529303 0181929 3719293 711373 015293 030181 929371 92937 11373 01529 30301 8192 9371 9293 711 373 015 29 30 25 35 15 15 99 42 48 25 253 534 488 123 432 432"
-    var fakeDecodedMessageNumList: [Number] = [Number(value: "26007518"), Number(value: "19201995"), Number(value: "6333876"), Number(value: "020616234"),
-                                               Number(value: "26007518"), Number(value: "19201995"), Number(value: "6333876"), Number(value: "020616234"),
-                                               Number(value: "26007518"), Number(value: "19201995"), Number(value: "6333876"), Number(value: "020616234"),
-                                               Number(value: "26007518"), Number(value: "19201995"), Number(value: "6333876"), Number(value: "020616234")]
+    var fakeDecodedMessageEng: String = ""
+    var fakeDecodedMessageNum: String = ""
+    var fakeDecodedMessageNumSplit: String = ""
+    var fakeDecodedMessageNumList: [Number] = []
     
-
-
-    var prime1: Int = 4241
-    var prime2: Int = 7331
+    var prime1: Int = 0
+    var prime2: Int = 0
     
-    var realDecodePrime1: Int = 4241
-    var realDecodePrime2: Int = 7331
+    var realDecodePrime1: Int = 0
+    var realDecodePrime2: Int = 0
     var realDecodePhi: Int {
         return (realDecodePrime1 - 1) * (realDecodePrime2 - 1)
     }
 
-    var fakeDecodePrime1: Int = 1871
-    var fakeDecodePrime2: Int = 2377
+    var fakeDecodePrime1: Int = 0
+    var fakeDecodePrime2: Int = 0
     var fakeDecodePhi: Int {
         return (fakeDecodePrime1 - 1) * (fakeDecodePrime2 - 1)
     }
     
-    var encryptionKeyE: Int = 2079
-    var realDecryptionKeyD: Int = 19000319
-    var fakeDecryptionKeyD: Int = 4440983
+    var encryptionKeyE: Int = 0
+    var realDecryptionKeyD: Int = 0
+    var fakeDecryptionKeyD: Int = 0
     
     var productOfPrimes: Int {
         return prime1 * prime2
@@ -90,7 +78,7 @@ class RSA: ObservableObject {
     var encodePhi: Int {
         return (prime1 - 1) * (prime2 - 1)
     }
-    
+        
     // uses inputMessageNumList, encryptionKeyE, and productOfPrimes to
     // encode the message by modular exponentiation
     func encodeMessage() {
@@ -130,9 +118,10 @@ class RSA: ObservableObject {
         fakeDecryptionKeyD = computeDecryptionKeyD(phi: fakeDecodePhi)
     }
     
-    func decodeMessage(decryptionKeyD: Int, decodedMessageList: inout [Number], decodedMessageNum: inout String) {
+    func decodeMessage(decryptionKeyD: Int, decodedMessageList: inout [Number], decodedMessageNum: inout String, decodedMessageNumSplit: inout String) {
         decodedMessageList = []
         decodedMessageNum = ""
+        decodedMessageNumSplit = ""
         
         var numVal = 0
         var decodedNum = ""
@@ -150,6 +139,7 @@ class RSA: ObservableObject {
                                    
             decodedMessageList.append(Number(value: decodedNum))
             decodedMessageNum += decodedNum
+            decodedMessageNumSplit += decodedNum + " "
         }
     }
     
@@ -157,13 +147,15 @@ class RSA: ObservableObject {
         decodeMessage(
             decryptionKeyD: realDecryptionKeyD,
             decodedMessageList: &realDecodedMessageNumList,
-            decodedMessageNum: &realDecodedMessageNum
+            decodedMessageNum: &realDecodedMessageNum,
+            decodedMessageNumSplit: &realDecodedMessageNumSplit
         )
 
         decodeMessage(
             decryptionKeyD: fakeDecryptionKeyD,
             decodedMessageList: &fakeDecodedMessageNumList,
-            decodedMessageNum: &fakeDecodedMessageNum
+            decodedMessageNum: &fakeDecodedMessageNum,
+            decodedMessageNumSplit: &fakeDecodedMessageNumSplit
         )
     }
         
@@ -266,5 +258,43 @@ class RSA: ObservableObject {
             inputMessageNumList.append(Number(value: paddedStr))
             inputMessageNumSplit += paddedStr + " "
         }
+    }
+    
+    func resetAllValues() {
+        // Input Messages
+        inputMessageEng = ""
+        inputMessageNum = ""
+        inputMessageNumSplit = ""
+        inputMessageNumList = []
+
+        // Encoded Messages
+        encodedMessageNum = ""
+        encodedMessageNumSplit = ""
+        encodedMessageNumList = []
+        
+        // Real Decoded Messages
+        realDecodedMessageEng = ""
+        realDecodedMessageNum = ""
+        realDecodedMessageNumSplit = ""
+        realDecodedMessageNumList = []
+
+        // Fake Decoded Messages
+        fakeDecodedMessageEng = ""
+        fakeDecodedMessageNum = ""
+        fakeDecodedMessageNumSplit = ""
+        fakeDecodedMessageNumList = []
+        
+        prime1 = 0
+        prime2 = 0
+        
+        realDecodePrime1 = 0
+        realDecodePrime2 = 0
+
+        fakeDecodePrime1 = 0
+        fakeDecodePrime2 = 0
+        
+        encryptionKeyE = 0
+        realDecryptionKeyD = 0
+        fakeDecryptionKeyD = 0
     }
 }

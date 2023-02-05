@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var rsa = RSA()
+    @StateObject var rsaExplore = RSAExplore()
     @StateObject var navigationController = NavigationController()
     
     var body: some View {
@@ -17,6 +18,7 @@ struct ContentView: View {
         }
         .navigationViewStyle(.stack)
         .environmentObject(rsa) // must go outside navigation view
+        .environmentObject(rsaExplore)
         .environmentObject(navigationController)
     }
 }

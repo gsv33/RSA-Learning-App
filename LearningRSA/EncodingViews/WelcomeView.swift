@@ -9,6 +9,8 @@ import SwiftUI
 
 struct WelcomeView: View {
     @EnvironmentObject var navigationController: NavigationController
+    @EnvironmentObject var rsa: RSA
+    @EnvironmentObject var rsaExplore: RSAExplore
     @State private var showRSAOverview = false
     
     var body: some View {
@@ -57,11 +59,16 @@ struct WelcomeView: View {
             }
             .bold()
         }.foregroundColor(Colors.textColor)
+            .onAppear {
+                rsa.resetAllValues()
+                rsaExplore.resetAllValues()
+            }
     }
 }
 
 struct WelcomeView_Previews: PreviewProvider {
     @StateObject static var rsa = RSA()
+    @StateObject static var rsaExplore = RSAExplore()
     @StateObject static var navigationController = NavigationController()
     
     static var previews: some View {
@@ -69,6 +76,7 @@ struct WelcomeView_Previews: PreviewProvider {
             WelcomeView()
         }
         .environmentObject(rsa)
+        .environmentObject(rsaExplore)
         .environmentObject(navigationController)
     }
 }

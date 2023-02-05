@@ -33,6 +33,15 @@ struct EnterEncodePrimesView: View {
         return success
     }
     
+    // if the primes have already been chosen and
+    // rsa has not yet been reset, load those primes
+    func loadPrimes() {
+        if rsa.prime1 != 0 && rsa.prime2 != 0 {
+            prime1 = String(rsa.prime1)
+            prime2 = String(rsa.prime2)
+        }
+    }
+    
     var body: some View {
         ZStack {
             Colors.backgroundColor.ignoresSafeArea()
@@ -87,6 +96,8 @@ struct EnterEncodePrimesView: View {
                     .padding(.bottom)
                 }
                 .monospacedBodyText()
+            }.onAppear {
+                loadPrimes()
             }
         }
     }

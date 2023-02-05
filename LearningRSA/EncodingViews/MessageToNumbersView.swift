@@ -75,6 +75,7 @@ struct MessageToNumbersView: View {
                             .buttonStyle(MenuButtonStyle())
                         }
                     }
+                    .fixedSize(horizontal: false, vertical: true)
                     .frame(minHeight: geometry.size.height)
                     .monospacedBodyText()
                     .padding()

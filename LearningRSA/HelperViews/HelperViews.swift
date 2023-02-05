@@ -218,14 +218,9 @@ struct ExploreRSAHelpView: View {
                         Button("Back to Welcome Screen") {
                             
                             // can be accessed from either the Tutorial NavigationLink or
-                            // the Explore NavigationLink, so need to check which is active
-                            if navigationController.tutorialNavLinkIsActive {
-                                navigationController.tutorialNavLinkIsActive = false
-                            }
-
-                            if navigationController.exploreNavLinkIsActive {
-                                navigationController.exploreNavLinkIsActive = false
-                            }
+                            // the Explore NavigationLink, so need to check both
+                            navigationController.popToRootFromTutorial()
+                            navigationController.popToRootFromExploreRSA()
                         }
                         .buttonStyle(MenuButtonStyle())
                         .padding()

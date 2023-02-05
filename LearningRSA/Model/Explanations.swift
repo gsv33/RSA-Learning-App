@@ -17,16 +17,17 @@ struct EnterMessageInfoView: View {
             Colors.backgroundColor.ignoresSafeArea()
             
             VStack {
-                Text(title).monospacedTitleText()
+                Text(title)
+                    .monospacedTitleText()
                 
                 ScrollView {
-                    Text("Welcome to the Learning RSA App step-by-step tutorial! This will be an overview of how the RSA algorithm works.")
+                    Text("Welcome to the Learning RSA App walkthrough! This will be an overview of how the RSA algorithm works.")
                         .padding()
                     
-                    Text("This tutorial is broken into two parts, the encoding section, where you will learn how RSA encrypts a message, and the decoding section, where you will learn how RSA decrypts a message.")
+                    Text("This walkthrough is broken into two parts, the encoding section, where you will learn how RSA encrypts a message, and the decoding section, where you will learn how RSA decrypts a message.")
                         .padding()
                     
-                    Text("To help make this clear, at each step in this tutorial, you will encode, and then decode your own message.")
+                    Text("To help make this clear, at each step in the walkthrough, you will encode, and then decode your own message.")
                         .padding()
                     
                     Group {
@@ -40,6 +41,7 @@ struct EnterMessageInfoView: View {
                 
                 Button("Dismiss") { dismiss() }
                     .buttonStyle(MenuButtonStyle())
+                    .padding()
             }
             .monospacedBodyText()
         }
@@ -55,23 +57,24 @@ struct MessageEncodingInfoView: View {
             
             VStack {
                 
-                Text("Message to Numbers Conversion")
+                Text("Message to Numbers")
                     .monospacedTitleText()
                 
                 ScrollView {
-                    Text("Before we can encrypt your message, we need to convert it to numbers.")
+                    Text("Before we can encrypt your message, we need to convert your text to numbers.")
                         .padding()
                     
-                    Text("The way RSA works is that first we transform your message to a sequence of numbers. Then, we apply a mathematical function to encrypt this sequence as a different sequence of numbers. So the first step is to convert the message to a bunch of numbers.")
+                    Text("The way RSA works is that first we convert your message into a sequence of numbers. Then, we apply a mathematical function to transform this sequence into a different, encrypted, sequence of numbers. So the first step is to convert the message text into numbers.")
                         .padding()
                     
-                    Text("This doesn't need to be secure. The only thing that matters here is that the sender and receiver both know how the letters are converted into numbers").padding()
+                    Text("This doesn't need to be secure. The only thing that matters here is that the sender and receiver both know how each letter is converted into a number.").padding()
                     
-                    Text("In this app, we just use a simple conversion scheme that covers the most commonly used English letters and punctuation (called the ASCII set). In real implementations, this would scale up to create encodings for other languages, symbols, emojis, etc (known as the Unicode set).").padding()
+                    Text("In this app, we just use a simple conversion scheme that covers the most commonly used English letters and punctuation and assigns a 2-digit number to each character.").padding()
                 }
                 
                 Button("Dismiss") { dismiss() }
                     .buttonStyle(MenuButtonStyle())
+                    .padding()
             }
             .monospacedBodyText()
             
@@ -87,44 +90,43 @@ struct EnterPrimesInfoView: View {
             Colors.backgroundColor.ignoresSafeArea()
             
             VStack{
-                Text("Why Prime Numbers?")
-                    .monospacedTitleText()
-                    .padding()
-
                 ScrollView {
+                    Text("Why Prime Numbers?")
+                        .monospacedTitleText()
                     
-                    Text("Prime numbers are the building blocks of the RSA cryptosystem. This is because of the fundamental theorem of arithmetic, which says that every single positive integer has a unique prime factorization.").padding()
-                    
-                    Text("These are the blue numbers below.").padding()
-                    
-                    Text("187 = ") + Text("11").foregroundColor(Colors.outputColor)
-                    + Text(" x ") + Text("17").foregroundColor(Colors.outputColor)
-
-                    Text("2623 = ") + Text("43").foregroundColor(Colors.outputColor)
-                    + Text(" x ") + Text("61").foregroundColor(Colors.outputColor)
-
-                    Text("133577 = ") + Text("223").foregroundColor(Colors.outputColor)
-                    + Text(" x ") + Text("599").foregroundColor(Colors.outputColor)
-
-                    Text("Because of this property, if we multiply two prime numbers p and q together to get m = pq, that product m will only have one prime factorization, namely the two numbers that we multiplied together, p and q.").padding()
-
-                    Text("Now we're starting to get into the math of RSA. There are two fundamental concepts behind the RSA algorithm. (1) It is easy to multiple large numbers together. (2) It is very difficult to find the prime factorization of a large number (even for a computer).").padding()
-
-                    Text("In this app, we use small prime numbers so that it's easier to understand what's going on, but in a practical implementation, the prime numbers would be hundreds of digits long.")
-                        .padding()
-
-                    Text("The prime numbers will be used to create two keys, a public key that anyone can use to encode a message, and a private key, which only the receiver knows, which will be used to decode the message. This way, only the intended recipient can decode a message.")
-                        .padding()
-
-                    Text("So the first step to encoding your message is choosing the prime numbers you want to use!")
-                        .padding()
-
-        
-                    
+                    Group {
+                        
+                        Text("Prime numbers are the building blocks of the RSA cryptosystem. This is because of the fundamental theorem of arithmetic, which says that every positive integer has a unique prime factorization.").padding()
+                        
+                        Text("For example, the prime factors are the blue numbers below.").padding()
+                        
+                        Text("187 = ") + Text("11").foregroundColor(Colors.outputColor)
+                        + Text(" x ") + Text("17").foregroundColor(Colors.outputColor)
+                        
+                        Text("2623 = ") + Text("43").foregroundColor(Colors.outputColor)
+                        + Text(" x ") + Text("61").foregroundColor(Colors.outputColor)
+                        
+                        Text("133577 = ") + Text("223").foregroundColor(Colors.outputColor)
+                        + Text(" x ") + Text("599").foregroundColor(Colors.outputColor)
+                        
+                        Text("Because of this property, if we multiply two prime numbers P and Q together to get M = PQ, that product M will only have one prime factorization, namely the two numbers that we multiplied together, P and Q.").padding()
+                        
+                        Text("Now there are two fundamental concepts behind the RSA algorithm. (1) It is easy to multiple large numbers together. (2) It is very difficult to find the prime factorization of a large number (even for a computer).").padding()
+                        
+                        Text("As you continue the walkthrough, you will see that the prime numbers will be used to create two keys, a public encryption key that anyone can use to encode a message, and a private decryption key, which will be used to decode the message and will be known only to its owner.")
+                            .padding()
+                        
+                        Text("The relationship between these two keys is directly related to the relationship between M and its prime factors, P and Q. In fact, it is because M is very difficult to factor that we can create a public key, based on M, without compromising our private key, based on P and Q.")
+                            .padding()
+                        
+                        Text("Keep in mind that in this app, we use small prime numbers so that it's easier to understand what's going on, but in a practical implementation, the prime numbers would be hundreds of digits long.")
+                            .padding()
+                    }
                 }
                 
                 Button("Dismiss") { dismiss() }
                     .buttonStyle(MenuButtonStyle())
+                    .padding()
             }
             .monospacedBodyText()
         }
@@ -394,11 +396,13 @@ struct NumbersToTextInfoView: View {
                     .monospacedTitleText()
                     .padding()
                 
-                Text("You should have gotten two very different messages. The message that was decoded with the correct prime numbers should exactly match your input.").padding()
-                
-                Text("The message that was decoded with the wrong prime numbers should make absolutely no sense.").padding()
-                
-                Text("The idea is to give you a sense of how important prime numbers are to the security of the RSA cryptosystem, and so that you can see how just changing the two numbers can make your message completely undecipherable.").padding()
+                ScrollView {
+                    Text("You should have gotten two very different messages. The message that was decoded with the correct prime numbers should exactly match your input.").padding()
+                    
+                    Text("The message that was decoded with the wrong prime numbers should make absolutely no sense.").padding()
+                    
+                    Text("The idea is to give you a sense of how important prime numbers are to the security of the RSA cryptosystem, and so that you can see how just changing the two numbers can make your message completely undecipherable.").padding()
+                }
                 
                 Button("Dismiss") { dismiss() }
                     .buttonStyle(MenuButtonStyle())
@@ -421,17 +425,20 @@ struct RSAOverviewView: View {
                     .monospacedTitleText()
                     .padding()
                 
-                Text("RSA is a widely used cryptography algorithm. It's a way to send and receive messages securely over the internet.")
-                    .padding()
-                
-                Text("There are two components to RSA. An encryption key that lets you encode a message for someone else, and a decryption key that lets you decode a message meant only for you.")
-                    .padding()
-                
-                Text("The relationship between these two keys, and the security of the entire algorithm, is based on interesting properties of prime numbers and modular arithmetic.").padding()
-                
-                Text("The walkthrough will give you an overview of how RSA works.")
-                    .padding()
-                
+                ScrollView {
+                    
+                    Text("RSA is a widely used cryptography algorithm. It's a way to send and receive messages securely over the internet.")
+                        .padding()
+                    
+                    Text("There are two components to RSA. An encryption key that lets you encode a message for someone else, and a decryption key that lets you decode a message meant only for you.")
+                        .padding()
+                    
+                    Text("The relationship between these two keys, and the security of the entire algorithm, is based on a few interesting properties of prime numbers and modular arithmetic.").padding()
+                    
+                    Text("The walkthrough will give you an overview of how RSA works.")
+                        .padding()
+                    
+                }
                 Button("Dismiss") { dismiss() }
                     .buttonStyle(MenuButtonStyle())
                     .padding()
@@ -444,6 +451,6 @@ struct RSAOverviewView: View {
 
 struct Explanations_Previews: PreviewProvider {
     static var previews: some View {
-        DecodedMessageInfoView()
+        EnterPrimesInfoView()
     }
 }

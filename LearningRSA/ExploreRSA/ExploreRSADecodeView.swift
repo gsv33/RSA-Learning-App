@@ -8,19 +8,20 @@
 import SwiftUI
 
 struct ExploreRSADecodeView: View {
-    @EnvironmentObject var rsa: RSA
+    @EnvironmentObject var rsa: RSAExplore
     
-    @State var encodedMessage = "123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345"
-    @State var errorMessage: ErrorMessages = .maxMessageLength
-
-    @State var prime1 = "1061"
-    @State var prime2 = "1531"
+    @State var errorMessage: ErrorMessages = .noError
+    
+    @State var prime1 = ""
+    @State var prime2 = ""
 
     @State var primeImage1 = "checkmark"
     @State var primeImage2 = "checkmark"
 
+    @State var encodedMessage = ""
+    @State var decodedMessage = ""
+    
     @State var useDifferentPrimes = false
-    @State var decodedMessage = "This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!This is a test of the decoding message system!"
     @State var showDecodedMessage = false
     @State var showNextView = false
     
@@ -33,6 +34,13 @@ struct ExploreRSADecodeView: View {
     }
     
     func decodeMessage() {
+        rsa.realDecodePrime1 = Int(prime1)!
+        rsa.realDecodePrime2 = Int(prime2)!
+
+        // TODO: No need to set these in the Explore section, but can't run RSA o/w
+        rsa.fakeDecodePrime1 = Int(prime1)!
+        rsa.fakeDecodePrime2 = Int(prime2)!
+        
         rsa.computeDecryptionKeys()
         rsa.decodeRealAndFakeMessages()
         rsa.convertDecodedMessagesToEnglish()
@@ -45,7 +53,8 @@ struct ExploreRSADecodeView: View {
                                          errorMessage: &errorMessage)
 
         if validInputs {
-//            decodeMessage() // TODO: This doesn't work
+            decodeMessage()
+            decodedMessage = rsa.realDecodedMessageEng
             showDecodedMessage = true
         }
     }
@@ -62,13 +71,16 @@ struct ExploreRSADecodeView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden()
 
-            VStack {                                
-                ErrorMessageBar(errorMessage: errorMessage).padding(10)
+            VStack {
+                ErrorMessageBar(errorMessage: errorMessage)
+                    .padding([.top, .bottom])
                 
                 Text("Your encoded message")
                     .monospacedTitleText(textStyle: .headline)
 
-                AlternateTextInScrollView(message: encodedMessage, maxHeight: 150)
+                AlternateTextInScrollView(message: encodedMessage,
+                                          textColor: .white,
+                                          maxHeight: 150)
                     .padding([.leading, .trailing, .bottom])
                 
                 PrimeTextFieldsView(
@@ -92,18 +104,22 @@ struct ExploreRSADecodeView: View {
                     .animation(.default, value: showDecodedMessage)
                 
             }.monospacedBodyText()
+        }.onAppear {
+            encodedMessage = rsa.encodedMessageNum
+            prime1 = String(rsa.prime1)
+            prime2 = String(rsa.prime2)
         }
     }
 }
 
 
 struct ExploreRSADecodeView_Previews: PreviewProvider {
-    @StateObject static var rsa = RSA()
+    @StateObject static var rsaExplore = RSAExplore()
     
     static var previews: some View {
         NavigationView {
             ExploreRSADecodeView()
-                .environmentObject(rsa)
+                .environmentObject(rsaExplore)
         }
     }
 }

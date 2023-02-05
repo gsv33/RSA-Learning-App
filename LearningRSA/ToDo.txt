@@ -1,13 +1,14 @@
-To Do List
+To Do List (please write detailed bug descriptions!)
+
 - Additional bugs in the wrong error message showing up
 - sync color scheme across views
 - Test on multiple devices (fix any bugs)
 - Test character to number mapping title size on SE
 - Reorder public key
-* Input/Output bug in Encode Message section
 - Right Align encoding/decoding math inputs in grid
 - Proofread explanations
 - Bug: "Show number to letter mapping" doesn't animate when dismissed from the MessageToNumbers second view
+- Should the decode button randomize the output?
 
 Completed
 x ** Primes must be distinct! Otherwise the math doesn't work**
@@ -24,7 +25,11 @@ x Fill in More Info sections
 x How do we handle long animation times? (Show next button before animation is finished?)
     x Alternative page for encoding
 x Bug: Sometimes the step-by-step button loads the explore rsa screen and vice versa
+x Add reset button when user goes back to main menu
+x No output for the decoded nums - blank screen displays
+x Need separate rsa variables for Explore and Tutorial
 
 Later
 - add generate random message button
 - Create automatic encoding and decoding updates for the ExploreRSA views
+- If you set primes, then go back, then forward to the primes page, the primes are reset to 0

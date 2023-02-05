@@ -21,7 +21,8 @@ struct DecodeMessageView2: View {
         let DFake = String(rsa.fakeDecryptionKeyD)
         
         VStack {
-            Text("Putting it all together, here's your decoded message:").padding()
+            Text("Putting it all together, here's your decoded message:")
+                .padding([.leading, .trailing, .bottom])
             
             AlternateTextInScrollView(message: rsa.realDecodedMessageNum, textColor: Colors.outputColor)
                 .padding([.leading, .trailing, .bottom])

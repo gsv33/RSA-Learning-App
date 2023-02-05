@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ExploreRSAToolbar: ToolbarContent {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var navigationController: NavigationController
+    
     var titleText: String
     var clearInputs: () -> Void
     @Binding var showDecodeButton: Bool
@@ -53,8 +55,11 @@ struct ExploreRSAToolbar: ToolbarContent {
                     .animation(.default, value: showDecodeButton)
                     .disabled(!showDecodeButton)
             } else {
-                Button("Menu") {}
-                    .buttonStyle(DecodeButtonStyle(startAnimation: .constant(false)))
+                Button("Menu") {
+                    navigationController.popToRootFromTutorial()
+                    navigationController.popToRootFromExploreRSA()
+                }
+                .buttonStyle(DecodeButtonStyle(startAnimation: .constant(false)))
             }
 
         }
@@ -64,16 +69,16 @@ struct ExploreRSAToolbar: ToolbarContent {
 
 
 struct ExploreRSAView: View {
-    @EnvironmentObject var rsa: RSA
+    @EnvironmentObject var rsa: RSAExplore
     
-    @State var textFieldMessage = "This is a test of the vertical axis. This is a test of the vertical axis. This is a test of the vertical axis."
-    @State var inputMessage = "TEST"
-    @State var encodedMessage = "123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345123451234512345"
-    @State var prime1 = "12345"
-    @State var prime2 = "12345"
-    @State var k = "1234512345123451234512345123451234512345123451234512345123451234512345"
-    @State var m = "12345"
-    @State var errorMessage: ErrorMessages = .maxMessageLength
+    @State var textFieldMessage = ""
+    @State var inputMessage = ""
+    @State var encodedMessage = ""
+    @State var prime1 = ""
+    @State var prime2 = ""
+    @State var E = "" // encryption key exponent
+    @State var M = "" // product of primes
+    @State var errorMessage: ErrorMessages = .noError
         
     @State var primeImage1 = "checkmark"
     @State var primeImage2 = "checkmark"
@@ -85,18 +90,24 @@ struct ExploreRSAView: View {
         textFieldMessage = ""; inputMessage = ""; encodedMessage = ""
         prime1 = ""; prime2 = ""
         primeImage1 = ""; primeImage2 = ""
-        k = ""; m = ""
+        E = "";
+        M = ""
         errorMessage = .noError
         showEncodedMessage = false
     }
     
     func encodeMessage() {
         rsa.inputMessageEng = inputMessage
+        rsa.prime1 = Int(prime1)!
+        rsa.prime2 = Int(prime2)!
         
         rsa.stringToNumberConversion()
         rsa.splitInputNumberByDigits()
         rsa.computeEncryptionKeyE()
         rsa.encodeMessage()
+        
+        M = String(rsa.productOfPrimes)
+        E = String(rsa.encryptionKeyE)
         
         encodedMessage = rsa.encodedMessageNum
     }
@@ -133,7 +144,8 @@ struct ExploreRSAView: View {
                 .navigationBarBackButtonHidden()
                         
             VStack {
-                ErrorMessageBar(errorMessage: errorMessage).padding()
+                ErrorMessageBar(errorMessage: errorMessage)
+                    .padding([.top, .bottom])
                 
                 Text("Enter message below")
                     .monospacedTitleText(textStyle: .headline)
@@ -165,10 +177,10 @@ struct ExploreRSAView: View {
                 .padding(.bottom)
                 
                 Group {
-                    AlternateTextInScrollView(message: encodedMessage, textColor: .white)
+                    AlternateTextInScrollView(message: encodedMessage, textColor: .white, maxHeight: 150)
                                         
                     ScrollView(.horizontal) {
-                        Text("Public Key: \(k) \(m)")
+                        Text("Public Key: \(E)-\(M)")
                     }
                 }
                 .opacity(showEncodedMessage ? 1.0 : 0.0)
@@ -182,12 +194,12 @@ struct ExploreRSAView: View {
     
 
 struct ExploreRSAView_Previews: PreviewProvider {
-    @StateObject static var rsa = RSA()
+    @StateObject static var rsaExplore = RSAExplore()
 
     static var previews: some View {
         NavigationView {
             ExploreRSAView()
-                .environmentObject(rsa)
+                .environmentObject(rsaExplore)
         }
     }
 }
