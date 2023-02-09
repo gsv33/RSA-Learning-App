@@ -50,7 +50,7 @@ struct DecodingMathView: View {
                         
                         Button("Next") {
                             showNextView = true
-                        }.buttonStyle(MenuButtonStyle())
+                        }.purpleButtonStyle()
                             .padding([.top, .bottom])
                     }
                     .frame(minHeight: geometry.size.height)

@@ -22,7 +22,7 @@ struct DecodeMessageView2: View {
         
         VStack {
             Text("Putting it all together, here's your decoded message:")
-                .padding([.leading, .trailing, .bottom])
+                .padding()
             
             AlternateTextInScrollView(message: rsa.realDecodedMessageNum, textColor: Colors.outputColor)
                 .padding([.leading, .trailing, .bottom])
@@ -52,7 +52,7 @@ struct DecodeMessageView2: View {
                 rsa.convertDecodedMessagesToEnglish()
                 showNextView = true
             }
-            .buttonStyle(MenuButtonStyle())
+            .purpleButtonStyle()
         }
     }
 }
@@ -60,65 +60,61 @@ struct DecodeMessageView2: View {
 struct DecodeMessageView1: View {
     @EnvironmentObject var rsa: RSA
     
-    @State private var showPhiEquation = true
+    @Binding var hideView: Bool
     
-    @Binding var hideText: Bool
+    @State private var showPhiEquation = true
     @State var showDecodingDetailView = false
     @State var visitedDecodingDetailView = false
     
     var body: some View {
         VStack {
             
-            if !hideText {
-                Text("Now we are ready to decode the message.").padding(.top)
-            }
+            Text("Now we are ready to decode the message.").padding(.top)
             
             DecodeEquation()
                 .padding([.top, .bottom])
 
-            if !hideText {
                 
-                Text("Encoded Message:")
-                AlternateTextInScrollView(message: rsa.encodedMessageNumSplit)
-                    .padding([.leading, .trailing, .bottom])
-                
-                Text("Your decryption key:")
-                DisplayKeyView(exponent: rsa.realDecryptionKeyD,
-                               product: rsa.productOfPrimes,
-                               textStyle: .headline)
-                
-                Button("Show Decoding Math") {
-                    showDecodingDetailView = true
-                }
-                .sheet(isPresented: $showDecodingDetailView,
-                       onDismiss: { visitedDecodingDetailView = true }) {
-                    EncodingDetailView(title: "Decoding Math",
-                                       subtitle: "Decryption Key",
-                                       exp: rsa.realDecryptionKeyD,
-                                       mod: rsa.productOfPrimes,
-                                       inputs: rsa.encodedMessageNumList,
-                                       outputs: rsa.realDecodedMessageNumList)
-                    }
-               .buttonStyle(MenuButtonStyle())
-               .padding()
-
-                Group {
-                    Text("Decooded Numbers:")
-                    
-                    AlternateTextInScrollView(message: rsa.realDecodedMessageNumSplit, textColor: Colors.outputColor)
-                        .padding([.leading, .trailing])
-                 
-                    Button("Next") {
-                        withAnimation(.easeIn(duration: 0.50)) {
-                            hideText = true
-                        }
-                    }
-                    .buttonStyle(MenuButtonStyle())
-                    .padding()
-                }
-                .opacity(visitedDecodingDetailView ? 1.0 : 0.0)
-                .animation(.easeInOut(duration: 0.5), value: visitedDecodingDetailView)
+            Text("Encoded Message:")
+            AlternateTextInScrollView(message: rsa.encodedMessageNumSplit)
+                .padding([.leading, .trailing, .bottom])
+            
+            Text("Your decryption key:")
+            DisplayKeyView(exponent: rsa.realDecryptionKeyD,
+                           product: rsa.productOfPrimes,
+                           textStyle: .headline)
+            
+            Button("Show Decoding Math") {
+                showDecodingDetailView = true
             }
+            .sheet(isPresented: $showDecodingDetailView,
+                   onDismiss: { visitedDecodingDetailView = true }) {
+                EncodingDetailView(title: "Decoding Math",
+                                   subtitle: "Decryption Key",
+                                   exp: rsa.realDecryptionKeyD,
+                                   mod: rsa.productOfPrimes,
+                                   inputs: rsa.encodedMessageNumList,
+                                   outputs: rsa.realDecodedMessageNumList)
+                }
+           .purpleButtonStyle()
+           .padding()
+
+            Group {
+                Text("Decoded Numbers:")
+                
+                AlternateTextInScrollView(message: rsa.realDecodedMessageNumSplit, textColor: Colors.outputColor)
+                    .padding([.leading, .trailing])
+             
+                Button("Next") {
+                    withAnimation(.easeIn(duration: 0.50)) {
+                        hideView = true
+                    }
+                }
+                .purpleButtonStyle()
+                .padding()
+            }
+            .opacity(visitedDecodingDetailView ? 1.0 : 0.0)
+            .animation(.easeInOut(duration: 0.5), value: visitedDecodingDetailView)
         }
     }
 }
@@ -130,7 +126,7 @@ struct DecodedMessageView: View {
     @State var showNextView = false
     var titleText = "Message Decoding"
     
-    @State private var hideText = false
+    @State private var hideView1 = false
     
     var body: some View {
         ZStack {
@@ -144,9 +140,10 @@ struct DecodedMessageView: View {
             
             ScrollView {
                 VStack {
-                    DecodeMessageView1(hideText: $hideText)
-                    
-                    if hideText {
+                    if !hideView1 {
+                        DecodeMessageView1(hideView: $hideView1)
+                    }
+                    else {
                         DecodeMessageView2(showNextView: $showNextView)
                     }
                 }

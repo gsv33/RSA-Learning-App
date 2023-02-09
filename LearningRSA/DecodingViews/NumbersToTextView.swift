@@ -85,7 +85,7 @@ struct NumbersToTextView: View {
                             Button("Reveal Message") {
                                 revealRealMessage = true
                             }
-                            .buttonStyle(MenuButtonStyle())
+                            .purpleButtonStyle()
                             .opacity(revealRealMessage ? 0.4 : 1.0)
                             .animation(.default, value: revealRealMessage)
                             .padding()
@@ -95,7 +95,7 @@ struct NumbersToTextView: View {
                                     currSection = 1
                                 }
                             }
-                            .buttonStyle(MenuButtonStyle())
+                            .purpleButtonStyle()
                             .opacity(revealRealMessage ? 1.0 : 0.0)
                             .animation(.default, value: revealRealMessage)
                             .padding(.bottom)
@@ -124,7 +124,7 @@ struct NumbersToTextView: View {
                             Button("Reveal Message") {
                                 revealFakeMessage = true
                             }
-                            .buttonStyle(MenuButtonStyle())
+                            .purpleButtonStyle()
                             .opacity(revealFakeMessage ? 0.4 : 1.0)
                             .animation(.default, value: revealFakeMessage)
                             .padding(.top)
@@ -136,7 +136,7 @@ struct NumbersToTextView: View {
                                 Button("Next") {
                                     showNextView = true
                                 }
-                                .buttonStyle(MenuButtonStyle())
+                                .purpleButtonStyle()
                                 .padding(.bottom)
                             }
                             .opacity(revealFakeMessage ? 1.0 : 0.0)

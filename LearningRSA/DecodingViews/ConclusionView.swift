@@ -31,7 +31,7 @@ struct ConclusionView: View {
                 Button("Explore RSA") {
                     showExploreRSAView = true
                 }
-                .buttonStyle(MenuButtonStyle())
+                .purpleButtonStyle()
                 .padding()
                                                               
             }

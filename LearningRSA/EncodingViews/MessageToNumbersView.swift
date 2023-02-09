@@ -30,9 +30,11 @@ struct MessageToNumbersView: View {
             GeometryReader { geometry in
                 ScrollView {
                     VStack {
-                        Text("First, we convert each character in the message to a different number.")
-                            .padding(.bottom)
                         
+                        if !showMessages {
+                            Text("First, we convert each character in the message to a different number.")
+                                .padding(.bottom)
+                        }
                         
                         Button("Show number to letter mapping") {
                             showMappingSheet = true
@@ -42,12 +44,12 @@ struct MessageToNumbersView: View {
                         .padding(.bottom)
                         
                         if !showMessages {
-                            Button("Show message conversion") {
+                            Button("Convert message to numbers") {
                                 withAnimation {
                                     showMessages = true
                                 }
                             }
-                            .buttonStyle(MenuButtonStyle())
+                            .purpleButtonStyle()
                             .padding()
                         }
                         
@@ -66,16 +68,15 @@ struct MessageToNumbersView: View {
                             MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: MessageEncodingInfoView())
                                 .padding([.top, .bottom])
                             
-                            Text("Next, we'll move on to choosing prime numbers that will be used to secure your message.")
+                            Text("Next, we'll choose prime numbers that will be used to secure your message.")
                                 .padding(.bottom)
                             
                             Button("Choose Prime Numbers") {
                                 showNextView = true
                             }
-                            .buttonStyle(MenuButtonStyle())
+                            .purpleButtonStyle()
                         }
                     }
-                    .fixedSize(horizontal: false, vertical: true)
                     .frame(minHeight: geometry.size.height)
                     .monospacedBodyText()
                     .padding()

@@ -142,7 +142,7 @@ struct EnterMessageView: View {
                             resetView()
                         }
                     }
-                }.buttonStyle(MenuButtonStyle())
+                }.purpleButtonStyle()
                     .padding()
             }
         }.monospacedBodyText()

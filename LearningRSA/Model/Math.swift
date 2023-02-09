@@ -94,13 +94,13 @@ func isPrime(n: Int) -> Bool {
 }
 
 // Uses the isPrime function to generate a random prime number
-// Optional int parameter: number of digits the prime should be
+// Optional int parameter: max number of digits the prime should be
 // TODO: Add timeout in case something goes wrong
-func generatePrimeNumber(numDigits: Int = 3) -> Int {
+func generatePrimeNumber(maxNumDigits: Int = 3) -> Int {
     var p = 0
     
-    let n = Double(numDigits)
-    let rangeStart = Int(pow(10.0, n - 1))
+    let n = Double(maxNumDigits)
+    let rangeStart = maxNumDigits == 1 ? 1 : 10 // only generate single digit primes if requested
     let rangeEnd = Int(pow(10.0, n))
 
     while isPrime(n: p) == false {

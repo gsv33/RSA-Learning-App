@@ -64,30 +64,12 @@ struct PrivateKeyView4: View {
             Button("Next") {
                 showNextView = true
             }
-            .buttonStyle(MenuButtonStyle())
+            .purpleButtonStyle()
             .padding()
         }
         .opacity(textOpacity2)
         .animation(.easeIn(duration: 1.0), value: textOpacity2)
 
-    }
-}
-
-// added because otherwise the compiler was not
-// able to type-check the expression
-struct HelperEquationView: View {
-    let E: String
-    let phi: String
-    
-    var body: some View{
-        Text("\(E)").foregroundColor(Colors.inputColor) +
-        Text(" x ") +
-        Text("D").foregroundColor(Colors.inputColor) +
-        Text(" - ") +
-        Text("\(phi)").foregroundColor(Colors.inputColor) +
-        Text(" x ") +
-        Text("K").foregroundColor(Colors.inputColor) +
-        Text(" = 1")
     }
 }
 
@@ -120,10 +102,10 @@ struct PrivateKeyView3: View {
                
         if viewSet < 2 {
             Group {
-                Text("Now we solve this equation for D ")
+                Text("Now we solve this equation for D:")
                     .padding()
                 
-                HelperEquationView(E: E, phi: phi)
+                Text("\(E) x D - \(phi) x C = 1").foregroundColor(Colors.inputColor)
                     .padding(.bottom)
             }
             .onReceive(timer) { _ in
@@ -146,7 +128,7 @@ struct PrivateKeyView3: View {
             
         Group {
             if viewSet < 2 {
-                Text("Putting it all together, your decryption key is")
+                Text("Putting it all together, your decryption key is:")
                     .padding()
             }
             else {
@@ -164,7 +146,7 @@ struct PrivateKeyView3: View {
                         viewSet += 1
                     }
                 }
-                .buttonStyle(MenuButtonStyle())
+                .purpleButtonStyle()
                 .padding()
             }
         }
@@ -228,7 +210,7 @@ struct PrivateKeyView2: View {
                         Text("D is calculated by solving the equation:").padding(.bottom)
                     }
                     
-                    Text("E x D - Φ x K = 1")
+                    Text("E x D - Φ x C = 1")
                         .padding(.bottom)
                         .foregroundColor(Colors.inputColor)
                 }
@@ -272,7 +254,7 @@ struct PrivateKeyView2: View {
                                 viewSet += 1
                             }
                         }
-                        .buttonStyle(MenuButtonStyle())
+                        .purpleButtonStyle()
                         .padding()
                     }
                 }
@@ -327,7 +309,7 @@ struct PrivateKeyView: View {
                                     viewSet1 = 2
                                 }
                             }
-                            .buttonStyle(MenuButtonStyle())
+                            .purpleButtonStyle()
                             .padding()
                         }
                         

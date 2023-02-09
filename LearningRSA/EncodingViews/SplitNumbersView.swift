@@ -60,7 +60,7 @@ struct SplitNumbersView: View {
                     .animation(.easeIn(duration: 1.0), value: textOpacity1)
                     
                     Group {
-                        Text("Before we can convert your message, we need to split it up into pieces smaller than the product of your two primes. This lets us properly apply the mathematical transformation to secure the message.").padding()
+                        Text("Before we can convert your message, we need to split it up into pieces smaller than the product of your two primes. This lets us properly apply the mathematical transformation to encrypt the message.").padding()
                     }
                     .opacity(textOpacity2)
                     .animation(.easeIn(duration: 1.0), value: textOpacity2)

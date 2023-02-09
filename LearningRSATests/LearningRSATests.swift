@@ -60,8 +60,8 @@ final class LearningRSATests: XCTestCase {
             rsa.inputMessageEng = generateRandomString(strLen: Int.random(in: 1 ... GlobalVars.maxCharsInMessage))
             
             // set encoding and decoding primes
-            rsa.prime1 = generatePrimeNumber(numDigits: Int.random(in: 1 ... GlobalVars.maxDigitsInPrime))
-            rsa.prime2 = generatePrimeNumber(numDigits: Int.random(in: 1 ... GlobalVars.maxDigitsInPrime))
+            rsa.prime1 = generatePrimeNumber(maxNumDigits: Int.random(in: 1 ... GlobalVars.maxDigitsInPrime))
+            rsa.prime2 = generatePrimeNumber(maxNumDigits: Int.random(in: 1 ... GlobalVars.maxDigitsInPrime))
             
             // check to make sure primes are not the same and have a product >= 10
             while rsa.prime1 == rsa.prime2  || rsa.prime1 * rsa.prime2 < 10 {
@@ -73,8 +73,8 @@ final class LearningRSATests: XCTestCase {
             rsa.realDecodePrime2 = rsa.prime2
             
             // set fake decode primes
-            rsa.fakeDecodePrime1 = generatePrimeNumber(numDigits: Int.random(in: 1 ... GlobalVars.maxDigitsInPrime))
-            rsa.fakeDecodePrime2 = generatePrimeNumber(numDigits: Int.random(in: 1 ... GlobalVars.maxDigitsInPrime))
+            rsa.fakeDecodePrime1 = generatePrimeNumber(maxNumDigits: Int.random(in: 1 ... GlobalVars.maxDigitsInPrime))
+            rsa.fakeDecodePrime2 = generatePrimeNumber(maxNumDigits: Int.random(in: 1 ... GlobalVars.maxDigitsInPrime))
 
             while rsa.fakeDecodePrime1 == rsa.fakeDecodePrime2  || rsa.fakeDecodePrime1 * rsa.fakeDecodePrime2 < 10 {
                 rsa.fakeDecodePrime2 = generatePrimeNumber()

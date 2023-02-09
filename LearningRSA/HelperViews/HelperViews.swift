@@ -21,7 +21,7 @@ struct NavigationToolbar: ToolbarContent {
             Button("Back") {
                 dismiss()
             }
-            .buttonStyle(BackButtonStyle())
+            .purpleButtonStyle()
         }
         
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -29,7 +29,7 @@ struct NavigationToolbar: ToolbarContent {
                 showMenuSheet = true
             }
             .sheet(isPresented: $showMenuSheet) { MenuView(currentView: currentView) }
-            .buttonStyle(BackButtonStyle())
+            .purpleButtonStyle()
         }
         
         ToolbarItem(placement: .principal) {
@@ -74,10 +74,10 @@ struct MappingView: View {
             Colors.backgroundColor.ignoresSafeArea()
 
             VStack {
-                Text("Character to Number Mapping")
-                    .monospacedTitleText().padding(5)
-                                
                 ScrollView {
+                    Text("Character to Number Mapping")
+                        .monospacedTitleText().padding(5)
+                    
                     LazyVGrid(columns: columns) {
                         ForEach(0 ..< charToNumArr.count) { i in
                             
@@ -104,9 +104,11 @@ struct MappingView: View {
 
                 
                 Button("Dismiss") { dismiss() }
-                    .buttonStyle(MenuButtonStyle())
+                    .purpleButtonStyle()
+                    .padding()
             }
-        }.foregroundColor(Colors.textColor)
+            .padding(.top)
+        }
     }
 }
 
@@ -222,11 +224,11 @@ struct ExploreRSAHelpView: View {
                             navigationController.popToRootFromTutorial()
                             navigationController.popToRootFromExploreRSA()
                         }
-                        .buttonStyle(MenuButtonStyle())
+                        .purpleButtonStyle()
                         .padding()
                         
                         Button("Dismiss") {dismiss()}
-                            .buttonStyle(MenuButtonStyle())
+                            .purpleButtonStyle()
                         
                     }
                     .monospacedBodyText()
@@ -241,7 +243,9 @@ struct HelperViews_Previews: PreviewProvider {
     @StateObject static var navigationController = NavigationController()
     
     static var previews: some View {
-        ExploreRSAHelpView()
-            .environmentObject(navigationController)
+//        ExploreRSAHelpView()
+//            .environmentObject(navigationController)
+        
+        MappingView()
     }
 }

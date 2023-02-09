@@ -57,11 +57,11 @@ struct MenuView: View {
                     Button("Back to Welcome Screen") {
                         navigationController.popToRootFromTutorial()
                     }
-                    .buttonStyle(MenuButtonStyle())
+                    .purpleButtonStyle()
                     .padding()
                     
                     Button("Dismiss Menu") { dismiss() }
-                        .buttonStyle(MenuButtonStyle())
+                        .purpleButtonStyle()
                     
                 }.monospacedBodyText()
             }

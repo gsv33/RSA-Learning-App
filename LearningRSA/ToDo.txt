@@ -6,9 +6,9 @@ To Do List (please write detailed bug descriptions!)
 - Test character to number mapping title size on SE
 - Reorder public key
 - Right Align encoding/decoding math inputs in grid
-- Proofread explanations
 - Bug: "Show number to letter mapping" doesn't animate when dismissed from the MessageToNumbers second view
 - Should the decode button randomize the output?
+- Make capitalization consistent across the app
 
 Completed
 x ** Primes must be distinct! Otherwise the math doesn't work**
@@ -28,8 +28,11 @@ x Bug: Sometimes the step-by-step button loads the explore rsa screen and vice v
 x Add reset button when user goes back to main menu
 x No output for the decoded nums - blank screen displays
 x Need separate rsa variables for Explore and Tutorial
+x Proofread explanations
 
 Later
 - add generate random message button
 - Create automatic encoding and decoding updates for the ExploreRSA views
 - If you set primes, then go back, then forward to the primes page, the primes are reset to 0
+- Re-organize explanation code to one container view that the relevant text is passed in to
+- Remove LazyVGrid and replace with regular grid

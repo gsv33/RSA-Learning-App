@@ -38,7 +38,7 @@ struct WelcomeView: View {
                     Text("Step-by-Step Walkthrough")
                 }
                 .isDetailLink(false)
-                .buttonStyle(MenuButtonStyle(textStyle: Font.TextStyle.title2))
+                .purpleButtonStyle(textStyle: .title2)
                 .padding(.bottom, 20)
                 
                 NavigationLink(destination: ExploreRSAView(),
@@ -46,7 +46,7 @@ struct WelcomeView: View {
                     Text("Explore RSA")
                 }
                 .isDetailLink(false)
-                .buttonStyle(MenuButtonStyle(textStyle: Font.TextStyle.title2))
+                .purpleButtonStyle(textStyle: .title2)
                 .padding(.bottom)
                 
                 Button("What is RSA?") {
@@ -57,7 +57,7 @@ struct WelcomeView: View {
                 .font(.system(.title3, design: .monospaced))
                 .padding()
             }
-            .bold()
+            .fontWeight(.semibold)
         }.foregroundColor(Colors.textColor)
             .onAppear {
                 rsa.resetAllValues()

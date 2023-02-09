@@ -58,7 +58,7 @@ struct EnterFakePrimesView: View {
                 InfoView: EnterDecodePrimesInfoView()
             ).padding(.top)
             
-            Button("Next!") {
+            Button("Next") {
                 let validInputs = validateInputs(prime1: prime1, prime2: prime2,
                                                  primeImage1: &primeImage1, primeImage2: &primeImage2,
                                                  errorMessage: &errorMessage)
@@ -68,7 +68,7 @@ struct EnterFakePrimesView: View {
                     showNextView = true
                 }
             }
-            .buttonStyle(MenuButtonStyle())
+            .purpleButtonStyle()
             .padding()
         }
     }
@@ -87,8 +87,8 @@ struct EnterRealPrimesView: View {
         VStack {
             
             if hideText == false {
-                Text("Let's start decoding your message!")
-                Text("The first thing to do is enter the same prime numbers you used to encode your message. We've filled that out for you.").padding()
+                Text("Let's start decoding your message!").padding([.leading, .trailing])
+                Text("The first step is to enter the same prime numbers you used to encode your message. We've filled that out for you.").padding()
             }
             
             PrimeTextFieldsView(
@@ -98,7 +98,7 @@ struct EnterRealPrimesView: View {
                 allowEditPrimes: .constant(false),
                 showUseDifferentPrimesCheckbox: false,
                 showGenerateRandomPrimesButton: false,
-                title: "Real Primes", titleTextStyle: .title3
+                title: "Encoding Primes", titleTextStyle: .title3
             )
         }
     }
@@ -134,7 +134,7 @@ struct EnterDecodePrimesView: View {
                             showFakePrimesView = true
                         }
                     }
-                    .buttonStyle(MenuButtonStyle())
+                    .purpleButtonStyle()
                     .padding()
                 } else {
                     EnterFakePrimesView(showNextView: $showNextView, errorMessage: $errorMessage)

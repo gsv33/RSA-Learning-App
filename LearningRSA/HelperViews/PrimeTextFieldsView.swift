@@ -115,7 +115,8 @@ struct PrimeTextFieldsView: View {
                 let p1 = generatePrimeNumber()
                 var p2 = generatePrimeNumber()
                 
-                while p1 == p2 { // primes cannot match
+                // primes cannot match or have a product less than 10
+                while p1 == p2 || p1 * p2 < 10 {
                     p2 = generatePrimeNumber()
                 }
                 

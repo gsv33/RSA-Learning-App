@@ -52,7 +52,7 @@ struct EncodeMessageViewPart2: View {
     var body: some View {
         
         if !hideText {
-            Text("Now let's actually do the encoding").padding()
+            Text("Now let's actually do the encoding").padding([.leading, .trailing, .bottom])
             
             Text("Input numbers: ")
             AlternateTextInScrollView(message: rsa.inputMessageNumSplit)
@@ -73,7 +73,7 @@ struct EncodeMessageViewPart2: View {
                                    inputs: rsa.inputMessageNumList,
                                    outputs: rsa.encodedMessageNumList)
                 }
-           .buttonStyle(MenuButtonStyle())
+           .purpleButtonStyle()
            .padding()
             
             Group {
@@ -87,7 +87,7 @@ struct EncodeMessageViewPart2: View {
                         hideText = true
                     }
                 }
-                .buttonStyle(MenuButtonStyle())
+                .purpleButtonStyle()
                 .padding()
             }
             .opacity(visitedEncodingDetailView ? 1.0 : 0.0)
@@ -103,13 +103,19 @@ struct EncodeMessageViewPart1: View {
     var body: some View {
         
         if hideText == false {
-            Text("Now, we can finally encode your message. To do this, we use modular exponentiation.")
+            Text("In order to encode your message, we use modular exponentiation.")
                 .padding()
             
             Text("We take each of your input numbers, X, raise it to the power, E, and take the remainder with respect to M, where M and E are the two parts of the encryption key we calculated earlier.")
                 .padding([.leading, .trailing, .bottom])
             
-            Text("Mathematically, this equation is: ")
+//            Text("Given your encryption key:")
+//            DisplayKeyView(exponent: rsa.encryptionKeyE, product: rsa.productOfPrimes, textStyle: .headline)
+//            Text("E = ") + Text(String(rsa.encryptionKeyE)).foregroundColor(Colors.outputColor) +
+//            Text(", M = ") + Text(String(rsa.productOfPrimes)).foregroundColor(Colors.outputColor)
+
+            
+            Text("Mathematically, this equation is: ").padding([.leading, .trailing])
         }
         
         EncodeEquation().padding()
@@ -117,8 +123,7 @@ struct EncodeMessageViewPart1: View {
 }
 
 struct EncodeMessageView: View {
-    @EnvironmentObject var rsa: RSA
-        
+    
     @State private var showNextView = false
     
     @State var hideView1 = false
@@ -150,7 +155,7 @@ struct EncodeMessageView: View {
                                     hideView1 = true
                                 }
                             }
-                            .buttonStyle(MenuButtonStyle())
+                            .purpleButtonStyle()
                             .padding()
                         } else {
                             EncodeMessageViewPart2(
@@ -235,7 +240,7 @@ struct EncodingDetailView: View {
                 }
                 
                 Button("Dismiss") { dismiss() }
-                    .buttonStyle(MenuButtonStyle())
+                    .purpleButtonStyle()
                     .padding()
             }
             .monospacedBodyText()

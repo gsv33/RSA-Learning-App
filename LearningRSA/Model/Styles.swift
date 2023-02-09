@@ -59,6 +59,30 @@ struct MonospacedInfoText: ViewModifier {
     }
 }
 
+struct PurpleButtonStyle: ViewModifier {
+    var textStyle: Font.TextStyle
+    
+    func body(content: Content) -> some View {
+        content
+            .font(.system(textStyle, design: .monospaced))
+            .foregroundColor(.white)
+            .tint(Color(red: 111 / 255, green: 26 / 255, blue: 182 / 255))
+            .buttonStyle(.borderedProminent)
+    }
+}
+
+struct NavBarButtonStyle: ViewModifier {
+    var textStyle: Font.TextStyle
+    
+    func body(content: Content) -> some View {
+        content
+            .font(.system(textStyle, design: .monospaced))
+            .foregroundColor(.white)
+            .tint(Color(red: 57 / 255, green: 81 / 255, blue: 68 / 255))
+            .buttonStyle(.borderedProminent)
+    }
+}
+
 extension View {
     func monospacedTitleText(textStyle: Font.TextStyle = .title3) -> some View {
         modifier(MonospacedTitleText(textStyle: textStyle))
@@ -71,8 +95,15 @@ extension View {
     func monospacedInfoText() -> some View {
         modifier(MonospacedInfoText())
     }
+    
+    func purpleButtonStyle(textStyle: Font.TextStyle = .headline) -> some View {
+        modifier(PurpleButtonStyle(textStyle: textStyle))
+    }
+    
+    func navBarButtonStyle(textStyle: Font.TextStyle = .headline) -> some View {
+        modifier(NavBarButtonStyle(textStyle: textStyle))
+    }
 }
-
 
 struct GenerateRandomPrimesButtonStyle: ButtonStyle {
     @Environment(\.isEnabled) var isEnabled: Bool
@@ -112,6 +143,8 @@ struct MenuButtonStyle: ButtonStyle {
             .animation(.easeOut(duration: 0.3), value: configuration.isPressed)
     }
 }
+
+    
 
 // White border around button
 struct BackButtonStyle: ButtonStyle {

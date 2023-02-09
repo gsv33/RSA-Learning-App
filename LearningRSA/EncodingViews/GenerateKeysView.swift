@@ -60,7 +60,7 @@ struct GenerateKeysView: View {
                     .animation(.easeIn(duration: 1.0), value: textOpacity1)
                     
                     Group {
-                        Text("The first part is the product of your two prime numbers, P and Q.").padding()
+                        Text("The first part is the product of your two prime numbers, which we'll call P and Q.").padding()
                         
                         Text("\(String(rsa.prime1))").foregroundColor(Colors.inputColor) +
                         Text(" x ") +
@@ -106,7 +106,7 @@ struct GenerateKeysView: View {
                         Button("Next") {
                             showNextView = true
                         }
-                        .buttonStyle(MenuButtonStyle())
+                        .purpleButtonStyle()
                         .padding(.bottom)
                     }
                     .opacity(textOpacity5)

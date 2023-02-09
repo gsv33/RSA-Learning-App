@@ -462,11 +462,41 @@ struct ScrollViewGeometryTest: View {
     }
 }
 
+struct ButtonTest: View {
+    var body: some View {
+        ZStack {
+            Colors.backgroundColor.ignoresSafeArea()
+            
+            VStack {
+                Button("Step-by-Step RSA") {}
+                    .font(.system(.title2, design: .monospaced))
+                    .tint(Color(red: 111 / 255, green: 26 / 255, blue: 182 / 255))
+                    .buttonStyle(.borderedProminent)
+
+
+                Button("Click") {}
+                    .font(.system(.headline, design: .monospaced))
+                    .buttonStyle(.borderedProminent)
+                    .tint(Color(red: 57 / 255, green: 81 / 255, blue: 68 / 255))
+
+                Button("Click") {}
+                    .font(.system(.headline, design: .monospaced))
+                    .buttonStyle(.borderedProminent)
+                    .tint(Color.black)
+
+                Button("Step-by-Step RSA") {}
+                    .purpleButtonStyle(textStyle: .title2)
+
+            }
+            
+        }
+    }
+}
+
 struct TestView_Previews: PreviewProvider {
-    @StateObject static var objTest = ObjTest()
     
     static var previews: some View {
-        PopToRootView1()
-            .environmentObject(objTest)
+        ButtonTest()
+
     }
 }

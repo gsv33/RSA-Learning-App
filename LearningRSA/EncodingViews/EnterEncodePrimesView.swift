@@ -92,7 +92,7 @@ struct EnterEncodePrimesView: View {
                             }
                         }
                     }
-                    .buttonStyle(MenuButtonStyle())
+                    .purpleButtonStyle()
                     .padding(.bottom)
                 }
                 .monospacedBodyText()

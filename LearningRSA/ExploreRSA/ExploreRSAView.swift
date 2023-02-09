@@ -24,7 +24,7 @@ struct ExploreRSAToolbar: ToolbarContent {
             Button("Back") {
                 dismiss()
             }
-            .buttonStyle(BackButtonStyle())
+            .purpleButtonStyle()
         }
         
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -32,7 +32,7 @@ struct ExploreRSAToolbar: ToolbarContent {
                 showHelpSheet = true
             }
             .sheet(isPresented: $showHelpSheet) { ExploreRSAHelpView() }
-            .buttonStyle(BackButtonStyle())
+            .purpleButtonStyle()
         }
         
         ToolbarItem(placement: .principal) {
@@ -44,7 +44,7 @@ struct ExploreRSAToolbar: ToolbarContent {
             Button(encodeView ? "Clear" : "Reset") {
                 clearInputs()
             }
-            .buttonStyle(BackButtonStyle())
+            .purpleButtonStyle()
 
             Spacer()
 

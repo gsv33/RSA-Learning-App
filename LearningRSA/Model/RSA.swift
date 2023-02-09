@@ -163,12 +163,13 @@ class RSA: ObservableObject {
     // TODO: Need to add time-out feature here
     func computeEncryptionKeyE() -> Bool {
 
-        let numDigitsPrime1 = Int(log10(Double(prime1)) + 1)
-        let numDigitsPrime2 = Int(log10(Double(prime2)) + 1)
-        let numDigitsE = (numDigitsPrime1 + numDigitsPrime2) / 2
-        
-        let randomRangeStart = Int(pow(10.0, Double(numDigitsE - 1)))
-        let randomRangeEnd = Int(pow(10.0, Double(numDigitsE)))
+        let numDigitsM = Double(String(productOfPrimes).count)
+        let numDigitsP = Double(min(String(prime1).count, String(prime2).count))
+
+        // randomRangeStart is set to the same num of digits as smallest prime, but at least 2 digits
+        // randomRangeEnd is 1 digit less than numDigitsM, but at least 3 digits
+        let randomRangeStart = Int(pow(10, max(1, numDigitsP - 1)))
+        let randomRangeEnd = Int(pow(10, max(2, numDigitsM - 1)))
 
         var gcd = 0 // gcd(phi, encryptionKeyE)
         var tempE = 0
