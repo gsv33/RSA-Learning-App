@@ -75,11 +75,11 @@ struct DecodeMessageView1: View {
                 .padding([.top, .bottom])
 
                 
-            Text("Encoded Message:")
+            Text("Encoded Numbers:")
             AlternateTextInScrollView(message: rsa.encodedMessageNumSplit)
                 .padding([.leading, .trailing, .bottom])
             
-            Text("Your decryption key:")
+            Text("Real decryption key:")
             DisplayKeyView(exponent: rsa.realDecryptionKeyD,
                            product: rsa.productOfPrimes,
                            textStyle: .headline)

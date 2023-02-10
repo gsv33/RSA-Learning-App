@@ -21,7 +21,6 @@ struct ExploreRSADecodeView: View {
     @State var encodedMessage = ""
     @State var decodedMessage = ""
     
-    @State var useDifferentPrimes = false
     @State var showDecodedMessage = false
     @State var showNextView = false
     
@@ -30,7 +29,7 @@ struct ExploreRSADecodeView: View {
         prime1 = String(rsa.prime1)
         prime2 = String(rsa.prime2)
         
-        useDifferentPrimes = false
+        decodedMessage = ""
     }
     
     func decodeMessage() {
@@ -63,7 +62,7 @@ struct ExploreRSADecodeView: View {
         ZStack {
             Color.black.ignoresSafeArea()
                 .toolbar { ExploreRSAToolbar(titleText: "Decode Message",
-                                             clearInputs: {},
+                                             clearInputs: resetPrimes,
                                              showDecodeButton: .constant(false),
                                              showNextView: $showNextView,
                                              encodeView: false)
@@ -87,7 +86,8 @@ struct ExploreRSADecodeView: View {
                     prime1: $prime1, prime2: $prime2,
                     primeImage1: $primeImage1, primeImage2: $primeImage2,
                     errorMessage: $errorMessage,
-                    allowEditPrimes: $useDifferentPrimes,
+                    allowEditPrimes: .constant(true),
+                    showUseDifferentPrimesCheckbox: false,
                     title: "Keep or change prime numbers", titleTextStyle: .headline
                 )
 

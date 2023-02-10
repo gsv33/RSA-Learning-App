@@ -54,7 +54,7 @@ struct EncodeMessageViewPart2: View {
         if !hideText {
             Text("Now let's actually do the encoding").padding([.leading, .trailing, .bottom])
             
-            Text("Input numbers: ")
+            Text("Input Numbers: ")
             AlternateTextInScrollView(message: rsa.inputMessageNumSplit)
                 .padding([.leading, .trailing, .bottom])
             

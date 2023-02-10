@@ -345,7 +345,7 @@ struct PrivateKeyInfoView: View {
                     
                     Text("The first number, M, is easy to get, because it's also part of the publicly available encryption key. The second number is trickier. To find D, we need to solve\n(D x E) - (Φ x C) = 1. We already know the value of E from the encryption key, so all we need to do is find Φ. This is where we make use of the secret prime numbers.").padding()
                          
-                    Text("Given the prime numbers P and Q that were used to encode the message, we can easily get Φ using the equation Φ = (P - 1) x (Q - 1). Once we have Φ, we can plug Φ and E into (D x E) - (Φ x C) = 1 and solve for D. This completes the decryption key.").padding()
+                    Text("Given the prime numbers P and Q that were used to encode the message, we can easily get Φ using the equation Φ = (P - 1) x (Q - 1). Once we have Φ, we can plug Φ and E into (D x E) - (Φ x C) = 1 and solve for D using a method called the euclidean algorithm. This completes the decryption key.").padding()
 
                     Text("But suppose you didn't know the correct values for P and Q. Then it would be nearly impossible to find the correct decryption key to break the encryption code. For a hacker, finding the identity of Φ is by far the hardest part of breaking the RSA cryptosystem. Once you know Φ, solving for D and then decoding the message are both computationally easy. But if you don't know Φ, then to find it you would need to break M into its prime factors, P and Q, which is virtually impossible for very large values of M.").padding()
                 }
@@ -463,6 +463,6 @@ struct RSAOverviewView: View {
 
 struct Explanations_Previews: PreviewProvider {
     static var previews: some View {
-        RSAOverviewView()
+        PrivateKeyInfoView()
     }
 }

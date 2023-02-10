@@ -55,7 +55,7 @@ struct ExploreRSAToolbar: ToolbarContent {
                     .animation(.default, value: showDecodeButton)
                     .disabled(!showDecodeButton)
             } else {
-                Button("Menu") {
+                Button("Quit") {
                     navigationController.popToRootFromTutorial()
                     navigationController.popToRootFromExploreRSA()
                 }

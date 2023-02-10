@@ -57,6 +57,7 @@ struct WelcomeView: View {
                 .font(.system(.title3, design: .monospaced))
                 .padding()
             }
+            .fixedSize(horizontal: false, vertical: true)
             .fontWeight(.semibold)
         }.foregroundColor(Colors.textColor)
             .onAppear {

@@ -25,13 +25,13 @@ struct ConclusionView: View {
                 Text("Well done! That's the end of the tutorial. Hopefully you've gotten a sense of what makes RSA work and why it's secure.")
                     .padding()
                 
-                Text("If you want, you can explore encoding and decoding messages with RSA.")
+                Text("If you want, you can explore encoding and decoding more messages with RSA.")
                     .padding()
 
                 Button("Explore RSA") {
                     showExploreRSAView = true
                 }
-                .purpleButtonStyle()
+                .purpleButtonStyle(textStyle: .title2)
                 .padding()
                                                               
             }
