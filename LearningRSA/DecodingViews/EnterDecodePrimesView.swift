@@ -23,10 +23,9 @@ struct EnterFakePrimesView: View {
     @State var primeImage2 = "checkmark"
     
     @Binding var errorMessage: ErrorMessages
-    
-    let validSymbol = "checkmark"
-    let invalidSymbol = "multiply"
-    
+    @FocusState private var focusedField: FocusedField?
+    @Binding var keyboardActive: Bool
+        
     // updates RSA algorithm with both real and fake primes
     func updateRSA() {
         rsa.realDecodePrime1 = rsa.prime1
@@ -41,11 +40,19 @@ struct EnterFakePrimesView: View {
         
     var body: some View {
         VStack {
-            Text("Now enter two incorrect prime numbers, just to see how it will affect the decoded message.").padding()
+            
+            if !keyboardActive {
+                Text("Now enter two incorrect prime numbers, just to see how it will affect the decoded message.").padding()
+            } else {
+                Text("Enter two incorrect primes below.")
+                    .padding(.top, -10)
+                    .padding([.bottom])
+            }
 
             PrimeTextFieldsView(
                 prime1: $prime1, prime2: $prime2,
                 primeImage1: $primeImage1, primeImage2: $primeImage2,
+                focusedField: $focusedField,
                 errorMessage: $errorMessage,
                 allowEditPrimes: .constant(true),
                 showUseDifferentPrimesCheckbox: false,
@@ -65,41 +72,17 @@ struct EnterFakePrimesView: View {
                 
                 if validInputs {
                     updateRSA()
+                    focusedField = nil
                     showNextView = true
                 }
             }
             .purpleButtonStyle()
-            .padding()
+            .padding(.top)
         }
-    }
-}
-
-struct EnterRealPrimesView: View {
-    @EnvironmentObject var rsa: RSA
-    
-    @State var primeImage1 = "checkmark"
-    @State var primeImage2 = "checkmark"
-        
-    @Binding var hideText: Bool
-    @Binding var errorMessage: ErrorMessages
-    
-    var body: some View {
-        VStack {
-            
-            if hideText == false {
-                Text("Let's start decoding your message!").padding([.leading, .trailing])
-                Text("The first step is to enter the same prime numbers you used to encode your message. We've filled that out for you.").padding()
+        .onChange(of: focusedField) {newValue in
+            withAnimation {
+                keyboardActive = newValue != nil ? true : false
             }
-            
-            PrimeTextFieldsView(
-                prime1: .constant(String(rsa.prime1)), prime2: .constant(String(rsa.prime2)),
-                primeImage1: $primeImage1, primeImage2: $primeImage2,
-                errorMessage: $errorMessage,
-                allowEditPrimes: .constant(false),
-                showUseDifferentPrimesCheckbox: false,
-                showGenerateRandomPrimesButton: false,
-                title: "Encoding Primes", titleTextStyle: .title3
-            )
         }
     }
 }
@@ -109,41 +92,57 @@ struct EnterDecodePrimesView: View {
     
     @State var showFakePrimesView = false    
     @State var showNextView = false
+    
+    @State var primeImage1 = "checkmark"
+    @State var primeImage2 = "checkmark"
 
+    @FocusState private var focusedField: FocusedField?
+    @State private var keyboardActive = false
+    
     let titleText = "Decoding Primes"
     @State var errorMessage = ErrorMessages.noError
     
     var body: some View {
-        ZStack {
-            Colors.backgroundColor.ignoresSafeArea()
-            
+        VStack {
             NavigationLink(destination: DecodingMathView(), isActive: $showNextView) {}
                 .isDetailLink(false)
                 .toolbar { NavigationToolbar(currentView: .enterDecodePrimesView, titleText: titleText) }
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
-            
-            VStack {
-                ErrorMessageBar(errorMessage: errorMessage).padding()
-                
-                EnterRealPrimesView(hideText: $showFakePrimesView, errorMessage: $errorMessage)
 
-                if !showFakePrimesView {
-                    Button("Next") {
-                        withAnimation(.easeIn(duration: 0.50)) {
-                            showFakePrimesView = true
-                        }
+            ErrorMessageBar(errorMessage: errorMessage).padding([.top, .bottom])
+            
+            if !showFakePrimesView {
+                Text("Let's start decoding your message!").padding([.leading, .trailing])
+                Text("The first step is to enter the same prime numbers you used to encode your message. We've filled that out for you.").padding()
+            }
+            
+            if !keyboardActive {                
+                PrimeTextFieldsViewDuplicate(
+                    prime1: String(rsa.prime1),
+                    prime2: String(rsa.prime2),
+                    title: "Encoding Primes",
+                    titleTextStyle: .title3
+                )
+            }
+
+            if !showFakePrimesView {
+                Button("Next") {
+                    withAnimation(.easeIn(duration: 0.50)) {
+                        showFakePrimesView = true
                     }
-                    .purpleButtonStyle()
-                    .padding()
-                } else {
-                    EnterFakePrimesView(showNextView: $showNextView, errorMessage: $errorMessage)
                 }
-                
-                Spacer()
-                
-            }.monospacedBodyText()
-        }
+                .purpleButtonStyle()
+                .padding()
+            } else {
+                EnterFakePrimesView(showNextView: $showNextView,
+                                    errorMessage: $errorMessage,
+                                    keyboardActive: $keyboardActive)
+            }
+            
+            Spacer()
+            
+        }.monospacedBodyText()
     }
 }
 
@@ -155,6 +154,7 @@ struct EnterDecodePrimesView_Previews: PreviewProvider {
         NavigationView {
             EnterDecodePrimesView()
                 .environmentObject(rsa)
+                .preferredColorScheme(.dark)
         }
     }
 }

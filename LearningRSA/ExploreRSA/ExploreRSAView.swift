@@ -86,6 +86,8 @@ struct ExploreRSAView: View {
     @State private var showEncodedMessage = false
     @State private var showNextView = false
     
+    @FocusState private var focusedField: FocusedField?
+    
     func clearInputs() {
         textFieldMessage = ""; inputMessage = ""; encodedMessage = ""
         prime1 = ""; prime2 = ""
@@ -94,6 +96,7 @@ struct ExploreRSAView: View {
         M = ""
         errorMessage = .noError
         showEncodedMessage = false
+        focusedField = nil
     }
     
     func encodeMessage() {
@@ -123,6 +126,7 @@ struct ExploreRSAView: View {
                                          errorMessage: &errorMessage)
         
         if validInputs {
+            focusedField = nil
             encodeMessage()
             return true
         }
@@ -143,51 +147,59 @@ struct ExploreRSAView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden()
                         
-            VStack {
-                ErrorMessageBar(errorMessage: errorMessage)
-                    .padding([.top, .bottom])
-                
-                Text("Enter message below")
-                    .monospacedTitleText(textStyle: .headline)
-                    .padding(-5)
-                
-                MessageFieldView(
-                    textFieldMessage: $textFieldMessage,
-                    inputMessage: $inputMessage,
-                    errorMessage: $errorMessage,
-                    textStyle: .headline,
-                    maxHeight: 150
-                )
-                                
-                PrimeTextFieldsView(
-                    prime1: $prime1, prime2: $prime2,
-                    primeImage1: $primeImage1, primeImage2: $primeImage2,
-                    errorMessage: $errorMessage,
-                    allowEditPrimes: .constant(true),
-                    showUseDifferentPrimesCheckbox: false,
-                    title: "Enter primes below", titleTextStyle: .headline
-                )
-                 
-                Button("Encode Message") {
-                    showEncodedMessage = encodeMessagePressed()
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(.red)
-                .font(.system(.title3, design: .monospaced))
-                .padding(.bottom)
-                
-                Group {
-                    AlternateTextInScrollView(message: encodedMessage, textColor: .white, maxHeight: 150)
-                                        
-                    ScrollView(.horizontal) {
-                        Text("Public Key: \(E)-\(M)")
+            GeometryReader { _ in // necessary for ignoresSafeArea to work
+                VStack {
+                    ErrorMessageBar(errorMessage: errorMessage)
+                        .padding([.top, .bottom])
+                    
+                    Text("Enter message below")
+                        .monospacedTitleText(textStyle: .headline)
+                        .padding(-10)
+                    
+                    MessageFieldView(
+                        focusedField: $focusedField,
+                        textFieldMessage: $textFieldMessage,
+                        inputMessage: $inputMessage,
+                        errorMessage: $errorMessage,
+                        textStyle: .headline,
+                        maxHeight: 150,
+                        useNextForSubmitLabel: true
+                    )
+                    
+                    PrimeTextFieldsView(
+                        prime1: $prime1, prime2: $prime2,
+                        primeImage1: $primeImage1, primeImage2: $primeImage2,
+                        focusedField: $focusedField,
+                        errorMessage: $errorMessage,
+                        allowEditPrimes: .constant(true),
+                        showUseDifferentPrimesCheckbox: false,
+                        title: "Enter primes below", titleTextStyle: .headline
+                    )
+                    
+                    Button("Encode Message") {
+                        showEncodedMessage = encodeMessagePressed()
                     }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.red)
+                    .font(.system(.title3, design: .monospaced))
+                    .padding(.bottom)
+                    
+                    Group {
+                        AlternateTextInScrollView(message: encodedMessage,
+                                                  textColor: .white,
+                                                  maxHeight: 150,
+                                                  minHeight: 0)
+                        
+                        ScrollView(.horizontal) {
+                            Text("Public Key: \(E)-\(M)")
+                        }
+                    }
+                    .opacity(showEncodedMessage ? 1.0 : 0.0)
+                    .animation(.default, value: showEncodedMessage)
+                    .padding([.leading, .trailing, .bottom])
                 }
-                .opacity(showEncodedMessage ? 1.0 : 0.0)
-                .animation(.default, value: showEncodedMessage)
-                .padding([.leading, .trailing, .bottom])
-            }
-            .monospacedBodyText()
+                .monospacedBodyText()
+            }.ignoresSafeArea(.keyboard)
         }
     }
 }
@@ -200,6 +212,6 @@ struct ExploreRSAView_Previews: PreviewProvider {
         NavigationView {
             ExploreRSAView()
                 .environmentObject(rsaExplore)
-        }
+        }.preferredColorScheme(.dark)
     }
 }

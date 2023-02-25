@@ -20,6 +20,9 @@ struct EnterEncodePrimesView: View {
     
     @State var showInfoSheet = false
     @State var showNextView = false
+    @State var hideText = false
+    
+    @FocusState private var focusedField: FocusedField?
         
     // updates RSA with the entered primes
     // also computes next steps in RSA algorithm
@@ -43,38 +46,63 @@ struct EnterEncodePrimesView: View {
     }
     
     var body: some View {
-        ZStack {
-            Colors.backgroundColor.ignoresSafeArea()
-            
-            NavigationLink(destination: GenerateKeysView(), isActive: $showNextView) {}
-                .isDetailLink(false)
-                .toolbar { NavigationToolbar(currentView: .enterEncodePrimesView, titleText: titleText) }
-                .navigationBarBackButtonHidden()
-                .navigationBarTitleDisplayMode(.inline)
-            
-            ScrollView {
+        
+//        GeometryReader { geometry in
+//            ScrollView {
                 VStack {
-                    ErrorMessageBar(errorMessage: errorMessage).padding([.top, .bottom], 5)
+                    NavigationLink(destination: GenerateKeysView(), isActive: $showNextView) {}
+                        .isDetailLink(false)
+                        .toolbar { NavigationToolbar(currentView: .enterEncodePrimesView, titleText: titleText) }
+                        .navigationBarBackButtonHidden()
+                        .navigationBarTitleDisplayMode(.inline)
                     
-                    Text("This is where we start to encrypt your message. Enter two prime numbers below.")
+                    ErrorMessageBar(errorMessage: errorMessage)
+                        .padding(.top, hideText ? 10 : -10)
+                    
+                    Text("Enter two prime numbers below.")
                         .padding([.leading, .trailing])
+                        .padding(.top, 5)
                     
-                    Text("These two numbers are used to secure your message. Anyone who knows them will be able to decipher your message.")
-                        .padding([.top, .leading, .trailing])
+                    if !hideText {
+                        Text("These two numbers are used to secure your message. Anyone who knows them will be able to decipher your message.")
+                            .padding([.top, .leading, .trailing])
+                    }
                     
                     MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: EnterPrimesInfoView())
-                        .padding([.top, .bottom])
+                        .padding(.top, 5)
+                    
+                    if !hideText {
+                        Text("Primes")
+                            .monospacedTitleText(textStyle: .title)
+                            .padding([.bottom], 5)
+                            .padding(.top)
+                    }
+                    else {
+                        Text("")
+                    }
                     
                     PrimeTextFieldsView(
                         prime1: $prime1, prime2: $prime2,
                         primeImage1: $primeImage1, primeImage2: $primeImage2,
+                        focusedField: $focusedField,
                         errorMessage: $errorMessage,
                         allowEditPrimes: .constant(true),
-                        showUseDifferentPrimesCheckbox: false
+                        showUseDifferentPrimesCheckbox: false,
+                        hideTitle: true
                     )
                     
-                    Text("Next, create your encryption key. This is publicly available and will let anyone encode a message and send it to you.")
-                        .padding()
+                    if !hideText {
+                        ViewThatFits {
+                            Text("Next, create your encryption key. This is publicly available and will let anyone encode a message and send it to you.").padding()
+                            Text("Next, create your publicly available encryption key.").padding()
+                        }
+                    }
+                    else {
+                        ViewThatFits {
+                            Text("Next, create your encryption key.").padding()
+                            Text("Now create your encryption key.").padding()
+                        }
+                    }
                     
                     Button("Create Encryption Key") {
                         let validInputs = validateInputs(prime1: prime1, prime2: prime2,
@@ -85,6 +113,7 @@ struct EnterEncodePrimesView: View {
                             let successfulUpdate = updateRSA()
                             
                             if successfulUpdate {
+                                focusedField = nil
                                 showNextView = true
                             }
                             else {
@@ -95,11 +124,16 @@ struct EnterEncodePrimesView: View {
                     .purpleButtonStyle()
                     .padding(.bottom)
                 }
+                .onChange(of: focusedField) {newValue in
+                    withAnimation {
+                        hideText = newValue != nil ? true : false
+                    }
+                }
+//                .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
                 .monospacedBodyText()
-            }.onAppear {
-                loadPrimes()
-            }
-        }
+                .onAppear { loadPrimes() }
+//            }
+//        }
     }
 }
 
@@ -110,6 +144,6 @@ struct EnterEncodePrimesView_Previews: PreviewProvider {
         NavigationView {
             EnterEncodePrimesView()
                 .environmentObject(rsa)
-        }
+        }.preferredColorScheme(.dark)
     }
 }

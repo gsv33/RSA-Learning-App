@@ -62,6 +62,7 @@ struct MenuView: View {
                     
                     Button("Dismiss Menu") { dismiss() }
                         .purpleButtonStyle()
+                        .padding(.bottom)
                     
                 }.monospacedBodyText()
             }

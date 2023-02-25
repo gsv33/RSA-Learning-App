@@ -14,56 +14,54 @@ struct WelcomeView: View {
     @State private var showRSAOverview = false
     
     var body: some View {
-        ZStack {
-            Colors.backgroundColor.ignoresSafeArea()
+        VStack() {
+            (Text("Welcome to the ")
+                .font(.system(.title, design: .monospaced))
+            + Text ("Learning RSA")
+                .font(.system(.largeTitle, design: .monospaced))
+                .foregroundColor(.white)
+            + Text (" App")
+                .font(.system(.title, design: .monospaced)))
+            .padding([.leading, .trailing])
             
-            VStack() {
-                Text("Welcome to the ")
-                    .font(.system(.title, design: .monospaced))
-                + Text ("Learning RSA")
-                    .font(.system(.largeTitle, design: .monospaced))
-                    .foregroundColor(.white)
-                + Text (" App")
-                    .font(.system(.title, design: .monospaced))
-                
-                Text("This is an interactive app that will take you through the steps of encoding a message using the RSA cryptosystem.")
-                    .font(.system(.title, design: .monospaced))
-                    .padding()
-                    .padding(.bottom, 20)
-                
-                NavigationLink(
-                    destination: EnterMessageView(),
-                    isActive: $navigationController.tutorialNavLinkIsActive
-                ) {
-                    Text("Step-by-Step Walkthrough")
-                }
-                .isDetailLink(false)
-                .purpleButtonStyle(textStyle: .title2)
-                .padding(.bottom, 20)
-                
-                NavigationLink(destination: ExploreRSAView(),
-                               isActive: $navigationController.exploreNavLinkIsActive) {
-                    Text("Explore RSA")
-                }
-                .isDetailLink(false)
-                .purpleButtonStyle(textStyle: .title2)
-                .padding(.bottom)
-                
-                Button("What is RSA?") {
-                    showRSAOverview = true
-                }
-                .sheet(isPresented: $showRSAOverview) { RSAOverviewView() }
-                .foregroundColor(Colors.outputColor)
-                .font(.system(.title3, design: .monospaced))
+            Text("This is an interactive app that will take you through the steps of encoding a message using the RSA cryptosystem.")
+                .font(.system(.title, design: .monospaced))
                 .padding()
+                .padding(.bottom, 20)
+            
+            NavigationLink(
+                destination: EnterMessageView(),
+                isActive: $navigationController.tutorialNavLinkIsActive
+            ) {
+                Text("Step-by-Step Walkthrough")
             }
-            .fixedSize(horizontal: false, vertical: true)
-            .fontWeight(.semibold)
-        }.foregroundColor(Colors.textColor)
-            .onAppear {
-                rsa.resetAllValues()
-                rsaExplore.resetAllValues()
+            .isDetailLink(false)
+            .purpleButtonStyle(textStyle: .title2)
+            .padding(.bottom, 20)
+            
+            NavigationLink(destination: ExploreRSAView(),
+                           isActive: $navigationController.exploreNavLinkIsActive) {
+                Text("Explore RSA")
             }
+            .isDetailLink(false)
+            .purpleButtonStyle(textStyle: .title2)
+            .padding(.bottom)
+            
+            Button("What is RSA?") {
+                showRSAOverview = true
+            }
+            .sheet(isPresented: $showRSAOverview) { RSAOverviewView() }
+            .foregroundColor(Colors.outputColor)
+            .font(.system(.title3, design: .monospaced))
+            .padding()
+        }
+        .fixedSize(horizontal: false, vertical: true)
+        .fontWeight(.semibold)
+        .foregroundColor(Colors.textColor)
+        .onAppear {
+            rsa.resetAllValues()
+            rsaExplore.resetAllValues()
+        }
     }
 }
 
@@ -79,5 +77,6 @@ struct WelcomeView_Previews: PreviewProvider {
         .environmentObject(rsa)
         .environmentObject(rsaExplore)
         .environmentObject(navigationController)
+        .preferredColorScheme(.dark)
     }
 }

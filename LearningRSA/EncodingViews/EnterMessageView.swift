@@ -9,18 +9,26 @@ import SwiftUI
 
 struct MessageFieldView: View {
     
-    //TODO: Modify max character limit for the message
+    @FocusState.Binding var focusedField: FocusedField?
+    
     @Binding var textFieldMessage: String
     @Binding var inputMessage: String
     @Binding var errorMessage: ErrorMessages
     let maxCharsInMessage = GlobalVars.maxCharsInMessage
     var textStyle = Font.TextStyle.title2
+    var minHeight: CGFloat = 100
     var maxHeight: CGFloat = 200
+    
+    var useNextForSubmitLabel = false
     
     // TODO: Need to test and refactor this function
     func validateText(newValue: String) {
         if textFieldMessage != inputMessage {
-            if inputMessage.count >= maxCharsInMessage && newValue.count >= maxCharsInMessage {
+            if !newValue.filter({ $0.isNewline }).isEmpty {
+                // new line char indicates the user has pressed "done" or "next"
+                focusedField = useNextForSubmitLabel ? .prime1 : nil
+            }
+            else if inputMessage.count >= maxCharsInMessage && newValue.count >= maxCharsInMessage {
                 errorMessage = .maxMessageLength
             }
             else {
@@ -50,22 +58,29 @@ struct MessageFieldView: View {
             .onChange(of: textFieldMessage) { newValue in
                 validateText(newValue: newValue)
             }
+            .focused($focusedField, equals: .message)
             .font(.system(textStyle, design: .monospaced, weight: .medium))
-            .overlay(
+            .scrollContentBackground(.hidden)
+            .padding(5)
+            .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(.white, lineWidth: 10)
+                    .fill(.white)
             )
             .padding()
             .autocorrectionDisabled()
             .keyboardType(.asciiCapable)
+            .submitLabel(useNextForSubmitLabel ? .next : .done)
             .foregroundColor(.black)
-            .frame(maxWidth: .infinity, maxHeight: maxHeight)
+            .frame(maxWidth: .infinity, minHeight: minHeight, maxHeight: maxHeight)
     }
 }
 
 struct EnterMessageView: View {
     @EnvironmentObject var rsa: RSA
 
+    @FocusState private var focusedField: FocusedField?
+    
+    @State var hideText = false
     @State var textFieldMessage = ""
     @State var errorMessage: ErrorMessages = .noError
     @State var inputMessage = ""
@@ -104,9 +119,8 @@ struct EnterMessageView: View {
     }
     
     var body: some View {
-        ZStack {
-            Colors.backgroundColor.ignoresSafeArea()
-            
+
+        VStack {
             NavigationLink(destination: MessageToNumbersView(), isActive: $showNextView) {}
                 .isDetailLink(false)
                 .toolbar {
@@ -115,37 +129,55 @@ struct EnterMessageView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
-            VStack {
-                ErrorMessageBar(errorMessage: errorMessage)
-                    .padding(.bottom, 5)
-                
-                Text("Enter your message here:")
-                    .font(.system(.title3, design: .monospaced))
-                
-                MessageFieldView(
-                    textFieldMessage: $textFieldMessage,
-                    inputMessage: $inputMessage,
-                    errorMessage: $errorMessage)
-                                                
-                Text("You'll have to keep your message under 50 characters so that it's easy to understand what's going on.").padding()
-                
-                MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: EnterMessageInfoView())
-                    .padding(.bottom)
-                
-                Button("Convert message to numbers") {
-                    if finalValidateText() {
-                        rsa.inputMessageEng = inputMessage
-                        if rsa.stringToNumberConversion() {
-                            showNextView = true
-                        }
-                        else {
-                            resetView()
-                        }
-                    }
-                }.purpleButtonStyle()
+            ErrorMessageBar(errorMessage: errorMessage)
+                .padding(.bottom, 5)
+            
+            Text("Enter your message here:")
+                .font(.system(.title3, design: .monospaced))
+            
+            MessageFieldView(
+                focusedField: $focusedField,
+                textFieldMessage: $textFieldMessage,
+                inputMessage: $inputMessage,
+                errorMessage: $errorMessage)
+                   
+            if !hideText {
+                Text("Keep your message under \(GlobalVars.maxCharsInMessage) characters so that it's easy to understand what's going on.")
                     .padding()
             }
-        }.monospacedBodyText()
+            else {
+                ViewThatFits {
+                    Text("Keep your message under \(GlobalVars.maxCharsInMessage) characters so that it's easy to understand what's going on.")
+                        .padding([.leading, .trailing, .bottom])
+                    
+                    Text("Keep your message under \(GlobalVars.maxCharsInMessage) characters.")
+                        .padding([.leading, .trailing, .bottom])
+                }
+            }
+            
+            MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: EnterMessageInfoView())
+                .padding(.bottom)
+            
+            Button("Convert message to numbers") {
+                if finalValidateText() {
+                    rsa.inputMessageEng = inputMessage
+                    if rsa.stringToNumberConversion() {
+                        focusedField = nil
+                        showNextView = true
+                    }
+                    else {
+                        resetView()
+                    }
+                }
+            }.purpleButtonStyle()
+                .padding()
+        }
+        .onChange(of: focusedField) {newValue in
+            withAnimation {
+                hideText = newValue != nil ? true : false
+            }
+        }
+        .monospacedBodyText()
     }
 }
 
@@ -156,6 +188,6 @@ struct EnterMessageView_Previews: PreviewProvider {
         NavigationView {
             EnterMessageView()
                 .environmentObject(rsa)
-        }
+        }.preferredColorScheme(.dark)
     }
 }

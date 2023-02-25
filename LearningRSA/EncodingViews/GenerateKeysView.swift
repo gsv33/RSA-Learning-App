@@ -88,7 +88,7 @@ struct GenerateKeysView: View {
                         (Text("\(String(rsa.encodePhi))").foregroundColor(Colors.inputColor) +
                         Text(" is relatively prime to ") +
                         Text("\(String(rsa.encryptionKeyE))").foregroundColor(Colors.outputColor))
-                        .padding(.top)
+                        .padding([.top, .leading, .trailing])
                     }
                     .opacity(textOpacity4)
                     .animation(.easeIn(duration: 1.0), value: textOpacity4)

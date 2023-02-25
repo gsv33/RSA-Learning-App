@@ -27,8 +27,8 @@ struct MessageToNumbersView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline) // needed to remove the space reserved for the nav title
             
-            GeometryReader { geometry in
-                ScrollView {
+//            GeometryReader { geometry in
+//                ScrollView {
                     VStack {
                         
                         if !showMessages {
@@ -77,11 +77,11 @@ struct MessageToNumbersView: View {
                             .purpleButtonStyle()
                         }
                     }
-                    .frame(minHeight: geometry.size.height)
+//                    .frame(minHeight: geometry.size.height)
                     .monospacedBodyText()
                     .padding()
-                }
-            }
+//                }
+//            }
         }
     }
 }

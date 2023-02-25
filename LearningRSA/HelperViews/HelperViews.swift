@@ -141,6 +141,7 @@ struct AlternateTextInScrollView: View {
     var textSize = Font.TextStyle.headline
     var textColor = Colors.inputColor
     var maxHeight: CGFloat = 100
+    var minHeight: CGFloat = 75
     
     var body: some View {
         ScrollView() {
@@ -149,7 +150,7 @@ struct AlternateTextInScrollView: View {
                 .font(.system(textSize, design: .monospaced))
                 .padding()
         }
-        .frame(maxWidth: .infinity, maxHeight: maxHeight)
+        .frame(maxWidth: .infinity, minHeight: minHeight, maxHeight: maxHeight)
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.white, lineWidth: 3)

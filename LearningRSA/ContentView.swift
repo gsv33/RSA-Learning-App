@@ -20,6 +20,7 @@ struct ContentView: View {
         .environmentObject(rsa) // must go outside navigation view
         .environmentObject(rsaExplore)
         .environmentObject(navigationController)
+        .preferredColorScheme(.dark)
     }
 }
 

@@ -17,17 +17,17 @@ struct BorderedTextField: ViewModifier {
     func body(content: Content) -> some View {
         content
             .font(.system(.title))
-            .textFieldStyle(.roundedBorder)
+            .padding([.top, .bottom], 3)
+            .padding(.leading, 5)
+            .padding(.trailing, 20)
+            .background(
+                RoundedRectangle(cornerRadius: 3)
+                    .fill(.white)
+                )
             .foregroundColor(.black)
             .fixedSize()
             .disabled(disable)
-            .opacity(disable ? 0.6 : 1.0)
-    }
-}
-
-extension TextField {
-    func borderedTextField(disable: Bool) -> some View {
-        modifier(BorderedTextField(disable: disable))
+            .opacity(disable ? 0.6 : 1.0)        
     }
 }
 
@@ -102,6 +102,10 @@ extension View {
     
     func navBarButtonStyle(textStyle: Font.TextStyle = .headline) -> some View {
         modifier(NavBarButtonStyle(textStyle: textStyle))
+    }
+    
+    func borderedTextField(disable: Bool) -> some View {
+        modifier(BorderedTextField(disable: disable))
     }
 }
 
@@ -254,6 +258,8 @@ struct Colors {
     static let lightBlueGreen = Color(red: 163 / 255, green: 199 / 255, blue: 214 / 255)
     static let lightPurple = Color(red: 229 / 255, green: 184 / 255, blue: 244 / 255)
     static let lightBlue = Color(red: 188 / 255, green: 206 / 255, blue: 248 / 255)
+    
+    static let magnesium = Color(#colorLiteral(red: 0.7540688515, green: 0.7540867925, blue: 0.7540771365, alpha: 1))
 }
 
 struct GlobalVars {

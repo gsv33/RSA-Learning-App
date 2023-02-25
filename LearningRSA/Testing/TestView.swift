@@ -131,127 +131,6 @@ struct NavMenuViewTest: View {
     }
 }
 
-struct LetterNumberTest: View {
-    
-//    var charToNumArr = CharacterConverter().charToNumArr
-    
-    var body: some View {
-        ScrollView {
-            
-                    
-//            Grid {
-//                GridRow {
-//                    ForEach(0 ..< 10) { i in
-//                        Text(String(charToNumArr[i].char))
-//                    }
-//                }
-//                Divider()
-//                GridRow {
-//                    ForEach(0 ..< 10) { i in
-//                        Text(String(charToNumArr[i].number))
-//                    }
-//                }
-//                Divider()
-//                GridRow {
-//                    ForEach(10 ..< 20) { i in
-//                        Text(String(charToNumArr[i].char))
-//                    }
-//                }
-//                Divider()
-//                GridRow {
-//                    ForEach(10 ..< 20) { i in
-//                        Text(String(charToNumArr[i].number))
-//                    }
-//                }
-//            }.padding()
-        }
-    }
-}
-
-
-struct VerticalTest: View {
-    var charToNumArr = CharacterConverter.charToNumArray
-    let columns = [GridItem(), GridItem(), GridItem()]
-
-    let charColor = Color(red: 255 / 255, green: 215 / 255, blue: 135 / 255)
-    let numColor = Color(red: 125 / 255, green: 255 / 255, blue: 255 / 255)
-    
-    var body: some View {
-        ZStack {
-            Colors.backgroundColor.ignoresSafeArea()
-            
-            ScrollView {
-                LazyVGrid(columns: columns) {
-                    ForEach(0 ..< charToNumArr.count) { i in
-                        
-                        if charToNumArr[i].character == " " { // separate to show space bar as an image
-                            Text(Image(systemName: "space"))
-                                .foregroundColor(charColor) +
-                            Text(" = ")
-                                .font(.system(.headline, design: .rounded, weight: .semibold)) +
-                            Text(charToNumArr[i].number)
-                                .foregroundColor(numColor)
-                        }
-                        else {
-                            Text(String(charToNumArr[i].character))
-                                .foregroundColor(charColor) +
-                            Text(" = ") +
-                            Text(charToNumArr[i].number)
-                                .foregroundColor(numColor)
-                        }
-                    }
-                }
-            }
-            .foregroundColor(.white)
-            .font(.system(.headline, design: .monospaced, weight: .semibold))
-        }
-    }
-}
-
-
-struct CustomView<Content: View>: View {
-    var testView: Content
-    
-    var body: some View {
-        VStack {
-            Text("Test")
-            
-            testView
-        }
-    }
-}
-
-struct PaddingTest: View {
-    var body: some View {
-        VStack {
-            Text("ABC")
-            (Text("Test") + Text(" Test 2")).padding()
-
-            Text("ABC")
-            Group {
-                Text("Test") + Text(" Test 2")
-            }.padding()
-
-        }
-    }
-}
-
-struct GroupTest: View {
-    
-    var body: some View {
-        VStack {
-            Text("One")
-            Text("Two")
-            
-            Divider()
-                .frame(height:5)
-                .overlay(.black)
-            
-            Text("Three")
-            Text("Four")
-        }
-    }
-}
 
 // Tests all the RSA functions
 //            print("Input String is: \(rsa.inputMessageEng)")
@@ -422,73 +301,20 @@ struct DropdownSelector: View {
     }
 }
 
-struct ScrollViewGeometryTest: View {
+struct ButtonTest: View {
+    @State var show = false
     
     var body: some View {
-        ZStack {
-            Colors.backgroundColor.ignoresSafeArea()
-            
-            GeometryReader { geometry in
-                ScrollView {
-                    VStack {
-                        Text("VStack Start").padding()
-                        
-                        Group {
-                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
-                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
-                            
-                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
-                            
-                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
-                            
-                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
-                            
-                            
-                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
-                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
-                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
-                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
-                            Text("Test test testThe last step is to convert your decoded message back into text. We use the same mapping as we did last time.The last step is to convert your decoded message back into text. We use the same mapping as we did last time.")
-                        }
-                        
-                        Text("VStack End").padding()
-                    }
-                    .monospacedBodyText()
-                    .frame(minHeight: geometry.size.height)
-                    .frame(width: geometry.size.width)
+        VStack {
+            Button("Test") {
+                withAnimation {
+                    show.toggle()
                 }
             }
-        }
-    }
-}
-
-struct ButtonTest: View {
-    var body: some View {
-        ZStack {
-            Colors.backgroundColor.ignoresSafeArea()
             
-            VStack {
-                Button("Step-by-Step RSA") {}
-                    .font(.system(.title2, design: .monospaced))
-                    .tint(Color(red: 111 / 255, green: 26 / 255, blue: 182 / 255))
-                    .buttonStyle(.borderedProminent)
-
-
-                Button("Click") {}
-                    .font(.system(.headline, design: .monospaced))
-                    .buttonStyle(.borderedProminent)
-                    .tint(Color(red: 57 / 255, green: 81 / 255, blue: 68 / 255))
-
-                Button("Click") {}
-                    .font(.system(.headline, design: .monospaced))
-                    .buttonStyle(.borderedProminent)
-                    .tint(Color.black)
-
-                Button("Step-by-Step RSA") {}
-                    .purpleButtonStyle(textStyle: .title2)
-
+            if show {
+                Text("HELLO!").padding()
             }
-            
         }
     }
 }
@@ -497,6 +323,5 @@ struct TestView_Previews: PreviewProvider {
     
     static var previews: some View {
         ButtonTest()
-
     }
 }

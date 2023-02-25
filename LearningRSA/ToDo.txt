@@ -1,5 +1,16 @@
 To Do List (please write detailed bug descriptions!)
 
+Issues from physical device test
+- Remove unnecessary background colors now that it's in dark mode
+- Add message if clicking "Reset" when primes are original in Explore Decode screen
+- Enable Swipe to go back
+- Too little padding between the error bar and the top of the screen
+- "Done" button disappearing on Decode primes screen sometimes after first button click
+    - Doesn't appear to happen on simulator (tested on iPhone 8, iPhone SE, iPhone 14)
+    - Happening on physical device (iPhone 8)
+- Need padding on title for Encoding/Decoding math popovers
+
+To Do:
 - Additional bugs in the wrong error message showing up
 - sync color scheme across views
 - Test on multiple devices (fix any bugs)
@@ -8,7 +19,6 @@ To Do List (please write detailed bug descriptions!)
 - Right Align encoding/decoding math inputs in grid
 - Bug: "Show number to letter mapping" doesn't animate when dismissed from the MessageToNumbers second view
 - Should the decode button randomize the output?
-- Make capitalization consistent across the app
 
 Completed
 x ** Primes must be distinct! Otherwise the math doesn't work**
@@ -29,6 +39,13 @@ x Add reset button when user goes back to main menu
 x No output for the decoded nums - blank screen displays
 x Need separate rsa variables for Explore and Tutorial
 x Proofread explanations
+x Prime text fields should be numbers only
+x Status bar is not visible
+x Top of view should not be transparent/white when scrolling
+x Change prime text fields view in dark mode
+x Fix keyboard menu issue
+x Check for line breaks in message field
+
 
 Later
 - add generate random message button
