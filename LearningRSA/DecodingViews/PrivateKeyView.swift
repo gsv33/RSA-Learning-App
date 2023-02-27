@@ -43,7 +43,7 @@ struct PrivateKeyView4: View {
             Text("Remember that the decryption key above is for the actual prime numbers you used.")
                 .padding()
             
-            Text("For the fake primes, we do the exact same thing, and get a new decryption key of:")
+            Text("For the fake primes, we use a similar process, and get a decryption key of:")
                 .padding([.leading, .trailing, .bottom])
         }
         .onReceive(timer) { _ in

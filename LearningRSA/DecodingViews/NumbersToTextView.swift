@@ -60,12 +60,12 @@ struct NumbersToTextView: View {
                                 .padding()
                         }
                         
-                        Button("Show number to letter mapping") {
+                        Button("Show character to number mapping") {
                             showMappingSheet = true
                         }
                         .sheet(isPresented: $showMappingSheet) { MappingView() }
                         .foregroundColor(Colors.outputColor)
-                        .padding()
+                        .padding([.top, .bottom])
                         
                         Group {
                             if currSection == 0 {

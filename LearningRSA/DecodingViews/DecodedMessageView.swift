@@ -35,10 +35,10 @@ struct DecodeMessageView2: View {
                 Text("\(fakePrime2)").foregroundColor(Colors.lightRed)
                 
                 Text("Fake private key: ").padding(.top)
-                Text("\(M)")
+                Text("\(DFake)")
                     .foregroundColor(Colors.lightRed) +
                 Text("-") +
-                Text("\(DFake)")
+                Text("\(M)")
                     .foregroundColor(Colors.lightRed)
                 
                 Text("Fake Decoded Message:").padding(.top)

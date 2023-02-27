@@ -24,7 +24,7 @@ struct EnterMessageInfoView: View {
                     Text("Welcome to the Learning RSA App walkthrough! This will be an overview of how the RSA algorithm works.")
                         .padding()
                     
-                    Text("This walkthrough is broken into two parts, the encoding section, where you will learn how RSA encrypts a message, and the decoding section, where you will learn how RSA decrypts a message.")
+                    Text("This walkthrough is broken into two parts: the encoding section, where you will learn how RSA encrypts a message, and the decoding section, where you will learn how RSA decrypts a message.")
                         .padding()
                     
                     Text("To help make this clear, at each step in the walkthrough, you will encode, and then decode your own message.")
@@ -64,10 +64,10 @@ struct MessageEncodingInfoView: View {
                     Text("Before we can encrypt your message, we need to convert your text to numbers.")
                         .padding()
                     
-                    Text("The way RSA works is that first we convert your message into a sequence of numbers. Then, we apply a mathematical function to transform this sequence into a different, encrypted, sequence of numbers. So the first step is to convert the message text into numbers.")
+                    Text("The way RSA works is that first we convert your message into a sequence of numbers. Then, we apply a mathematical function to transform this sequence into a different, encrypted sequence of numbers. So the first step is to convert the message text into numbers.")
                         .padding()
                     
-                    Text("This doesn't need to be secure. The only thing that matters here is that the sender and receiver both know how each letter is converted into a number.").padding()
+                    Text("This doesn't need to be secure. The only thing that matters here is that the sender and receiver both know how each character in the message is converted into a number.").padding()
                     
                     Text("In this app, we just use a simple conversion scheme that covers the most commonly used English letters and punctuation and assigns a 2-digit number to each character.").padding()
                 }
@@ -152,14 +152,14 @@ struct GeneratePublicKeyInfoView: View {
                         .padding()
                     
                     (Text("Now here's the really important thing to remember, the logic that underlies the entire security of the cryptosystem.") +
-                     Text(" Factoring large numbers is very difficult.").fontWeight(.heavy).foregroundColor(Colors.outputColor) +
+                     Text(" Factoring large numbers is very difficult.").fontWeight(.heavy).foregroundColor(Colors.lightRed) +
                      Text(" If you were given a number M and you knew that M was the product of two prime numbers P and Q, how would you know what P and Q are?")).padding()
 
                     Text("For example, given the number 357407, how would you know that 357407 = 419 x 853, where 419 and 853 are both prime? Now in a real application M is hundreds of digits long, making it virtually impossible to try and factor. Because of this fact, we can make M public without worrying that P and Q will be compromised, and this is the core idea underlying RSA security.").padding()
 
-                    Text("The second part of your public key is a number, E, that is relatively prime to (P - 1) x (Q - 1). Now this number, (P - 1) x (Q - 1), is extremely important to the algorithm and it's represented with the greek symbol phi Φ.").padding()
+                    Text("The second part of your public key is a number, E, that is relatively prime to (P - 1) x (Q - 1). Now this number, (P - 1) x (Q - 1), is extremely important to the algorithm and it's represented with the greek symbol phi, Φ.").padding()
                     
-                    Text("Φ = (P - 1) x (Q - 1) is the number of positive integers less than M that have no common factors with M. In fact, the number Φ is why we are keeping P and Q secret. If P and Q were compromised, Φ would also be compromised. Later, we'll get into just exactly how Φ is used in the algorithm.").padding()
+                    Text("Φ = (P - 1) x (Q - 1) is the number of positive integers less than M that have no common factors with M. In fact, the number Φ is why we are keeping P and Q secret. If P and Q were compromised, Φ would also be compromised. Later, we'll see just exactly how Φ is used in the algorithm.").padding()
                     
                     Text("For now, all that you need to know is that the combination of the two numbers E and M make up your encryption key.").padding()
 
@@ -190,7 +190,7 @@ struct SplitNumbersInfoView: View {
 
                     Text("There's one little detail that we need to take care of before we can actually begin encoding your message. Right now, your message is one, very big number. Before we can encode it, we need to break it up into a sequence of much smaller numbers.").padding()
                     
-                    Text("As you'll see next, the encoding process relies on a type of math called modular arithmetic. You can think of this like \"clock-math\". On a 12-hour clock, after the number 12, we start back at 1. And if you add 3 hours to 10 o'clock, you get 1 o'clock, not 13 o'cock.").padding()
+                    Text("As you'll see next, the encoding process relies on a type of math called modular arithmetic. You can think of this like \"clock-math\". On a 12-hour clock, after the number 12, we start back at 1. And if you add 3 hours to 10 o'clock, you get 1 o'clock, not 13 o'clock.").padding()
                     
                     Text("The encoding process uses the same type of math, except instead of the number 12, we use the number M, where M is the product of the prime numbers you chose earlier. Now for this to work properly, all the numbers we encode have to be less than M. So all we're doing here is splitting the numbers into smaller pieces that are individually each less than M.").padding()
                     

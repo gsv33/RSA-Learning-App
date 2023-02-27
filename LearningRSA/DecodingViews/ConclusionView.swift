@@ -22,7 +22,7 @@ struct ConclusionView: View {
                 .navigationBarTitleDisplayMode(.inline)
             
             VStack {
-                Text("Well done! That's the end of the tutorial. Hopefully you've gotten a sense of what makes RSA work and why it's secure.")
+                Text("Well done! That's the end of the tutorial. Hopefully you've gotten a sense of how RSA works and why it's secure.")
                     .padding()
                 
                 Text("If you want, you can explore encoding and decoding more messages with RSA.")

@@ -1,24 +1,26 @@
 To Do List (please write detailed bug descriptions!)
 
-Issues from physical device test
+To Do:
 - Remove unnecessary background colors now that it's in dark mode
 - Add message if clicking "Reset" when primes are original in Explore Decode screen
-- Enable Swipe to go back
-- Too little padding between the error bar and the top of the screen
-- "Done" button disappearing on Decode primes screen sometimes after first button click
-    - Doesn't appear to happen on simulator (tested on iPhone 8, iPhone SE, iPhone 14)
-    - Happening on physical device (iPhone 8)
+** Enable Swipe to go back
 - Need padding on title for Encoding/Decoding math popovers
-
-To Do:
+* Test on iPad
+    * keyboard settings don't adjust when the "Hide keyboard" button is selected
 - Additional bugs in the wrong error message showing up
 - sync color scheme across views
 - Test on multiple devices (fix any bugs)
-- Test character to number mapping title size on SE
-- Reorder public key
 - Right Align encoding/decoding math inputs in grid
 - Bug: "Show number to letter mapping" doesn't animate when dismissed from the MessageToNumbers second view
 - Should the decode button randomize the output?
+* Generate random primes should go up to 4 digits
+* Accessibility issues? Will the colors be okay for visually impaired people?
+** The last view of Message Encoding should be its own page in the Navigation View
+* Move the More Info button in Message Encoding to the very first view
+* Explore RSA Decode View: When the keyboard is active, it hides the error bar menu
+* Explore RSA encode view:
+    if the primes are changed, then the decode button should be deactivated until the message is successfully encoded with the different primes
+* Add a note saying that this is not a secure implementation and is just used for educational purposes to the end of the "What is RSA" explanation screen
 
 Completed
 x ** Primes must be distinct! Otherwise the math doesn't work**
@@ -45,6 +47,12 @@ x Top of view should not be transparent/white when scrolling
 x Change prime text fields view in dark mode
 x Fix keyboard menu issue
 x Check for line breaks in message field
+x "Done" button disappearing on Decode primes screen sometimes after first button click
+    - Doesn't appear to happen on simulator (tested on iPhone 8, iPhone SE, iPhone 14)
+    - Happening on physical device (iPhone 8)
+x Test character to number mapping title size on SE
+x Reorder public key
+x Disable rotation support
 
 
 Later

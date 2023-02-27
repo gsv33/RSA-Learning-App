@@ -36,7 +36,7 @@ struct MessageToNumbersView: View {
                                 .padding(.bottom)
                         }
                         
-                        Button("Show number to letter mapping") {
+                        Button("Show character to number mapping") {
                             showMappingSheet = true
                         }
                         .sheet(isPresented: $showMappingSheet) { MappingView() }
