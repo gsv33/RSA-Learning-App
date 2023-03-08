@@ -15,20 +15,17 @@
 		47636E6C290B4385006C3124 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47636E6B290B4385006C3124 /* Assets.xcassets */; };
 		47636E6F290B4385006C3124 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47636E6E290B4385006C3124 /* Preview Assets.xcassets */; };
 		47636E76290B4C51006C3124 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47636E75290B4C51006C3124 /* Math.swift */; };
-		47759471293AA2C300A5ADAC /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47759470293AA2C300A5ADAC /* TestView.swift */; };
 		47759473293AB2FB00A5ADAC /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47759472293AB2FB00A5ADAC /* Styles.swift */; };
 		477F3FFB29119335006C6B2E /* GenerateKeysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477F3FFA29119335006C6B2E /* GenerateKeysView.swift */; };
 		478510A329720B24004ADD29 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478510A229720B24004ADD29 /* MenuView.swift */; };
 		4785B8F4291C4BED00FB2A6E /* CharacterConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4785B8F3291C4BED00FB2A6E /* CharacterConverter.swift */; };
 		478878E629771EF400104FF3 /* LearningRSATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478878E529771EF400104FF3 /* LearningRSATests.swift */; };
 		478900CD2950D98B00159AFB /* Explanations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478900CC2950D98B00159AFB /* Explanations.swift */; };
-		478900CF2950EFCB00159AFB /* ToDo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 478900CE2950EFCB00159AFB /* ToDo.txt */; };
 		4792B883290F0BD100ECDDBE /* EnterMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4792B882290F0BD100ECDDBE /* EnterMessageView.swift */; };
 		4792B885290F18DB00ECDDBE /* MessageToNumbersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4792B884290F18DB00ECDDBE /* MessageToNumbersView.swift */; };
 		4792B887290F1FD000ECDDBE /* EnterEncodePrimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4792B886290F1FD000ECDDBE /* EnterEncodePrimesView.swift */; };
 		4796FE32291ACD9E000C33F2 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4796FE31291ACD9E000C33F2 /* WelcomeView.swift */; };
 		479D7E78291052030088B47E /* SplitNumbersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479D7E77291052030088B47E /* SplitNumbersView.swift */; };
-		47A7D8712929B46300B68A13 /* TestAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A7D8702929B46300B68A13 /* TestAnimations.swift */; };
 		47AA8187293417570009849C /* ExploreRSAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AA8186293417570009849C /* ExploreRSAView.swift */; };
 		47B368572959332300BF7B7D /* HelperViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B368562959332300BF7B7D /* HelperViews.swift */; };
 		47B8E967297325C100BCD091 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B8E966297325C100BCD091 /* Navigation.swift */; };
@@ -63,7 +60,6 @@
 		47636E6B290B4385006C3124 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47636E6E290B4385006C3124 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		47636E75290B4C51006C3124 /* Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
-		47759470293AA2C300A5ADAC /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		47759472293AB2FB00A5ADAC /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		477F3FFA29119335006C6B2E /* GenerateKeysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateKeysView.swift; sourceTree = "<group>"; };
 		478510A229720B24004ADD29 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
@@ -71,13 +67,11 @@
 		478878E329771EF400104FF3 /* LearningRSATests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearningRSATests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		478878E529771EF400104FF3 /* LearningRSATests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningRSATests.swift; sourceTree = "<group>"; };
 		478900CC2950D98B00159AFB /* Explanations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explanations.swift; sourceTree = "<group>"; };
-		478900CE2950EFCB00159AFB /* ToDo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ToDo.txt; sourceTree = "<group>"; };
 		4792B882290F0BD100ECDDBE /* EnterMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterMessageView.swift; sourceTree = "<group>"; };
 		4792B884290F18DB00ECDDBE /* MessageToNumbersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageToNumbersView.swift; sourceTree = "<group>"; };
 		4792B886290F1FD000ECDDBE /* EnterEncodePrimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterEncodePrimesView.swift; sourceTree = "<group>"; };
 		4796FE31291ACD9E000C33F2 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		479D7E77291052030088B47E /* SplitNumbersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitNumbersView.swift; sourceTree = "<group>"; };
-		47A7D8702929B46300B68A13 /* TestAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAnimations.swift; sourceTree = "<group>"; };
 		47AA8186293417570009849C /* ExploreRSAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreRSAView.swift; sourceTree = "<group>"; };
 		47B368562959332300BF7B7D /* HelperViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperViews.swift; sourceTree = "<group>"; };
 		47B8E966297325C100BCD091 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
@@ -111,15 +105,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		47523C1B2975C5B70005C165 /* Testing */ = {
-			isa = PBXGroup;
-			children = (
-				47A7D8702929B46300B68A13 /* TestAnimations.swift */,
-				47759470293AA2C300A5ADAC /* TestView.swift */,
-			);
-			path = Testing;
-			sourceTree = "<group>";
-		};
 		47636E5B290B4384006C3124 = {
 			isa = PBXGroup;
 			children = (
@@ -142,7 +127,6 @@
 			isa = PBXGroup;
 			children = (
 				47C4CD75299B55B1001F24E3 /* Info.plist */,
-				478900CE2950EFCB00159AFB /* ToDo.txt */,
 				47636E67290B4384006C3124 /* LearningRSAApp.swift */,
 				47636E69290B4384006C3124 /* ContentView.swift */,
 				47B36855295932F500BF7B7D /* HelperViews */,
@@ -150,7 +134,6 @@
 				4785B8F2291C4A7E00FB2A6E /* DecodingViews */,
 				4785B8F1291C4A7800FB2A6E /* EncodingViews */,
 				4785B8F0291C4A7200FB2A6E /* Model */,
-				47523C1B2975C5B70005C165 /* Testing */,
 				47636E6B290B4385006C3124 /* Assets.xcassets */,
 				47636E6D290B4385006C3124 /* Preview Content */,
 			);
@@ -317,7 +300,6 @@
 			files = (
 				47636E6F290B4385006C3124 /* Preview Assets.xcassets in Resources */,
 				47636E6C290B4385006C3124 /* Assets.xcassets in Resources */,
-				478900CF2950EFCB00159AFB /* ToDo.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,7 +318,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				47DFF68C2911D3E00000D74A /* EncodeMessageView.swift in Sources */,
-				47A7D8712929B46300B68A13 /* TestAnimations.swift in Sources */,
 				47FE13FC29131E6700DE6886 /* NumbersToTextView.swift in Sources */,
 				47759473293AB2FB00A5ADAC /* Styles.swift in Sources */,
 				47B368572959332300BF7B7D /* HelperViews.swift in Sources */,
@@ -360,7 +341,6 @@
 				47FE13F62912F24B00DE6886 /* EnterDecodePrimesView.swift in Sources */,
 				47AA8187293417570009849C /* ExploreRSAView.swift in Sources */,
 				474F9035292B11B500F5E858 /* EncodedMessageOutputList.swift in Sources */,
-				47759471293AA2C300A5ADAC /* TestView.swift in Sources */,
 				47DFF68A2911D2D20000D74A /* RSA.swift in Sources */,
 				47B8E967297325C100BCD091 /* Navigation.swift in Sources */,
 				47FE13F82913043C00DE6886 /* DecodingMathView.swift in Sources */,

@@ -218,7 +218,7 @@ struct ExploreRSAHelpView: View {
                         Text("On the decode screen, you can decode the message that you just encoded. Use the same prime numbers you used for the encoding to get your original input message back, or enter new prime numbers to see how that affects your decoded message.")
                             .padding()
                         
-                        Button("Back to Welcome Screen") {
+                        Button("Quit Explore RSA") {
                             
                             // can be accessed from either the Tutorial NavigationLink or
                             // the Explore NavigationLink, so need to check both

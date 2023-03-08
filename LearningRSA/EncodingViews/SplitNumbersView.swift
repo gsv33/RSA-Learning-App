@@ -45,60 +45,61 @@ struct SplitNumbersView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
-            VStack{
-                ScrollView {
-                    Group {
-                        Text("Your message in numbers:").padding(.top)
-                        TextInScrollView(message: rsa.inputMessageNum)
-                            .padding([.leading, .trailing, .bottom])
-
-                        Text("Your encryption key:")
-                        DisplayKeyView(exponent: rsa.encryptionKeyE, product: rsa.productOfPrimes, textStyle: .headline)
-                    }
-                    .onAppear { textOpacity1 = 1.0 }
-                    .opacity(textOpacity1)
-                    .animation(.easeIn(duration: 1.0), value: textOpacity1)
+            VStack {
+                Group {
+                    Text("Your message in numbers:").padding(.top)
+                    TextInScrollView(message: rsa.inputMessageNum, maxHeight: .infinity)
+                        .padding([.leading, .trailing, .bottom])
                     
-                    Group {
-                        Text("Before we can convert your message, we need to split it up into pieces smaller than the product of your two primes. This lets us properly apply the mathematical transformation to encrypt the message.").padding()
-                    }
-                    .opacity(textOpacity2)
-                    .animation(.easeIn(duration: 1.0), value: textOpacity2)
-                    
-                    
-                    Text("Here is your new message:")
-                        .opacity(textOpacity3)
-                        .animation(.easeIn(duration: 1.0), value: textOpacity3)
-                    
-
-                    TextInScrollView(message: rsa.inputMessageNumSplit)
-                        .padding([.leading, .trailing])
-                        .opacity(textOpacity3)
-                        .animation(.easeIn(duration: 1.0).delay(1), value: textOpacity3)
-                    
-                    Text("Now, we are finally ready to encode your message.")
-                        .padding()
-                        .opacity(textOpacity4)
-                        .animation(.easeIn(duration: 1.0), value: textOpacity4)
-                    
-                    Group {
-                        MoreInfoButton(
-                            showInfoSheet: $showInfoSheet,
-                            InfoView: SplitNumbersInfoView()
-                        )
-                        
-                        Button("Encode Message") {
-                            rsa.encodeMessage()
-                            showNextView = true
-                        }
-                        .buttonStyle(GenerateRandomPrimesButtonStyle())
-                        .padding()
-                    }
-                    .opacity(textOpacity4)
-                    .animation(.easeIn(duration: 1.0).delay(1), value: textOpacity4)
+                    Text("Your encryption key:")
+                    DisplayKeyView(exponent: rsa.encryptionKeyE, product: rsa.productOfPrimes, textStyle: .headline)
                 }
+                .onAppear { textOpacity1 = 1.0 }
+                .opacity(textOpacity1)
+                .animation(.easeIn(duration: 1.0), value: textOpacity1)
+                
+                Group {
+                    Text("To encrypt the message properly, we need to split it up into pieces smaller than the product of your two primes.")
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding()
+                }
+                .opacity(textOpacity2)
+                .animation(.easeIn(duration: 1.0), value: textOpacity2)
+                
+                
+                Text("Here is your new message:")
+                    .opacity(textOpacity3)
+                    .animation(.easeIn(duration: 1.0), value: textOpacity3)
+                
+                
+                TextInScrollView(message: rsa.inputMessageNumSplit, maxHeight: .infinity)
+                    .padding([.leading, .trailing])
+                    .opacity(textOpacity3)
+                    .animation(.easeIn(duration: 1.0).delay(1), value: textOpacity3)
+                
+                Text("Now we can encode your message.")
+                    .padding()
+                    .opacity(textOpacity4)
+                    .animation(.easeIn(duration: 1.0), value: textOpacity4)
+                
+                Group {
+                    MoreInfoButton(
+                        showInfoSheet: $showInfoSheet,
+                        InfoView: SplitNumbersInfoView()
+                    )
+                    
+                    Button("Encode Message") {
+                        rsa.encodeMessage()
+                        showNextView = true
+                    }
+                    .buttonStyle(GenerateRandomPrimesButtonStyle())
+                    .padding()
+                }
+                .opacity(textOpacity4)
+                .animation(.easeIn(duration: 1.0).delay(1), value: textOpacity4)
             }
             .monospacedBodyText()
+
         }
     }
 }

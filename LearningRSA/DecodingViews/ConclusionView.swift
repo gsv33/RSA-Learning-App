@@ -19,7 +19,6 @@ struct ConclusionView: View {
                 .isDetailLink(false)
                 .toolbar { NavigationToolbar(currentView: .conclusionView, titleText: titleText) }
                 .navigationBarBackButtonHidden()
-                .navigationBarTitleDisplayMode(.inline)
             
             VStack {
                 Text("Well done! That's the end of the tutorial. Hopefully you've gotten a sense of how RSA works and why it's secure.")
@@ -33,7 +32,8 @@ struct ConclusionView: View {
                 }
                 .purpleButtonStyle(textStyle: .title2)
                 .padding()
-                                                              
+                
+                Spacer()
             }
             .monospacedTitleText()
         }

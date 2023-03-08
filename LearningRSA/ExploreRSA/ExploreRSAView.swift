@@ -162,7 +162,7 @@ struct ExploreRSAView: View {
                         inputMessage: $inputMessage,
                         errorMessage: $errorMessage,
                         textStyle: .headline,
-                        maxHeight: 150,
+                        maxHeight: .infinity,
                         useNextForSubmitLabel: true
                     )
                     
@@ -187,7 +187,7 @@ struct ExploreRSAView: View {
                     Group {
                         AlternateTextInScrollView(message: encodedMessage,
                                                   textColor: .white,
-                                                  maxHeight: 150,
+                                                  maxHeight: .infinity,
                                                   minHeight: 0)
                         
                         ScrollView(.horizontal) {

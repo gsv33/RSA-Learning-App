@@ -16,6 +16,8 @@ struct DecodingMathView: View {
     
     @State var viewOpacity = 0.0
     
+    @State var verticalOverflow = false
+    
     var body: some View{
         ZStack {
             Colors.backgroundColor.ignoresSafeArea()
@@ -26,9 +28,13 @@ struct DecodingMathView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
-            GeometryReader { geometry in
+            GeometryReader { deviceGeometry in
                 ScrollView {
                     VStack {
+                        if !verticalOverflow { // used to add padding to top of screen if no scrollview necessary
+                            Text("")
+                        }
+                        
                         Text("Now, we're ready to decode your message. To do this, we use modular exponentiation, the same thing we used to encode it.")
                             .padding()
                         
@@ -53,7 +59,14 @@ struct DecodingMathView: View {
                         }.purpleButtonStyle()
                             .padding([.top, .bottom])
                     }
-                    .frame(minHeight: geometry.size.height)
+                    .background(
+                        GeometryReader { viewGeometry in
+                            Color.clear
+                                .onAppear {
+                                    verticalOverflow = viewGeometry.size.height > deviceGeometry.size.height
+                                }
+                        }
+                    )
                     .onAppear {viewOpacity = 1.0 }
                     .opacity(viewOpacity)
                     .animation(.easeIn(duration: 1.0), value: viewOpacity)

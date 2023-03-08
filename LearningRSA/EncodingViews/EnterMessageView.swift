@@ -171,6 +171,8 @@ struct EnterMessageView: View {
                 }
             }.purpleButtonStyle()
                 .padding()
+            
+            Spacer()
         }
         .onChange(of: focusedField) {newValue in
             withAnimation {

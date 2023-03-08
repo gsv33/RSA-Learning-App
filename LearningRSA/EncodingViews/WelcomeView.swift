@@ -16,12 +16,10 @@ struct WelcomeView: View {
     var body: some View {
         VStack() {
             (Text("Welcome to the ")
-                .font(.system(.title, design: .monospaced))
-            + Text ("Learning RSA")
-                .font(.system(.largeTitle, design: .monospaced))
+            + Text ("Learn RSA")
                 .foregroundColor(.white)
-            + Text (" App")
-                .font(.system(.title, design: .monospaced)))
+            + Text (" App"))
+            .font(.system(.title, design: .monospaced))
             .padding([.leading, .trailing])
             
             Text("This is an interactive app that will take you through the steps of encoding a message using the RSA cryptosystem.")

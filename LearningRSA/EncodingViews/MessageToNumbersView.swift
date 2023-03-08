@@ -27,61 +27,58 @@ struct MessageToNumbersView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline) // needed to remove the space reserved for the nav title
             
-//            GeometryReader { geometry in
-//                ScrollView {
-                    VStack {
-                        
-                        if !showMessages {
-                            Text("First, we convert each character in the message to a different number.")
-                                .padding(.bottom)
-                        }
-                        
-                        Button("Show character to number mapping") {
-                            showMappingSheet = true
-                        }
-                        .sheet(isPresented: $showMappingSheet) { MappingView() }
-                        .foregroundColor(Colors.outputColor)
-                        .padding(.bottom)
-                        
-                        if !showMessages {
-                            Button("Convert message to numbers") {
-                                withAnimation {
-                                    showMessages = true
-                                }
-                            }
-                            .purpleButtonStyle()
-                            .padding()
-                        }
-                        
-                        if showMessages {
-                            Divider()
-                                .frame(height: 1)
-                                .overlay(.white)
-                                .padding([.bottom])
-                            
-                            Text("Input Message:")
-                            TextInScrollView(message: rsa.inputMessageEng)
-                            
-                            Text("Converted Message:").padding(.top)
-                            TextInScrollView(message: rsa.inputMessageNum)
-                            
-                            MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: MessageEncodingInfoView())
-                                .padding([.top, .bottom])
-                            
-                            Text("Next, we'll choose prime numbers that will be used to secure your message.")
-                                .padding(.bottom)
-                            
-                            Button("Choose Prime Numbers") {
-                                showNextView = true
-                            }
-                            .purpleButtonStyle()
+            VStack {
+                
+                if !showMessages {
+                    Text("First, we convert each character in the message to a different number.")
+                        .padding([.top, .bottom])
+                }
+                
+                Button("Show character to number mapping") {
+                    showMappingSheet = true
+                }
+                .sheet(isPresented: $showMappingSheet) { MappingView() }
+                .foregroundColor(Colors.outputColor)
+                .padding(.bottom)
+                
+                if !showMessages {
+                    Button("Convert message to numbers") {
+                        withAnimation {
+                            showMessages = true
                         }
                     }
-//                    .frame(minHeight: geometry.size.height)
-                    .monospacedBodyText()
+                    .purpleButtonStyle()
                     .padding()
-//                }
-//            }
+                }
+                
+                if showMessages {
+                    Divider()
+                        .frame(height: 1)
+                        .overlay(.white)
+                        .padding([.bottom])
+                    
+                    Text("Input Message:")
+                    TextInScrollView(message: rsa.inputMessageEng, maxHeight: .infinity)
+                    
+                    Text("Converted Message:").padding(.top)
+                    TextInScrollView(message: rsa.inputMessageNum, maxHeight: .infinity)
+                    
+                    MoreInfoButton(showInfoSheet: $showInfoSheet, InfoView: MessageEncodingInfoView())
+                        .padding([.top, .bottom])
+                    
+                    Text("Next, we'll choose prime numbers that will be used to secure your message.")
+                        .padding(.bottom)
+                    
+                    Button("Choose Prime Numbers") {
+                        showNextView = true
+                    }
+                    .purpleButtonStyle()
+                }
+                
+                Spacer()
+            }
+            .monospacedBodyText()
+            .padding()
         }
     }
 }

@@ -23,48 +23,52 @@ struct MenuView: View {
     var body: some View {
         ZStack {
             Colors.backgroundColor.ignoresSafeArea()
-            ScrollView {
-                VStack {
-                    Text(title)
-                        .monospacedTitleText(textStyle: .title2)
-                        .padding()
-                    
-                    Text("Encoding Steps")
-                        .font(.system(.title3, design: .monospaced))
-                        .foregroundColor(Colors.inputColor)
-                    
-                    ForEach(encodingViews, id: \.rawValue) {viewName in
-                        Text(viewName.rawValue)
-                            .foregroundColor(viewName == currentView ? Colors.outputColor : .white)
-                            .padding(1)
-                    }
-                    
-                    Divider()
-                        .frame(height: 1)
-                        .overlay(.white)
-                        .padding()
-                    
-                    Text("Decoding Steps")
-                        .font(.system(.title3, design: .monospaced))
-                        .foregroundColor(Colors.inputColor)
-                    
-                    ForEach(decodingViews, id: \.rawValue) {viewName in
-                        Text(viewName.rawValue)
-                            .foregroundColor(viewName == currentView ? Colors.outputColor : .white)
-                            .padding(1)
-                    }
-                    
-                    Button("Back to Welcome Screen") {
-                        navigationController.popToRootFromTutorial()
-                    }
-                    .purpleButtonStyle()
-                    .padding()
-                    
-                    Button("Dismiss Menu") { dismiss() }
+            GeometryReader {geometry in
+                ScrollView {
+                    VStack {
+                        Text(title)
+                            .monospacedTitleText(textStyle: .title2)
+                            .padding()
+                        
+                        Text("Encoding Steps")
+                            .font(.system(.title3, design: .monospaced))
+                            .foregroundColor(Colors.inputColor)
+                        
+                        ForEach(encodingViews, id: \.rawValue) {viewName in
+                            Text(viewName.rawValue)
+                                .foregroundColor(viewName == currentView ? Colors.outputColor : .white)
+                                .padding(1)
+                        }
+                        
+                        Divider()
+                            .frame(height: 1)
+                            .overlay(.white)
+                            .padding()
+                        
+                        Text("Decoding Steps")
+                            .font(.system(.title3, design: .monospaced))
+                            .foregroundColor(Colors.inputColor)
+                        
+                        ForEach(decodingViews, id: \.rawValue) {viewName in
+                            Text(viewName.rawValue)
+                                .foregroundColor(viewName == currentView ? Colors.outputColor : .white)
+                                .padding(1)
+                        }
+                                                
+                        Button("Quit Walkthrough") {
+                            navigationController.popToRootFromTutorial()
+                        }
                         .purpleButtonStyle()
-                        .padding(.bottom)
-                    
-                }.monospacedBodyText()
+                        .padding()
+                        
+                        Button("Dismiss Menu") { dismiss() }
+                            .purpleButtonStyle()
+                            .padding(.bottom)
+                        
+                    }
+                    .monospacedBodyText()
+                    .frame(minHeight: geometry.size.height)
+                }
             }
         }
     }

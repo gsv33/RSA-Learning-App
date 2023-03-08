@@ -42,6 +42,7 @@ struct PrivateKeyView4: View {
             
             Text("Remember that the decryption key above is for the actual prime numbers you used.")
                 .padding()
+                .fixedSize(horizontal: false, vertical: true)
             
             Text("For the fake primes, we use a similar process, and get a decryption key of:")
                 .padding([.leading, .trailing, .bottom])
@@ -189,82 +190,81 @@ struct PrivateKeyView2: View {
         let phi = String(rsa.encodePhi)
         
         if viewSet < 2 {
-            VStack {
-                Group {
-                    if viewSet == 0 {
-                        Text("M is taken from the encryption key, so:")
-                            .padding(.top)
-                    }
-                    
-                    Group {
-                        Text("M = ") + Text("\(M)").foregroundColor(Colors.outputColor)
-                    }
-                    .padding([.top, .bottom])
+            Group {
+                if viewSet == 0 {
+                    Text("M is taken from the encryption key, so:")
+                        .padding([.top, .leading, .trailing])
                 }
-                .onAppear { textOpacity1 = 1.0 }
-                .opacity(textOpacity1)
-                .animation(.easeIn(duration: 1.0), value: textOpacity1)
                 
                 Group {
-                    if viewSet == 0 {
-                        Text("D is calculated by solving the equation:").padding(.bottom)
-                    }
-                    
-                    Text("E x D - Φ x C = 1")
-                        .padding(.bottom)
-                        .foregroundColor(Colors.inputColor)
+                    Text("M = ") + Text("\(M)").foregroundColor(Colors.outputColor)
                 }
-                .opacity(textOpacity2)
-                .animation(.easeIn(duration: 1.0), value: textOpacity2)
-                
-                Group {
-                    if viewSet == 0 {
-                        Text("E is taken from the encryption key, so:").padding(.bottom,3)
-                    }
-                    Group {
-                        Text("E = ") + Text("\(E)").foregroundColor(Colors.outputColor)
-                    }
-                    .padding(.bottom)
-                }
-                .opacity(textOpacity3)
-                .animation(.easeIn(duration: 1.0), value: textOpacity3)
-                
-                Group {
-                    if viewSet == 0 {
-                        Group{
-                            Text("Given your two prime numbers, P and Q, Φ is computed the same as before, ") +
-                            Text("Φ = (P - 1) x (Q - 1)")
-                        }
-                        .padding([.trailing, .leading, .bottom])
-                    }
-                    Group {
-                        if viewSet == 0 {
-                            Text("Φ = ") +
-                            Text("(\(prime1) - 1)").foregroundColor(Colors.inputColor) +
-                            Text(" x ") +
-                            Text("(\(prime2) - 1)").foregroundColor(Colors.inputColor)
-                        }
-                        Text("Φ = ") + Text("\(phi)").foregroundColor(Colors.outputColor)
-                    }
-                    .padding(3)
-                    
-                    if viewSet == 0 {
-                        Button("Next") {
-                            withAnimation {
-                                viewSet += 1
-                            }
-                        }
-                        .purpleButtonStyle()
-                        .padding()
-                    }
-                }
-                .opacity(textOpacity4)
-                .animation(.easeIn(duration: 1.0), value: textOpacity4)
+                .padding([.top, .bottom])
             }
-            .monospacedBodyText()
+            .onAppear { textOpacity1 = 1.0 }
+            .opacity(textOpacity1)
+            .animation(.easeIn(duration: 1.0), value: textOpacity1)
             .onReceive(timer) { _ in
                 timerUpdate()
             }
+
+            Group {
+                if viewSet == 0 {
+                    Text("D is calculated by solving the equation:")
+                        .padding([.bottom, .leading, .trailing])
+                }
+                
+                Text("E x D - Φ x C = 1")
+                    .padding(.bottom)
+                    .foregroundColor(Colors.inputColor)
+            }
+            .opacity(textOpacity2)
+            .animation(.easeIn(duration: 1.0), value: textOpacity2)
+            
+            Group {
+                if viewSet == 0 {
+                    Text("E is taken from the encryption key, so:").padding(.bottom,3)
+                        .padding([.leading, .trailing])
+                }
+                Group {
+                    Text("E = ") + Text("\(E)").foregroundColor(Colors.outputColor)
+                }
+                .padding(.bottom)
+            }
+            .opacity(textOpacity3)
+            .animation(.easeIn(duration: 1.0), value: textOpacity3)
+            
+            Group {
+                if viewSet == 0 {
+                    Group{
+                        Text("Given your two prime numbers, P and Q, Φ is computed the same as before, ") +
+                        Text("Φ = (P - 1) x (Q - 1)")
+                    }
+                    .padding([.trailing, .leading, .bottom])
+                }
+                Group {
+                    if viewSet == 0 {
+                        Text("Φ = ") +
+                        Text("(\(prime1) - 1)").foregroundColor(Colors.inputColor) +
+                        Text(" x ") +
+                        Text("(\(prime2) - 1)").foregroundColor(Colors.inputColor)
+                    }
+                    Text("Φ = ") + Text("\(phi)").foregroundColor(Colors.outputColor)
+                }
+                .padding(3)
+                
+                if viewSet == 0 {
+                    Button("Next") {
+                        withAnimation {
+                            viewSet += 1
+                        }
+                    }
+                    .purpleButtonStyle()
+                    .padding()
+                }
+            }
+            .opacity(textOpacity4)
+            .animation(.easeIn(duration: 1.0), value: textOpacity4)
         }
     }
 }
@@ -289,6 +289,8 @@ struct PrivateKeyView: View {
             GeometryReader {geometry in
                 ScrollView {
                     VStack {
+                        Text("")
+                        
                         if viewSet1 == 1 {
                             Text("Just like how your encryption key was the two components E and M in the equation: ").padding()
                             
@@ -325,7 +327,7 @@ struct PrivateKeyView: View {
                             }
                         }
                     }
-                    .frame(minHeight: geometry.size.height)
+                    .frame(minWidth: geometry.size.width)
                     .monospacedBodyText()
                 }
             }

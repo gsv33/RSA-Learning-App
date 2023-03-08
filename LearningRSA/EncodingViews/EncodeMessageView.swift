@@ -16,13 +16,13 @@ struct EncodeMessageViewPart3: View {
   
         Text("Putting it all together, here's your encoded message:").padding()
 
-        AlternateTextInScrollView(message: rsa.encodedMessageNum, textColor: Colors.outputColor)
+        AlternateTextInScrollView(message: rsa.encodedMessageNum, textColor: Colors.outputColor, maxHeight: .infinity)
         .padding([.leading, .trailing, .bottom])
         
         Text("This sequence of numbers corresponds exactly to your original message: ")
             .padding([.leading, .trailing, .bottom])
 
-        AlternateTextInScrollView(message: rsa.inputMessageEng, textColor: .red)
+        AlternateTextInScrollView(message: rsa.inputMessageEng, textColor: .red, maxHeight: .infinity)
         .padding([.leading, .trailing, .bottom])
                 
         Text("Now that the message is encoded, we'll learn how to reverse the process and decode your message.")
@@ -52,10 +52,10 @@ struct EncodeMessageViewPart2: View {
     var body: some View {
         
         if !hideText {
-            Text("Now let's actually do the encoding").padding([.leading, .trailing, .bottom])
+            Text("Now let's encode your message!").padding([.leading, .trailing, .bottom])
             
             Text("Input Numbers: ")
-            AlternateTextInScrollView(message: rsa.inputMessageNumSplit)
+            AlternateTextInScrollView(message: rsa.inputMessageNumSplit, maxHeight: .infinity)
                 .padding([.leading, .trailing, .bottom])
             
             Text("Your encryption key:")
@@ -79,7 +79,7 @@ struct EncodeMessageViewPart2: View {
             Group {
                 Text("Encoded Numbers:")
                 
-                AlternateTextInScrollView(message: rsa.encodedMessageNumSplit, textColor: Colors.outputColor)
+                AlternateTextInScrollView(message: rsa.encodedMessageNumSplit, textColor: Colors.outputColor, maxHeight: .infinity)
                     .padding([.leading, .trailing])
              
                 Button("Next") {
@@ -97,7 +97,7 @@ struct EncodeMessageViewPart2: View {
 }
 
 struct EncodeMessageViewPart1: View {
-    
+    @EnvironmentObject var rsa: RSA
     @Binding var hideText: Bool
     
     var body: some View {
@@ -109,16 +109,28 @@ struct EncodeMessageViewPart1: View {
             Text("We take each of your input numbers, X, raise it to the power, E, and take the remainder with respect to M, where M and E are the two parts of the encryption key we calculated earlier.")
                 .padding([.leading, .trailing, .bottom])
             
-//            Text("Given your encryption key:")
-//            DisplayKeyView(exponent: rsa.encryptionKeyE, product: rsa.productOfPrimes, textStyle: .headline)
-//            Text("E = ") + Text(String(rsa.encryptionKeyE)).foregroundColor(Colors.outputColor) +
-//            Text(", M = ") + Text(String(rsa.productOfPrimes)).foregroundColor(Colors.outputColor)
-
+            Text("Given your encryption key:")
+            DisplayKeyView(exponent: rsa.encryptionKeyE, product: rsa.productOfPrimes, textStyle: .headline)
+                .padding(.bottom)
             
+            Text("E = ") + Text(String(rsa.encryptionKeyE)).foregroundColor(Colors.outputColor)
+            (Text("M = ") + Text(String(rsa.productOfPrimes)).foregroundColor(Colors.outputColor))
+                .padding(.bottom)
+
             Text("Mathematically, this equation is: ").padding([.leading, .trailing])
         }
         
         EncodeEquation().padding()
+        
+        if hideText == false {
+            Button("Next") {
+                withAnimation(.easeIn(duration: 0.50)) {
+                    hideText = true
+                }
+            }
+            .purpleButtonStyle()
+            .padding()
+        }
     }
 }
 
@@ -141,36 +153,22 @@ struct EncodeMessageView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
-            GeometryReader { geometry in
-                ScrollView {
-                    VStack{
-                        
-                        if !hideView2 {
-                            EncodeMessageViewPart1(hideText: $hideView1)
-                        }
-                        
-                        if !hideView1 {
-                            Button("Next") {
-                                withAnimation(.easeIn(duration: 0.50)) {
-                                    hideView1 = true
-                                }
-                            }
-                            .purpleButtonStyle()
-                            .padding()
-                        } else {
-                            EncodeMessageViewPart2(
-                                hideText: $hideView2
-                            )
-                            
-                            if hideView2 {
-                                EncodeMessageViewPart3(showNextView: $showNextView)
-                            }
-                        }
+            VStack {
+                if !hideView2 {
+                    EncodeMessageViewPart1(hideText: $hideView1)
+                }
+                
+                if hideView1 {
+                    EncodeMessageViewPart2(
+                        hideText: $hideView2
+                    )
+                    
+                    if hideView2 {
+                        EncodeMessageViewPart3(showNextView: $showNextView)
                     }
-                    .frame(minHeight: geometry.size.height)
-                    .monospacedBodyText()
                 }
             }
+            .monospacedBodyText()
         }
     }
 }
@@ -193,7 +191,7 @@ struct EncodingDetailView: View {
                 ScrollView {
                     Text(title)
                         .monospacedTitleText()
-                        .padding(.bottom, 5)
+                        .padding([.top, .bottom], 5)
                     
                     Text(subtitle)
                     DisplayKeyView(exponent: exp, product: mod, textStyle: .headline)

@@ -24,7 +24,8 @@ struct DecodeMessageView2: View {
             Text("Putting it all together, here's your decoded message:")
                 .padding()
             
-            AlternateTextInScrollView(message: rsa.realDecodedMessageNum, textColor: Colors.outputColor)
+            AlternateTextInScrollView(message: rsa.realDecodedMessageNum, textColor: Colors.outputColor,
+                                      maxHeight: .infinity)
                 .padding([.leading, .trailing, .bottom])
 
             Group {
@@ -42,7 +43,8 @@ struct DecodeMessageView2: View {
                     .foregroundColor(Colors.lightRed)
                 
                 Text("Fake Decoded Message:").padding(.top)
-                AlternateTextInScrollView(message: rsa.fakeDecodedMessageNum, textColor: Colors.lightRed)
+                AlternateTextInScrollView(message: rsa.fakeDecodedMessageNum, textColor: Colors.lightRed,
+                                          maxHeight: .infinity)
                     .padding([.leading, .trailing])
             }
             
@@ -53,6 +55,7 @@ struct DecodeMessageView2: View {
                 showNextView = true
             }
             .purpleButtonStyle()
+            .padding(.bottom)
         }
     }
 }
@@ -69,14 +72,14 @@ struct DecodeMessageView1: View {
     var body: some View {
         VStack {
             
-            Text("Now we are ready to decode the message.").padding(.top)
+            Text("Now we are ready to decode the message.").padding([.top, .leading, .trailing])
             
             DecodeEquation()
                 .padding([.top, .bottom])
 
                 
             Text("Encoded Numbers:")
-            AlternateTextInScrollView(message: rsa.encodedMessageNumSplit)
+            AlternateTextInScrollView(message: rsa.encodedMessageNumSplit, maxHeight: .infinity)
                 .padding([.leading, .trailing, .bottom])
             
             Text("Real decryption key:")
@@ -102,7 +105,7 @@ struct DecodeMessageView1: View {
             Group {
                 Text("Decoded Numbers:")
                 
-                AlternateTextInScrollView(message: rsa.realDecodedMessageNumSplit, textColor: Colors.outputColor)
+                AlternateTextInScrollView(message: rsa.realDecodedMessageNumSplit, textColor: Colors.outputColor, maxHeight: .infinity)
                     .padding([.leading, .trailing])
              
                 Button("Next") {
@@ -138,16 +141,19 @@ struct DecodedMessageView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
-            ScrollView {
-                VStack {
-                    if !hideView1 {
-                        DecodeMessageView1(hideView: $hideView1)
+            GeometryReader {geometry in
+                ScrollView {
+                    VStack {
+                        if !hideView1 {
+                            DecodeMessageView1(hideView: $hideView1)
+                        }
+                        else {
+                            DecodeMessageView2(showNextView: $showNextView)
+                        }
                     }
-                    else {
-                        DecodeMessageView2(showNextView: $showNextView)
-                    }
+                    .frame(minHeight: geometry.size.height)
+                    .monospacedBodyText()
                 }
-                .monospacedBodyText()
             }
             
         }

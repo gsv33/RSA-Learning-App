@@ -31,6 +31,7 @@ struct ExploreRSADecodeView: View {
         prime1 = String(rsa.prime1)
         prime2 = String(rsa.prime2)
         
+        showDecodedMessage = false
         decodedMessage = ""
     }
     
@@ -73,42 +74,45 @@ struct ExploreRSADecodeView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden()
 
-            VStack {
-                ErrorMessageBar(errorMessage: errorMessage)
-                    .padding([.top, .bottom], 5)
-                
-                Text("Your encoded message")
-                    .monospacedTitleText(textStyle: .headline)
-                
-                AlternateTextInScrollView(message: encodedMessage,
-                                          textColor: .white,
-                                          maxHeight: 150)
-                .padding([.leading, .trailing, .bottom])
-                
-                PrimeTextFieldsView(
-                    prime1: $prime1, prime2: $prime2,
-                    primeImage1: $primeImage1, primeImage2: $primeImage2,
-                    focusedField: $focusedField,
-                    errorMessage: $errorMessage,
-                    allowEditPrimes: .constant(true),
-                    showUseDifferentPrimesCheckbox: false,
-                    title: "Keep or change prime numbers", titleTextStyle: .headline
-                )
-                
-                Button("Decode Message") {
-                    decodeMessagePressed()
+            GeometryReader { _ in
+                VStack {
+                    ErrorMessageBar(errorMessage: errorMessage)
+                        .padding([.top, .bottom], 5)
+                    
+                    Text("Your encoded message")
+                        .monospacedTitleText(textStyle: .headline)
+                    
+                    AlternateTextInScrollView(message: encodedMessage,
+                                              textColor: .white,
+                                              maxHeight: .infinity)
+                    .padding([.leading, .trailing, .bottom])
+                    
+                    PrimeTextFieldsView(
+                        prime1: $prime1, prime2: $prime2,
+                        primeImage1: $primeImage1, primeImage2: $primeImage2,
+                        focusedField: $focusedField,
+                        errorMessage: $errorMessage,
+                        allowEditPrimes: .constant(true),
+                        showUseDifferentPrimesCheckbox: false,
+                        title: "Keep or change prime numbers", titleTextStyle: .headline
+                    )
+                    
+                    Button("Decode Message") {
+                        decodeMessagePressed()
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.red)
+                    .font(.system(.title3, design: .monospaced))
+                    
+                    TextInScrollView(message: decodedMessage, maxHeight: .infinity, minHeight: 0)
+                        .padding()
+                        .opacity(showDecodedMessage ? 1.0 : 0.10)
+                        .animation(.default, value: showDecodedMessage)
+                    
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(.red)
-                .font(.system(.title3, design: .monospaced))
-                
-                TextInScrollView(message: decodedMessage, maxHeight: 150, minHeight: 0)
-                    .padding()
-                    .opacity(showDecodedMessage ? 1.0 : 0.10)
-                    .animation(.default, value: showDecodedMessage)
-                
+                .monospacedBodyText()
             }
-            .monospacedBodyText()
+            .ignoresSafeArea(.keyboard)
         }.onAppear {
             encodedMessage = rsa.encodedMessageNum
             prime1 = String(rsa.prime1)
