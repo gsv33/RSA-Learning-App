@@ -21,7 +21,7 @@ struct EnterMessageInfoView: View {
                     Text(title)
                         .monospacedTitleText()
                     
-                    Text("Welcome to the Learning RSA App walkthrough! This will be an overview of how the RSA algorithm works.")
+                    Text("Welcome to the Learn RSA App walkthrough! This will be an overview of how the RSA algorithm works.")
                         .padding()
                     
                     Text("This walkthrough is broken into two parts: the encoding section, where you will learn how RSA encrypts a message, and the decoding section, where you will learn how RSA decrypts a message.")
@@ -69,7 +69,7 @@ struct MessageEncodingInfoView: View {
                     
                     Text("This doesn't need to be secure. The only thing that matters here is that the sender and receiver both know how each character in the message is converted into a number.").padding()
                     
-                    Text("In this app, we just use a simple conversion scheme that covers the most commonly used English letters and punctuation and assigns a 2-digit number to each character.").padding()
+                    Text("In this app, we just use a simple conversion scheme that covers the most commonly used English characters and assigns a 2-digit number to each character.").padding()
                 }
                 
                 Button("Dismiss") { dismiss() }
@@ -460,9 +460,41 @@ struct RSAOverviewView: View {
     }
 }
 
+struct AppInfoView: View {
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        ZStack {
+            Colors.backgroundColor.ignoresSafeArea()
+            
+            VStack {
+                ScrollView {
+                    Text("Learn RSA App")
+                        .monospacedTitleText()
+                    
+                    Text("[Privacy Policy](https://learn-rsa.netlify.app/)")
+                        .tint(Colors.outputColor)
+                        .padding()
+                    
+                    Text("Please note that the implementation of RSA in this app is just for educational purposes, and is not a secure implementation of RSA.")
+                        .padding()
+                    
+                    
+                }
+                Button("Dismiss") { dismiss() }
+                    .purpleButtonStyle()
+                    .padding()
+            }
+            .padding(.top)
+            .monospacedBodyText()
+        }
+    }
+
+}
+
 
 struct Explanations_Previews: PreviewProvider {
     static var previews: some View {
-        PrivateKeyInfoView()
+        AppInfoView().preferredColorScheme(.dark)
     }
 }

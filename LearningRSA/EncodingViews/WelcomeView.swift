@@ -12,6 +12,7 @@ struct WelcomeView: View {
     @EnvironmentObject var rsa: RSA
     @EnvironmentObject var rsaExplore: RSAExplore
     @State private var showRSAOverview = false
+    @State private var showAppInfo = false
     
     var body: some View {
         VStack() {
@@ -20,7 +21,7 @@ struct WelcomeView: View {
                 .foregroundColor(.white)
             + Text (" App"))
             .font(.system(.title, design: .monospaced))
-            .padding([.leading, .trailing])
+            .padding([.top, .leading, .trailing])
             
             Text("This is an interactive app that will take you through the steps of encoding a message using the RSA cryptosystem.")
                 .font(.system(.title, design: .monospaced))
@@ -52,6 +53,14 @@ struct WelcomeView: View {
             .foregroundColor(Colors.outputColor)
             .font(.system(.title3, design: .monospaced))
             .padding()
+            
+            Button("App Info") {
+                showAppInfo = true
+            }
+            .sheet(isPresented: $showAppInfo) { AppInfoView() }
+            .foregroundColor(Colors.outputColor)
+            .font(.system(.title3, design: .monospaced))
+            .padding(.bottom)
         }
         .fixedSize(horizontal: false, vertical: true)
         .fontWeight(.semibold)
