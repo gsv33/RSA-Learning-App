@@ -267,7 +267,7 @@ struct GlobalVars {
     static let invalidSymbol = "multiply"
     static let validSymbol = "checkmark"
     static let maxDigitsInPrime = 4
-    static let maxCharsInMessage = 50
+    static let maxCharsInMessage = 100
     static let phi = "Φ"
     
     

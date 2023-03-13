@@ -21,7 +21,7 @@ struct DecodeMessageView2: View {
         let DFake = String(rsa.fakeDecryptionKeyD)
         
         VStack {
-            Text("Putting it all together, here's your decoded message:")
+            Text("Here's your decoded message:")
                 .padding()
             
             AlternateTextInScrollView(message: rsa.realDecodedMessageNum, textColor: Colors.outputColor,
@@ -29,9 +29,11 @@ struct DecodeMessageView2: View {
                 .padding([.leading, .trailing, .bottom])
 
             Group {
-                Text("Now, using the fake primes and fake private key, here's what you would have gotten.").padding()
+                Text("And this is what you get with the fake primes and private key:")
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding([.leading, .trailing])
                 
-                Text("Fake primes: ")
+                Text("Fake primes: ").padding(.top)
                 Text("\(fakePrime1)").foregroundColor(Colors.lightRed) + Text(", ") +
                 Text("\(fakePrime2)").foregroundColor(Colors.lightRed)
                 
@@ -72,7 +74,7 @@ struct DecodeMessageView1: View {
     var body: some View {
         VStack {
             
-            Text("Now we are ready to decode the message.").padding([.top, .leading, .trailing])
+            Text("Now let's decode your message.").padding([.top, .leading, .trailing])
             
             DecodeEquation()
                 .padding([.top, .bottom])
@@ -141,21 +143,16 @@ struct DecodedMessageView: View {
                 .navigationBarBackButtonHidden()
                 .navigationBarTitleDisplayMode(.inline)
             
-            GeometryReader {geometry in
-                ScrollView {
-                    VStack {
-                        if !hideView1 {
-                            DecodeMessageView1(hideView: $hideView1)
-                        }
-                        else {
-                            DecodeMessageView2(showNextView: $showNextView)
-                        }
-                    }
-                    .frame(minHeight: geometry.size.height)
-                    .monospacedBodyText()
+
+            VStack {
+                if !hideView1 {
+                    DecodeMessageView1(hideView: $hideView1)
+                }
+                else {
+                    DecodeMessageView2(showNextView: $showNextView)
                 }
             }
-            
+            .monospacedBodyText()
         }
     }
 }

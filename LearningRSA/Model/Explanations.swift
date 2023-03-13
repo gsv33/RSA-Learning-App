@@ -263,7 +263,7 @@ struct EnterDecodePrimesInfoView: View {
                     Text(title)
                         .monospacedTitleText()
                     
-                    Text("The first step in decoding the message is to enter the same prime numbers used to encode it. However, it's not specifically the prime numbers that we are keeping secret, it's phi, \nΦ = (P - 1) x (Q - 1). Remember that Φ is the number of positive integers less than M that have no common factors with M.").padding()
+                    Text("The first step in decoding the message is to enter the same prime numbers used to encode it. However, it's not specifically the prime numbers that we are keeping secret, it's phi, Φ = (P - 1) x (Q - 1). Remember that Φ is the number of positive integers less than M that have no common factors with M.").padding()
                     
                     Text("Φ is the real decryption key that lets you decode the message. We keep P and Q private because if they were compromised, Φ would be really easy to calculate.")
                         .padding()
@@ -343,7 +343,7 @@ struct PrivateKeyInfoView: View {
                     Text(", we need to find M and D. Together, this combination of numbers (M, D) is called the decryption key."))
                     .padding()
                     
-                    Text("The first number, M, is easy to get, because it's also part of the publicly available encryption key. The second number is trickier. To find D, we need to solve\n(D x E) - (Φ x C) = 1. We already know the value of E from the encryption key, so all we need to do is find Φ. This is where we make use of the secret prime numbers.").padding()
+                    Text("The first number, M, is easy to get, because it's also part of the publicly available encryption key. The second number is trickier. To find D, we need to solve (D x E) - (Φ x C) = 1. We already know the value of E from the encryption key, so all we need to do is find Φ. This is where we make use of the secret prime numbers.").padding()
                          
                     Text("Given the prime numbers P and Q that were used to encode the message, we can easily get Φ using the equation Φ = (P - 1) x (Q - 1). Once we have Φ, we can plug Φ and E into (D x E) - (Φ x C) = 1 and solve for D using a method called the euclidean algorithm. This completes the decryption key.").padding()
 
@@ -495,6 +495,6 @@ struct AppInfoView: View {
 
 struct Explanations_Previews: PreviewProvider {
     static var previews: some View {
-        AppInfoView().preferredColorScheme(.dark)
+        EncodeMessageInfoView().preferredColorScheme(.dark)
     }
 }
