@@ -46,7 +46,7 @@ struct DecodingMathView: View {
                         Text("To decode it, we use almost the exact same formula. The only difference is that we use a different exponent, D, instead of E.")
                             .padding([.leading, .trailing, .bottom])
                         
-                        Text("So given, an encoded message Y, we can get X back by solving: ").padding([.leading, .trailing])
+                        Text("So given an encoded message Y, we can get X back by solving: ").padding([.leading, .trailing])
                         
                         DecodeEquation().padding()
                         

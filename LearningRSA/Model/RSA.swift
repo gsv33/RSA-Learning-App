@@ -215,11 +215,16 @@ class RSA: ObservableObject {
         var tempDigits = ""
         for decodedNum in decodedMessageNum {
             tempDigits.append(decodedNum)
-            if tempDigits.count == DIGITS_PER_CHAR && tempDigits != padding {
+            
+            if tempDigits == padding {
+                tempDigits = ""
+            }
+            
+            if tempDigits.count == DIGITS_PER_CHAR {
                 let currNum = tempDigits
                 let currChar = numToCharEncoding[currNum]
                 
-                decodedMessageStr.append(currChar ?? "X")
+                decodedMessageStr.append(currChar ?? "?")
                 tempDigits = ""
             }
         }
