@@ -6,6 +6,8 @@
 //
 //  Displays the modular exponentiation used to create the encoded message
 
+//  NOTE: This view is not currently being used
+
 import SwiftUI
 
 struct EncodedMessageOutputList: View {

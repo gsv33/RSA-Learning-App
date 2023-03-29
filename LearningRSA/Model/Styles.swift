@@ -272,7 +272,3 @@ struct GlobalVars {
     
     
 }
-
-
-// GeneratePrimesButtonStyle
-// TODO: Find out settings for default button animation in Swift

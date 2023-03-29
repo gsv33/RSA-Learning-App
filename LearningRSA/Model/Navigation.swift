@@ -7,8 +7,7 @@
 //  Contains a list of all the views in the tutorial that will be used to
 //  control navigation in the app
 
-//  TODO: To be used to coordinate views with NavigationStack
-//  TODO: Need to switch to using this from NavigationView
+//  TODO: Need to switch to NavigationStack from NavigationView
 
 
 import SwiftUI
@@ -48,54 +47,5 @@ class NavigationController: ObservableObject {
         if exploreNavLinkIsActive {
             exploreNavLinkIsActive = false
         }
-    }
-}
-
-
-struct Navigation: View {
-    var body: some View {
-        Text("Test")
-        
-        //        ZStack {
-        //            backgroundColor.ignoresSafeArea()
-        //
-        //            switch vc.currentView {
-        //            case .welcomeView:
-        //                WelcomeView()
-        //            case .enterMessageView:
-        //                EnterMessageView()
-        //            case .messageToNumbersView:
-        //                MessageToNumbersView()
-        //            case .enterEncodePrimesView:
-        //                EnterEncodePrimesView()
-        //            case .splitNumbersView:
-        //                SplitNumbersView()
-        //            case .generateKeysView:
-        //                GenerateKeysView()
-        //            case .encodeMessageView:
-        //                EncodeMessageView()
-        //            case .enterDecodePrimesView:
-        //                EnterDecodePrimesView()
-        //            case .decodingMathView:
-        //                DecodingMathView()
-        //            case .decodedMessageView:
-        //                DecodedMessageView()
-        //            case .exploreRSAView:
-        //                ExploreRSAView()
-        //            case .exploreRSADecodeView:
-        //                ExploreRSADecodeView()
-        //            case .testView: //TODO: Remove after testing
-        //                TestView()
-        //            case .errorView:
-        //                Text("ERROR!")
-        //            }
-        //        }.foregroundColor(textColor)
-
-    }
-}
-
-struct Navigation_Previews: PreviewProvider {
-    static var previews: some View {
-        Navigation()
     }
 }

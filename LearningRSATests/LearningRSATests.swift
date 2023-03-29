@@ -24,7 +24,7 @@ final class LearningRSATests: XCTestCase {
 //
 //        var fakeDecodedMessageNumList: [Number] = [Number(value: "26007518"), Number(value: "19201995"), Number(value: "6333876"), Number(value: "020616234")]
 //        var fakeDecodedMessageNum: String = "26007518192019956333876020616234"
-//        var fakeDecodedMessageEng: String = "MXXWKXXXE XXXXXX" // TODO: Need to change encoding scheme used (ascii?)        
+//        var fakeDecodedMessageEng: String = "MXXWKXXXE XXXXXX"        
     }
 
     override func tearDownWithError() throws {
